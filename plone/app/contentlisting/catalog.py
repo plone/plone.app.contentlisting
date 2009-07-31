@@ -123,9 +123,33 @@ class CatalogContentListingObject:
         return self._cached_realobject
 
 
-    # a handful of elements that are generally needed but not defined in dublin core 
+    # a base set of elements that are needed but not defined in dublin core 
+
+    def getId(self):
+        return self._brain.getId
+        
+    def getPath(self):
+        return self._brain.getPath()
+        
+    def getURL(self):
+        return self._brain.getURL()
+
+    def UID(self):
+        # content objects might have UID and might not. Same thing for their brain.
+        if hasattr(self._brain.aq_base, 'UID'):
+            return self._brain.UIDelse:
+        else:
+            return self.realobject.aq_base.UID()
+
+    def getIcon(self):
+        return self._brain.getIcon
+
+    def getSize(self):
+        return self._brain.getSize
 
 
+    def review_state(self):
+        return self._brain.review_state
 
 
     # All the dublin core elements. Most of them should be in the brain for easy access
