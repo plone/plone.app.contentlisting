@@ -3,6 +3,7 @@
 #
 
 from interfaces import IContentLister, IContentListing, IContentListingObject
+from Acquisition import aq_base
 from Products.CMFCore.utils import getToolByName
 from zope import interface
 from zLOG import LOG, INFO
@@ -14,8 +15,6 @@ class CatalogContentLister(object):
     def __init__(self, context):
         self.context = context
         self.defaultquery = dict(path=context.getPhysicalPath())
-        
-        
 
     def __call__(self, **kw):
         query = self.defaultquery.copy()
@@ -108,7 +107,6 @@ class CatalogContentListingObject:
     def __init__(self, brain):
         self._brain = brain
         self._cached_realobject = None
-        
 
     def __getattr__(self, name):
         """ We'll override getattr so that we can defer name lookups to the real underlying objects without knowing the names of all attributes """
@@ -116,14 +114,12 @@ class CatalogContentListingObject:
         if hasattr(self._brain, name):
             LOG('plone.app.contentlisting', INFO, "deferred attribute lookup to brain %s" %(str(self._brain),) )
             return getattr(self._brain, name)
-        elif hasattr(self.realobject.aq_base, name):
+        elif hasattr(aq_base(self.realobject), name):
             LOG('plone.app.contentlisting', INFO, "deferred attribute lookup to the real object %s" %(str(self._brain),) )
-            return getattr(self.realobject.aq_base, name)
+            return getattr(aq_base(self.realobject), name)
         else:
             return "AttributeError"
             raise AttributeError, name
-
-
 
     def getDataOrigin(self):
         """ a string definig the origin of the data for the object """
@@ -158,17 +154,16 @@ class CatalogContentListingObject:
 
     def UID(self):
         # content objects might have UID and might not. Same thing for their brain.
-        if hasattr(self._brain.aq_base, 'UID'):
+        if hasattr(aq_base(self._brain), 'UID'):
             return self._brain.UID
         else:
-            return self.realobject.aq_base.UID()
+            return aq_base(self.realobject).UID()
 
     def getIcon(self):
         return self._brain.getIcon
 
     def getSize(self):
         return self._brain.getSize
-
 
     def review_state(self):
         return self._brain.review_state
@@ -229,7 +224,7 @@ class CatalogContentListingObject:
         raise NotImplemented
 
     def Language(self):
-        if hasattr(self._brain.aq_base, 'Language'):
+        if hasattr(aq_base(self._brain), 'Language'):
             return self._brain.Language
         else:
             return self.realobject.Language()

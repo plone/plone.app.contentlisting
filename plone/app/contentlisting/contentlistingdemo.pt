@@ -37,6 +37,7 @@
                         <th></th>
                         <th></th>                    
                         <th></th>                    
+                        <th></th>                    
                     </tr>
                     
                     <tr tal:repeat="contents python:view.getContentListing()()">
@@ -50,6 +51,7 @@
                         <td tal:content="contents/getText | nothing"></td>                        
                         <td tal:content="contents/getDataOrigin"></td>
                         <td tal:content="contents/Language"></td>
+                        <td tal:content="contents/UID"></td>
 
                     </tr>
                 </table>
