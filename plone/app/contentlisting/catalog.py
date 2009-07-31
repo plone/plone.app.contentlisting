@@ -34,7 +34,6 @@ class CatalogContentListing:
     def __getitem__(self, index):
         """`x.__getitem__(index)` <==> `x[index]`
         """
-
         return CatalogContentListingObject(self._catalogresultset[index])
 
     def __len__(self):
@@ -42,6 +41,12 @@ class CatalogContentListing:
             catalog resultset
         """
         return self._catalogresultset.__len__()
+
+
+    def __iter__(self):
+        for item in self._catalogresultset:
+            yield CatalogContentListingObject(item)
+
 
     def __contains__(item):
         """`x.__contains__(item)` <==> `item in x`"""
@@ -137,7 +142,7 @@ class CatalogContentListingObject:
     def UID(self):
         # content objects might have UID and might not. Same thing for their brain.
         if hasattr(self._brain.aq_base, 'UID'):
-            return self._brain.UIDelse:
+            return self._brain.UID
         else:
             return self.realobject.aq_base.UID()
 

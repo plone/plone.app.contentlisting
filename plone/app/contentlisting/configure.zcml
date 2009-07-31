@@ -7,10 +7,11 @@
     />
 
 <browser:page
-    name="contentlist"
+    name="contentlistingdemo"
     class=".browser.ContentListerFactory"
     permission="cmf.ManagePortal"
     for="Products.CMFCore.interfaces.IFolderish"
+    template="contentlistingdemo.pt"
     />
 
 </configure>
