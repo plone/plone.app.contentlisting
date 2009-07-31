@@ -1,0 +1,16 @@
+<configure xmlns="http://namespaces.zope.org/zope"
+           xmlns:browser="http://namespaces.zope.org/browser">
+
+<adapter
+    factory=".catalog.CatalogContentLister"
+    for="Products.CMFCore.interfaces.IFolderish"
+    />
+
+<browser:page
+    name="contentlist"
+    class=".browser.ContentListerFactory"
+    permission="cmf.ManagePortal"
+    for="Products.CMFCore.interfaces.IFolderish"
+    />
+
+</configure>
