@@ -109,8 +109,24 @@ class CatalogContentListingObject:
         self._brain = brain
         self._cached_realobject = None
         
+
+    def __getattr__(self, name):
+        """ We'll override getattr so that we can defer name lookups to the real underlying objects without knowing the names of all attributes """
+        # 
+        if hasattr(self._brain, name):
+            LOG('plone.app.contentlisting', INFO, "deferred attribute lookup to brain %s" %(str(self._brain),) )
+            return getattr(self._brain, name)
+        elif hasattr(self.realobject.aq_base, name):
+            LOG('plone.app.contentlisting', INFO, "deferred attribute lookup to the real object %s" %(str(self._brain),) )
+            return getattr(self.realobject.aq_base, name)
+        else:
+            return "AttributeError"
+            raise AttributeError, name
+
+
+
     def getDataOrigin(self):
-        """ a string defing the origin of the real object """
+        """ a string definig the origin of the data for the object """
         if self._cached_realobject is not None:
             return "Real object"
         else:
@@ -125,6 +141,7 @@ class CatalogContentListingObject:
         if self._cached_realobject is None:
             self._cached_realobject = self._brain.getObject()
             LOG('plone.app.contentlisting', INFO, "fetched real object for %s" %(str(self._brain),) )
+            raise self._cached_realobject.__dict__
         return self._cached_realobject
 
 
@@ -167,8 +184,8 @@ class CatalogContentListingObject:
         """"""
         return self._brain.Description
 
-    def Type(self):
-        return self._brain.Type
+#    def Type(self):
+#        return self._brain.Type
 
     def listCreators(self):
         """ """

@@ -26,6 +26,19 @@
         <div tal:replace="structure provider:plone.abovecontentbody" />
 
                 <table class="listing">
+                    <tr>
+                        <th>Title</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>                    
+                        <th></th>                    
+                    </tr>
+                    
                     <tr tal:repeat="contents python:view.getContentListing()()">
                         <td><img tal:attributes="src string:${context/portal_url}/${contents/getIcon}"></td>
                         <td tal:content="contents/Title"></td>
@@ -33,7 +46,11 @@
                         <td tal:content="contents/getURL"></td>
                         <td tal:content="contents/getPath"></td>
                         <td tal:content="contents/review_state"></td>
-                    
+                        <td tal:content="contents/getDataOrigin"></td>
+                        <td tal:content="contents/getText | nothing"></td>                        
+                        <td tal:content="contents/getDataOrigin"></td>
+                        <td tal:content="contents/Language"></td>
+
                     </tr>
                 </table>
 
