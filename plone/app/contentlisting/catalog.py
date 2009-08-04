@@ -1,16 +1,16 @@
 # Implementation of IContentListing and friends based on queries to the 
-# portal_catalog.
+# portal_catalog. At the time of writing, this is the only and default IContentListing implementation. 
 #
 
-from interfaces import IContentLister, IContentListing, IContentListingObject
+from interfaces import IContentListingFactory, IContentListing, IContentListingObject
 from Acquisition import aq_base
 from Products.CMFCore.utils import getToolByName
 from zope import interface
 from zLOG import LOG, INFO
 
-class CatalogContentLister(object):
+class CatalogContentListingFactory(object):
     """  """
-    interface.implements(IContentLister)
+    interface.implements(IContentListingFactory)
     
     def __init__(self, context):
         self.context = context
@@ -47,47 +47,47 @@ class CatalogContentListing:
             yield CatalogContentListingObject(item)
 
 
-    def __contains__(item):
+    def __contains__(self, item):
         """`x.__contains__(item)` <==> `item in x`"""
         raise NotImplemented
         
-    def __lt__(other):
+    def __lt__(self, other):
         """`x.__lt__(other)` <==> `x < other`"""
         raise NotImplemented
 
-    def __le__(other):
+    def __le__(self, other):
         """`x.__le__(other)` <==> `x <= other`"""
         raise NotImplemented
 
-    def __eq__(other):
+    def __eq__(self, other):
         """`x.__eq__(other)` <==> `x == other`"""
         raise NotImplemented
 
-    def __ne__(other):
+    def __ne__(self, other):
         """`x.__ne__(other)` <==> `x != other`"""
         raise NotImplemented
 
-    def __gt__(other):
+    def __gt__(self, other):
         """`x.__gt__(other)` <==> `x > other`"""
         raise NotImplemented
 
-    def __ge__(other):
+    def __ge__(self, other):
         """`x.__ge__(other)` <==> `x >= other`"""
         raise NotImplemented
 
-    def __add__(other):
+    def __add__(self, other):
         """`x.__add__(other)` <==> `x + other`"""
         raise NotImplemented
 
-    def __mul__(n):
+    def __mul__(self, n):
         """`x.__mul__(n)` <==> `x * n`"""
         raise NotImplemented
 
-    def __rmul__(n):
+    def __rmul__(self, n):
         """`x.__rmul__(n)` <==> `n * x`"""
         raise NotImplemented
 
-    def __getslice__(i, j):
+    def __getslice__(self, i, j):
         """`x.__getslice__(i, j)` <==> `x[i:j]`
         Use of negative indices is not supported.
         Deprecated since Python 2.0 but still a part of `UserList`.
@@ -179,8 +179,8 @@ class CatalogContentListingObject:
         """"""
         return self._brain.Description
 
-#    def Type(self):
-#        return self._brain.Type
+    def Type(self):
+        return self._brain.Type
 
     def listCreators(self):
         """ """

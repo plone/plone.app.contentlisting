@@ -2,13 +2,13 @@
            xmlns:browser="http://namespaces.zope.org/browser">
 
 <adapter
-    factory=".catalog.CatalogContentLister"
+    factory=".catalog.CatalogContentListingFactory"
     for="Products.CMFCore.interfaces.IFolderish"
     />
 
 <browser:page
     name="contentlistingdemo"
-    class=".browser.ContentListerFactory"
+    class=".browser.ContentListerView"
     permission="cmf.ManagePortal"
     for="Products.CMFCore.interfaces.IFolderish"
     template="contentlistingdemo.pt"

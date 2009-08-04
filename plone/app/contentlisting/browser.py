@@ -1,7 +1,7 @@
 from Products.Five.browser import BrowserView
-from interfaces import IContentLister
+from interfaces import IContentListingFactory
 
-class ContentListerFactory(BrowserView):
+class ContentListerView(BrowserView):
     
     def getContentListing(self):
-        return IContentLister(self.context)
+        return IContentListingFactory(self.context)

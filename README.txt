@@ -1,10 +1,6 @@
 Introduction
 ============
 
-
-
-
-
 Usecases
 =========
 - List folder contents

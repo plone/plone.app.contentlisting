@@ -1,7 +1,7 @@
 from zope import interface
 from Products.CMFCore.interfaces import IDublinCore
 
-class IContentLister(interface.Interface):
+class IContentListingFactory(interface.Interface):
 
     def __call__(**kw):
        """ returns IContentListing """
@@ -14,5 +14,23 @@ class IContentListing(interface.common.sequence.IReadSequence):
 class IContentListingObject(IDublinCore):
     """Unified representation of content objects in listings"""
     
-    def __getattr__(name):
-        """Anything not matching the interface will be passed to the proxied item"""
+    def getId():
+        """ get the object id"""
+        
+    def getPath():
+        """ """
+        
+    def getURL():
+        """ """
+
+    def UID():
+        """ """
+
+    def getIcon():
+        """ """
+
+    def getSize():
+        """ """
+
+    def review_state():
+        """ """

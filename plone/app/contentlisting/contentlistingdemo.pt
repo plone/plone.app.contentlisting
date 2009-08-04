@@ -28,14 +28,12 @@
                 <table class="listing">
                     <tr>
                         <th>Title</th>
+                        <th>Type</th>
+                        <th>URL</th>
+                        <th>Path</th>
+                        <th>Review State</th>
                         <th></th>
                         <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>                    
                         <th></th>                    
                         <th></th>                    
                     </tr>
@@ -47,10 +45,6 @@
                         <td tal:content="contents/getURL"></td>
                         <td tal:content="contents/getPath"></td>
                         <td tal:content="contents/review_state"></td>
-                        <td tal:content="contents/getDataOrigin"></td>
-                        <td tal:content="contents/getText | nothing"></td>                        
-                        <td tal:content="contents/getDataOrigin"></td>
-                        <td tal:content="contents/Language"></td>
                         <td tal:content="contents/UID"></td>
 
                     </tr>
