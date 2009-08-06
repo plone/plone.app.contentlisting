@@ -45,3 +45,6 @@ fetch the real object and cache it to get properties from that instead
     >>> f = listitem.absolute_url()
     >>> print listitem.getDataOrigin()
     Real object
+    
+    >>> print listitem.getIcon()
+    ...
