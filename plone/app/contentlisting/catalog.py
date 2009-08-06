@@ -2,26 +2,12 @@
 # portal_catalog. At the time of writing, this is the only and default IContentListing implementation. 
 #
 
-from interfaces import IContentListingFactory, IContentListing, IContentListingObject
+from interfaces import IContentListing, IContentListingObject
 from Acquisition import aq_base
 from Products.CMFCore.utils import getToolByName
 from zope import interface
 from zLOG import LOG, INFO
 
-class CatalogContentListingFactory(object):
-    """  """
-    interface.implements(IContentListingFactory)
-    
-    def __init__(self, context):
-        self.context = context
-        self.defaultquery = dict(path=context.getPhysicalPath())
-
-    def __call__(self, **kw):
-        query = self.defaultquery.copy()
-        query.update(kw)
-        catalog = getToolByName(self.context, 'portal_catalog')
-        return CatalogContentListing(catalog(**query))
-        
 
 class CatalogContentListing:
     """ """
@@ -33,7 +19,8 @@ class CatalogContentListing:
     def __getitem__(self, index):
         """`x.__getitem__(index)` <==> `x[index]`
         """
-        return CatalogContentListingObject(self._catalogresultset[index])
+        return IContentListingObject(self._catalogresultset[index])
+
 
     def __len__(self):
         """ length of the resultset is equal to the lenght of the underlying
@@ -43,8 +30,8 @@ class CatalogContentListing:
 
 
     def __iter__(self):
-        for item in self._catalogresultset:
-            yield CatalogContentListingObject(item)
+        for brain in self._catalogresultset:
+            yield CatalogContentListingObject(brain)
 
 
     def __contains__(self, item):
@@ -94,9 +81,9 @@ class CatalogContentListing:
         """
         raise NotImplemented
 
-    def __repr__(self):
-        """ print a handy, usable name for testing purposes"""
-        return "<ContentListing containing %s ContentListingObjects>" %(self.__len__(),)
+#    def __repr__(self):
+#        """ print a handy, usable name for testing purposes"""
+#        return "<ContentListing containing %s ContentListingObjects>" %(self.__len__(),)
 
 
 
@@ -108,10 +95,16 @@ class CatalogContentListingObject:
         self._brain = brain
         self._cached_realobject = None
 
+
+    def __repr__(self):
+        return "<plone.app.contentlisting.catalog.CatalogContentListingObject instance>"
+
+    __str__ = __repr__
+
     def __getattr__(self, name):
         """ We'll override getattr so that we can defer name lookups to the real underlying objects without knowing the names of all attributes """
         # 
-        if hasattr(self._brain, name):
+        if hasattr(aq_base(self._brain), name):
             LOG('plone.app.contentlisting', INFO, "deferred attribute lookup to brain %s" %(str(self._brain),) )
             return getattr(self._brain, name)
         elif hasattr(aq_base(self.realobject), name):
@@ -137,7 +130,6 @@ class CatalogContentListingObject:
         if self._cached_realobject is None:
             self._cached_realobject = self._brain.getObject()
             LOG('plone.app.contentlisting', INFO, "fetched real object for %s" %(str(self._brain),) )
-            raise self._cached_realobject.__dict__
         return self._cached_realobject
 
 

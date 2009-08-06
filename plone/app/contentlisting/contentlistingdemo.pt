@@ -27,17 +27,14 @@
 
                 <table class="listing">
                     <tr>
+                        <th></th>
                         <th>Title</th>
                         <th>Type</th>
                         <th>URL</th>
                         <th>Path</th>
                         <th>Review State</th>
-                        <th></th>
-                        <th></th>
-                        <th></th>                    
-                        <th></th>                    
+                        <th>uid</th>
                     </tr>
-                    
                     <tr tal:repeat="contents python:view.getContentListing()()">
                         <td><img tal:attributes="src string:${context/portal_url}/${contents/getIcon}"></td>
                         <td tal:content="contents/Title"></td>
@@ -46,7 +43,6 @@
                         <td tal:content="contents/getPath"></td>
                         <td tal:content="contents/review_state"></td>
                         <td tal:content="contents/UID"></td>
-
                     </tr>
                 </table>
 
