@@ -7,7 +7,7 @@ from Acquisition import aq_base
 from Products.CMFCore.utils import getToolByName
 from zope import interface
 from zLOG import LOG, INFO
-
+from plone.app.layout.icons.interfaces import IContentIcon
 
 class CatalogContentListing:
     """ """
@@ -152,7 +152,7 @@ class CatalogContentListingObject:
             return aq_base(self.realobject).UID()
 
     def getIcon(self):
-        return self._brain.getIcon
+        return IContentIcon(self._brain)
 
     def getSize(self):
         return self._brain.getSize

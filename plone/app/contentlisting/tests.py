@@ -12,6 +12,7 @@ ptc.setupPloneSite()
 
 from interfaces import IContentListing, IContentListingObject
 import plone.app.contentlisting
+import plone.app.layout
 from zope.interface.verify import verifyObject 
 
 class TestCase(ptc.PloneTestCase):
@@ -21,6 +22,9 @@ class TestCase(ptc.PloneTestCase):
             fiveconfigure.debug_mode = True
             zcml.load_config('configure.zcml',
                              plone.app.contentlisting)
+            zcml.load_config('configure.zcml',
+                             plone.app.layout)
+
             fiveconfigure.debug_mode = False
 
         @classmethod
@@ -51,7 +55,7 @@ class TestCatalogInterface(TestCase):
 #        listing = self.portal.folderListing()
 #        self.failUnless(verifyObject( IContentListing, listing))
 #        print listing
-#        
+    pass
         
         
 def test_suite():
