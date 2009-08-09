@@ -84,6 +84,15 @@ we can even slice the new folderlisting
     >>> len(self.portal.restrictedTraverse('news/@@searchResults')())
     8
 
+And we can use batching in it:
+
+    >>> len(self.portal.restrictedTraverse('@@folderListing')(batch=True, b_size=1))
+    1
 
 
-    
+
+
+
+
+
+

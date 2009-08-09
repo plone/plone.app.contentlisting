@@ -35,7 +35,7 @@
                         <th>Review State</th>
                         <th>uid</th>
                     </tr>
-                    <tr tal:repeat="contents python:view.getContentListing()()">
+                    <tr tal:repeat="nothing">
                         <td><img tal:attributes="src string:${context/portal_url}/${contents/getIcon}"></td>
                         <td tal:content="contents/Title"></td>
                         <td tal:content="contents/Type"></td>
