@@ -36,6 +36,8 @@ class CatalogContentListing:
 
     def __contains__(self, item):
         """`x.__contains__(item)` <==> `item in x`"""
+        # huhm. How do we check this? Waking all contained objects is not fun
+        # Perhaps UID?
         raise NotImplemented
         
     def __lt__(self, other):
@@ -117,9 +119,9 @@ class CatalogContentListingObject:
     def getDataOrigin(self):
         """ a string definig the origin of the data for the object """
         if self._cached_realobject is not None:
-            return "Real object"
+            return self._cached_realobject
         else:
-            return "Catalog brain"
+            return self._brain
 
     @property
     def realobject(self):

@@ -21,11 +21,10 @@ class TestCase(ptc.PloneTestCase):
         def setUp(cls):
             fiveconfigure.debug_mode = True
             zcml.load_config('configure.zcml',
-                             plone.app.contentlisting)
-            zcml.load_config('configure.zcml',
                              plone.app.layout)
-
-            fiveconfigure.debug_mode = False
+            zcml.load_config('configure.zcml',
+                             plone.app.contentlisting)
+            fiveconfigure.debug_mode = True
 
         @classmethod
         def tearDown(cls):

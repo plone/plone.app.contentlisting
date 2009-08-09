@@ -4,15 +4,19 @@ Basic usage
 
 The idea behind plone.app.contentlisting is to have a unified way of listing 
 Plone content whenever needed, whether in folderlistings, collections, 
-portlets, search results. 
+portlets, search results.
 
 It should be simple to use for new developers and integrators
+The core concept of the module is to take a list of something (in this case a 
+catalog resultset) and turn it into an IContentListing so that the user always 
+knows what to expect.
 
     >>> from zope import interface
     >>> from plone.app.contentlisting.interfaces import IContentListing
     >>> from Products.CMFCore.utils import getToolByName
 
-We simply ask for an IContentLister for a sequence. In this case (and most common cases) the sequence is a catalog search result set.
+We simply ask for an IContentLister and pass it a sequence of something. In 
+this case (and most common cases) the sequence is a catalog search result set.
 
     >>> catalog = getToolByName(self.portal, 'portal_catalog')
     >>> results = catalog.searchResults()
@@ -20,10 +24,12 @@ We simply ask for an IContentLister for a sequence. In this case (and most commo
     >>> print contentlist 
     <plone.app.contentlisting.catalog.CatalogContentListing instance at ...>
 
-In this case, we get a CatalogContentListing. That's the catalog based implementation of IContentListing.
-In other cases you might get a different type, but they should all conform to the rules of the interface.
+We get a CatalogContentListing. That is the catalog based implementation of 
+IContentListing. In other cases you might get a different implementations,
+but they should all conform to the rules of the interface.
 
-The contentListing is a normal iterator that we can loop over. Each entry is a CatalogContentListingObject
+The contentListing is a normal iterator that we can loop over. Each entry is 
+a CatalogContentListingObject
 
     >>> listitem = contentlist[3]
     >>> print listitem
@@ -37,14 +43,21 @@ The listitem provides all the methods of the IContentListingObject interface
 It can report what its source of data is
 
     >>> print listitem.getDataOrigin()
-    Catalog brain
+    <Products.ZCatalog.Catalog.mybrains object at...
     
-and if we access attributes on it that are not in the interface or in the brain, it will transparently 
-fetch the real object and cache it to get properties from that instead
+and if we access attributes on it that are not in the interface or in the 
+brain, it will transparently fetch the real object and cache it to get 
+properties from that instead
 
-    >>> f = listitem.absolute_url()
+
+After accessing an attribute of the object that was neither in the 
+IContentListingObject or on the catalog brain, we can now see that the 
+real object has been silently fetched in the background. getDataOrigin now 
+returns the object. 
+
+    >>> dummy= listitem.absolute_url()
     >>> print listitem.getDataOrigin()
-    Real object
+    <ATTopic at ...
     
     >>> print listitem.getIcon()
     ...
