@@ -33,13 +33,13 @@ class CatalogContentListing:
 
     def __iter__(self):
         for brain in self._catalogresultset:
-            yield CatalogContentListingObject(brain)
+            yield IContentListingObject(brain)
 
 
     def __contains__(self, item):
         """`x.__contains__(item)` <==> `item in x`"""
         # huhm. How do we check this? Waking all contained objects is not fun
-        # Perhaps UID?
+        # A content hash? Perhaps UID?
         raise NotImplemented
     
     
@@ -93,7 +93,7 @@ class CatalogContentListing:
         Use of negative indices is not supported.
         Deprecated since Python 2.0 but still a part of `UserList`.
         """
-        raise NotImplemented
+        return IContentListing(self._catalogresultset[i:j])
 
 #    def __repr__(self):
 #        """ print a handy, usable name for testing purposes"""

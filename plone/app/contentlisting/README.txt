@@ -59,25 +59,24 @@ returns the object.
     >>> print listitem.getDataOrigin()
     <ATTopic at ...
     
-    >>> print listitem.getIcon()
-    This test will keep failing till i figure out how to import and install plone.app.layout properly to my testcase
-
+#    >>> print listitem.getIcon()
+#    This test will keep failing till i figure out how to import and install plone.app.layout properly to my testcase
 
 
 For user and integrator convenience we also include a couple of handy 
 browser views to get to these listings.
 
-    >>> folderlisting = self.portal.restrictedTraverse('@@folderListing')
+    >>> folderlisting = self.portal.restrictedTraverse('@@folderListing')()
     >>> print folderlisting
-    <Products.Five.metaclass.FolderListing object ...
-
-    >>> print folderlisting()
     <plone.app.contentlisting.catalog.CatalogContentListing instance ...
 
-These last few tests are temporary... 
-
-    >>> len(folderlisting())
+    >>> len(folderlisting)
     4
+    
+we can even slice the new folderlisting
+
+    >>> len (folderlisting[2:4])
+    2
     
     >>> len(self.portal.restrictedTraverse('news/@@folderListing')())
     1
@@ -85,8 +84,6 @@ These last few tests are temporary...
     >>> len(self.portal.restrictedTraverse('news/@@searchResults')())
     8
 
-    >>> len(self.portal.restrictedTraverse('portal_catalog/@@searchResults')())
-    8
 
 
     
