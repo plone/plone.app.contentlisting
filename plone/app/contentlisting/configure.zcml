@@ -14,19 +14,17 @@
 
 
 <browser:page
-    name="contentlistingdemo"
-    class=".browser.ContentListerView"
-    permission="zope2.View"
-    for="Products.CMFCore.interfaces.IFolderish"
-    template="contentlistingdemo.pt"
-    />
-
-<browser:page
     name="folderListing"
     class=".browser.FolderListing"
     permission="zope2.View"
     for="Products.CMFCore.interfaces.IFolderish"
     />
 
+<browser:page
+    name="searchResults"
+    class=".browser.SearchResults"
+    permission="zope2.View"
+    for="Products.CMFCore.interfaces.IFolderish"
+    />
 
 </configure>

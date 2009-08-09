@@ -16,7 +16,7 @@ knows what to expect.
     >>> from Products.CMFCore.utils import getToolByName
 
 We simply ask for an IContentLister and pass it a sequence of something. In 
-this case (and most common cases) the sequence is a catalog search result set.
+this case (and most common cases) the sequence will be a catalog search result set.
 
     >>> catalog = getToolByName(self.portal, 'portal_catalog')
     >>> results = catalog.searchResults()
@@ -60,4 +60,33 @@ returns the object.
     <ATTopic at ...
     
     >>> print listitem.getIcon()
-    ...
+    This test will keep failing till i figure out how to import and install plone.app.layout properly to my testcase
+
+
+
+For user and integrator convenience we also include a couple of handy 
+browser views to get to these listings.
+
+    >>> folderlisting = self.portal.restrictedTraverse('@@folderListing')
+    >>> print folderlisting
+    <Products.Five.metaclass.FolderListing object ...
+
+    >>> print folderlisting()
+    <plone.app.contentlisting.catalog.CatalogContentListing instance ...
+
+These last few tests are temporary... 
+
+    >>> len(folderlisting())
+    4
+    
+    >>> len(self.portal.restrictedTraverse('news/@@folderListing')())
+    1
+
+    >>> len(self.portal.restrictedTraverse('news/@@searchResults')())
+    8
+
+    >>> len(self.portal.restrictedTraverse('portal_catalog/@@searchResults')())
+    8
+
+
+    

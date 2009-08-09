@@ -10,11 +10,13 @@ from zLOG import LOG, INFO
 from plone.app.layout.icons.interfaces import IContentIcon
 
 class CatalogContentListing:
-    """ """
+    """ A catalog-results based IContentListing."""
     interface.implements(IContentListing)
+
     
     def __init__(self, catalogresultset):
         self._catalogresultset = catalogresultset
+        
     
     def __getitem__(self, index):
         """`x.__getitem__(index)` <==> `x[index]`
@@ -39,42 +41,52 @@ class CatalogContentListing:
         # huhm. How do we check this? Waking all contained objects is not fun
         # Perhaps UID?
         raise NotImplemented
-        
+    
+    
     def __lt__(self, other):
         """`x.__lt__(other)` <==> `x < other`"""
         raise NotImplemented
+
 
     def __le__(self, other):
         """`x.__le__(other)` <==> `x <= other`"""
         raise NotImplemented
 
+
     def __eq__(self, other):
         """`x.__eq__(other)` <==> `x == other`"""
         raise NotImplemented
+
 
     def __ne__(self, other):
         """`x.__ne__(other)` <==> `x != other`"""
         raise NotImplemented
 
+
     def __gt__(self, other):
         """`x.__gt__(other)` <==> `x > other`"""
         raise NotImplemented
+
 
     def __ge__(self, other):
         """`x.__ge__(other)` <==> `x >= other`"""
         raise NotImplemented
 
+
     def __add__(self, other):
         """`x.__add__(other)` <==> `x + other`"""
         raise NotImplemented
+
 
     def __mul__(self, n):
         """`x.__mul__(n)` <==> `x * n`"""
         raise NotImplemented
 
+
     def __rmul__(self, n):
         """`x.__rmul__(n)` <==> `n * x`"""
         raise NotImplemented
+
 
     def __getslice__(self, i, j):
         """`x.__getslice__(i, j)` <==> `x[i:j]`
@@ -90,8 +102,10 @@ class CatalogContentListing:
 
 
 class CatalogContentListingObject:
-    """ """
+    """ A Catalog-results based content object representation"""
+    
     interface.implements(IContentListingObject)
+    
 
     def __init__(self, brain):
         self._brain = brain
@@ -102,6 +116,7 @@ class CatalogContentListingObject:
         return "<plone.app.contentlisting.catalog.CatalogContentListingObject instance>"
 
     __str__ = __repr__
+
 
     def __getattr__(self, name):
         """ We'll override getattr so that we can defer name lookups to the real underlying objects without knowing the names of all attributes """
@@ -116,12 +131,14 @@ class CatalogContentListingObject:
             return "AttributeError"
             raise AttributeError, name
 
+
     def getDataOrigin(self):
-        """ a string definig the origin of the data for the object """
+        """ The origin of the data for the object """
         if self._cached_realobject is not None:
             return self._cached_realobject
         else:
             return self._brain
+
 
     @property
     def realobject(self):
@@ -139,12 +156,15 @@ class CatalogContentListingObject:
 
     def getId(self):
         return self._brain.getId
+
         
     def getPath(self):
         return self._brain.getPath()
+
         
     def getURL(self):
         return self._brain.getURL()
+
 
     def UID(self):
         # content objects might have UID and might not. Same thing for their brain.
@@ -153,11 +173,14 @@ class CatalogContentListingObject:
         else:
             return aq_base(self.realobject).UID()
 
+
     def getIcon(self):
         return IContentIcon(self._brain)
 
+
     def getSize(self):
         return self._brain.getSize
+
 
     def review_state(self):
         return self._brain.review_state
@@ -169,59 +192,76 @@ class CatalogContentListingObject:
         """"""
         return self._brain.Title
 
+
     def Description(self):
         """"""
         return self._brain.Description
 
+
     def Type(self):
         return self._brain.Type
+
 
     def listCreators(self):
         """ """
         raise NotImplemented
 
+
     def Creator(self):
         """ """
         return self._brain.Creator
 
+
     def Subject(self):
         return self._brain.Subject
+
 
     def Publisher(self):
         raise NotImplemented
 
+
     def listContributors(self):
         raise NotImplemented
+
 
     def Contributors(self):
         raise NotImplemented
 
+
     def Date(self, zone=None):
         raise NotImplemented
+
 
     def CreationDate(self, zone=None):
         raise NotImplemented
 
+
     def EffectiveDate(self, zone=None):
          return self._brain.EffectiveDate
+
 
     def ExpirationDate(self, zone=None):
         return self._brain.ExpirationDate
 
+
     def ModificationDate(self, zone=None):
         return self._brain.ModificationDate
+
 
     def Format(self):
         raise NotImplemented
 
+
     def Identifier(self):
-        raise NotImplemented
+        return self.getURL()
+
 
     def Language(self):
         if hasattr(aq_base(self._brain), 'Language'):
             return self._brain.Language
         else:
             return self.realobject.Language()
+
 
     def Rights(self):
         raise NotImplemented
