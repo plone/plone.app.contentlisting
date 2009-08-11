@@ -20,6 +20,9 @@ class TestCase(ptc.PloneTestCase):
         @classmethod
         def setUp(cls):
             fiveconfigure.debug_mode = True
+            import plone.app.layout
+            zcml.load_config('configure.zcml', plone.app.layout)
+            ptc.installPackage('plone.app.layout')            
             zcml.load_config('configure.zcml', plone.app.contentlisting)
             fiveconfigure.debug_mode = False
 
