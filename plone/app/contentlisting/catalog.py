@@ -1,7 +1,7 @@
 # Implementation of IContentListing and friends based on queries to the 
 # portal_catalog. At the time of writing, this is the only and default IContentListing implementation. 
 #
-
+from zope.component import queryMultiAdapter
 from interfaces import IContentListing, IContentListingObject
 from Acquisition import aq_base
 from Products.CMFCore.utils import getToolByName
@@ -14,26 +14,26 @@ class CatalogContentListing:
     interface.implements(IContentListing)
 
     
-    def __init__(self, catalogresultset):
-        self._catalogresultset = catalogresultset
+    def __init__(self, sequence):
+        self._basesequence = sequence
         
     
     def __getitem__(self, index):
         """`x.__getitem__(index)` <==> `x[index]`
         """
-        return IContentListingObject(self._catalogresultset[index])
+        return IContentListingObject(self._basesequence[index])
 
 
     def __len__(self):
         """ length of the resultset is equal to the lenght of the underlying
             catalog resultset
         """
-        return self._catalogresultset.__len__()
+        return self._basesequence.__len__()
 
 
     def __iter__(self):
-        for brain in self._catalogresultset:
-            yield IContentListingObject(brain)
+        for obj in self._basesequence:
+            yield IContentListingObject(obj)
 
 
     def __contains__(self, item):
@@ -93,7 +93,7 @@ class CatalogContentListing:
         Use of negative indices is not supported.
         Deprecated since Python 2.0 but still a part of `UserList`.
         """
-        return IContentListing(self._catalogresultset[i:j])
+        return IContentListing(self._basesequence[i:j])
 
 #    def __repr__(self):
 #        """ print a handy, usable name for testing purposes"""
@@ -175,7 +175,7 @@ class CatalogContentListingObject:
 
 
     def getIcon(self):
-        return IContentIcon(self._brain)
+        return queryMultiAdapter((self._brain, self._brain.REQUEST, self._brain),interface=IContentIcon)()
 
 
     def getSize(self):

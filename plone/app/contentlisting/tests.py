@@ -22,7 +22,7 @@ class TestCase(ptc.PloneTestCase):
             fiveconfigure.debug_mode = True
             import plone.app.layout
             zcml.load_config('configure.zcml', plone.app.layout)
-            ptc.installPackage('plone.app.layout')            
+            ptc.installPackage('plone.app.layout')
             zcml.load_config('configure.zcml', plone.app.contentlisting)
             fiveconfigure.debug_mode = False
 
@@ -35,27 +35,11 @@ class TestCase(ptc.PloneTestCase):
 def test_suite():
     """ testing  """
     suite = unittest.TestSuite([
-    # Unit tests
-    #doctestunit.DocFileSuite(
-    #    'README.txt', package='plone.app.contentlisting',
-    #    setUp=testing.setUp, tearDown=testing.tearDown),
-
-    #doctestunit.DocTestSuite(
-    #    module='plone.app.contentlisting.mymodule',
-    #    setUp=testing.setUp, tearDown=testing.tearDown),
-
-
     # Integration tests that use PloneTestCase
     ztc.ZopeDocFileSuite(
         'README.txt', package='plone.app.contentlisting',
         test_class=TestCase),
-
-    #ztc.FunctionalDocFileSuite(
-    #    'browser.txt', package='plone.app.contentlisting',
-    #    test_class=TestCase),
-
     ])
-    #suite.addTest(unittest.makeSuite(TestCatalogInterface))
     return suite 
     
     

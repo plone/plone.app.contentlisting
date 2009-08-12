@@ -59,8 +59,8 @@ returns the object.
     >>> print listitem.getDataOrigin()
     <ATTopic at ...
     
-#    >>> print listitem.getIcon()
-#    This test will keep failing till i figure out how to import and install plone.app.layout properly to my testcase
+    >>> print listitem.getIcon()
+    <img width="16" height="16"...
 
 
 For user and integrator convenience we also include a couple of handy 
@@ -92,6 +92,8 @@ And we can use batching in it:
 We can use filtering by catalog indexes:
     >>> len(self.portal.restrictedTraverse('@@folderListing')(Type='Page'))
     1
+
+
 
 
 

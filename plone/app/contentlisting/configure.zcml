@@ -1,11 +1,23 @@
 <configure xmlns="http://namespaces.zope.org/zope"
            xmlns:browser="http://namespaces.zope.org/browser">
 
+<include package="plone.app.layout" />
+
+
 <adapter
     factory=".catalog.CatalogContentListing"
-    for="*"
+    for="Products.ZCatalog.Lazy.LazyMap"
+    />
+
+<adapter
+    factory=".catalog.CatalogContentListing"
+    for="zope.interface.common.sequence.IFiniteSequence"
     />
     
+<adapter
+factory=".catalog.CatalogContentListing"
+for="list"
+/>
 
 <adapter
     factory=".catalog.CatalogContentListingObject"
