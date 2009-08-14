@@ -5,17 +5,17 @@
 
 
 <adapter
-    factory=".catalog.CatalogContentListing"
+    factory=".catalog.ContentListing"
     for="Products.ZCatalog.Lazy.LazyMap"
     />
 
 <adapter
-    factory=".catalog.CatalogContentListing"
+    factory=".catalog.ContentListing"
     for="zope.interface.common.sequence.IFiniteSequence"
     />
     
 <adapter
-factory=".catalog.CatalogContentListing"
+factory=".catalog.ContentListing"
 for="list"
 />
 

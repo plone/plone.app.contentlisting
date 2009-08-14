@@ -22,9 +22,9 @@ this case (and most common cases) the sequence will be a catalog search result s
     >>> results = catalog.searchResults()
     >>> contentlist = IContentListing(results)
     >>> print contentlist 
-    <plone.app.contentlisting.catalog.CatalogContentListing instance at ...>
+    <plone.app.contentlisting.catalog.ContentListing instance at ...>
 
-We get a CatalogContentListing. That is the catalog based implementation of 
+We get a ContentListing. That is the catalog based implementation of 
 IContentListing. In other cases you might get a different implementations,
 but they should all conform to the rules of the interface.
 
@@ -63,12 +63,13 @@ returns the object.
     <img width="16" height="16"...
 
 
+
 For user and integrator convenience we also include a couple of handy 
 browser views to get to these listings.
 
     >>> folderlisting = self.portal.restrictedTraverse('@@folderListing')()
     >>> print folderlisting
-    <plone.app.contentlisting.catalog.CatalogContentListing instance ...
+    <plone.app.contentlisting.catalog.ContentListing instance ...
 
     >>> len(folderlisting)
     4
