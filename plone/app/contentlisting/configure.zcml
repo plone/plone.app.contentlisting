@@ -11,12 +11,17 @@
 
 <adapter
     factory=".catalog.ContentListing"
+    for="Products.ZCatalog.Lazy.LazyCat"
+    />
+
+<adapter
+    factory=".catalog.ContentListing"
     for="zope.interface.common.sequence.IFiniteSequence"
     />
     
 <adapter
-factory=".catalog.ContentListing"
-for="list"
+    factory=".catalog.ContentListing"
+    for="list"
 />
 
 <adapter
