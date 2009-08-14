@@ -40,7 +40,9 @@ class SearchResults(BrowserView):
         query.update(kw)
         if not kw:
             query.update(getattr(self.request, 'form',{}))
-            query.update(dict(getattr(self.request, 'other',{})))
+            #query.update(dict(getattr(self.request, 'other',{})))
+        if not query:
+            return IContentListing([])
         catalog = getToolByName(self.context, 'portal_catalog')
         return IContentListing(catalog(query))
 
