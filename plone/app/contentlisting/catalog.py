@@ -9,8 +9,8 @@ from zope import interface
 from zLOG import LOG, INFO
 from plone.app.layout.icons.interfaces import IContentIcon
 
-class CatalogContentListing:
-    """ A catalog-results based IContentListing."""
+class ContentListing:
+    """ An IContentListing implementation based on sequences of objects"""
     interface.implements(IContentListing)
 
     
@@ -110,6 +110,7 @@ class CatalogContentListingObject:
     def __init__(self, brain):
         self._brain = brain
         self._cached_realobject = None
+        self.request = brain.REQUEST
 
 
     def __repr__(self):
@@ -148,7 +149,7 @@ class CatalogContentListingObject:
         """
         if self._cached_realobject is None:
             self._cached_realobject = self._brain.getObject()
-            LOG('plone.app.contentlisting', INFO, "fetched real object for %s" %(str(self._brain),) )
+            #LOG('plone.app.contentlisting', INFO, "fetched real object for %s" %(str(self._brain),) )
         return self._cached_realobject
 
 
@@ -175,7 +176,7 @@ class CatalogContentListingObject:
 
 
     def getIcon(self):
-        return queryMultiAdapter((self._brain, self._brain.REQUEST, self._brain),interface=IContentIcon)()
+        return queryMultiAdapter((self._brain, self.request, self._brain),interface=IContentIcon)()
 
 
     def getSize(self):
@@ -209,8 +210,10 @@ class CatalogContentListingObject:
 
     def Creator(self):
         """ """
-        return self._brain.Creator
-
+        username = self._brain.Creator
+        membershiptool = getToolByName(self._brain, 'portal_membership')
+        userdata = membershiptool.getMemberInfo(self._brain.Creator)
+        return userdata
 
     def Subject(self):
         return self._brain.Subject
