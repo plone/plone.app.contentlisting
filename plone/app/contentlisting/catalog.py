@@ -213,6 +213,13 @@ class CatalogContentListingObject:
         username = self._brain.Creator
         membershiptool = getToolByName(self._brain, 'portal_membership')
         userdata = membershiptool.getMemberInfo(self._brain.Creator)
+        if not userdata:
+            userdata = {'username': username,
+                        'description': '',
+                        'language': '',
+                        'home_page': '',
+                        'location': '',
+                        'fullname': username}
         return userdata
 
     def Subject(self):
