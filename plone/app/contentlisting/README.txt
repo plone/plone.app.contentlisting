@@ -62,6 +62,8 @@ returns the object.
     >>> print listitem.getIcon()
     <img width="16" height="16"...
 
+    >>> listitem.review_state()
+    'published'
 
 
 For user and integrator convenience we also include a couple of handy 
@@ -82,8 +84,6 @@ we can even slice the new folderlisting
     >>> len(self.portal.restrictedTraverse('news/@@folderListing')())
     1
 
-    >>> len(self.portal.restrictedTraverse('news/@@searchResults')())
-    8
 
 And we can use batching in it:
 

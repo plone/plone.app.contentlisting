@@ -180,7 +180,7 @@ class CatalogContentListingObject:
 
 
     def getSize(self):
-        return self._brain.getSize
+        return self._brain.getObjSize
 
 
     def review_state(self):
@@ -205,7 +205,7 @@ class CatalogContentListingObject:
 
     def listCreators(self):
         """ """
-        raise NotImplemented
+        return self._brain.listCreators
 
 
     def Creator(self):
@@ -239,11 +239,11 @@ class CatalogContentListingObject:
 
 
     def Date(self, zone=None):
-        raise NotImplemented
+        return self._brain.Date
 
 
     def CreationDate(self, zone=None):
-        raise NotImplemented
+        return self._brain.CreationDate
 
 
     def EffectiveDate(self, zone=None):
