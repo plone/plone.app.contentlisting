@@ -95,10 +95,6 @@ class ContentListing:
         """
         return IContentListing(self._basesequence[i:j])
 
-#    def __repr__(self):
-#        """ print a handy, usable name for testing purposes"""
-#        return "<ContentListing containing %s ContentListingObjects>" %(self.__len__(),)
-
 
 
 class CatalogContentListingObject:
