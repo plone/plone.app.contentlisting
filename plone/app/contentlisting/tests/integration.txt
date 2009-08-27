@@ -57,7 +57,8 @@ returns the object.
 
     >>> dummy= listitem.absolute_url()
     >>> print listitem.getDataOrigin()
-    <ATTopic at ...
+    <AT...
+This item's origin is no longer a Brain, but the real object
     
     >>> print listitem.getIcon()
     <img width="16" height="16"...
