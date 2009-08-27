@@ -145,7 +145,7 @@ class CatalogContentListingObject:
         """
         if self._cached_realobject is None:
             self._cached_realobject = self._brain.getObject()
-            #LOG('plone.app.contentlisting', INFO, "fetched real object for %s" %(str(self._brain),) )
+            LOG('plone.app.contentlisting', INFO, "fetched real object for %s" %(str(self._brain),) )
         return self._cached_realobject
 
 

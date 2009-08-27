@@ -6,10 +6,13 @@ example.
 """
 
 import unittest
-from base import ContentlistingTestCase
+from base import ContentlistingTestCase, ContentlistingFunctionalTestCase
 from Products.CMFCore.utils import getToolByName
+from zope.interface.verify import verifyObject 
+from plone.app.contentlisting.interfaces import IContentListing, IContentListingObject
 
-class TestSetup(ContentlistingTestCase):
+
+class TestSetup(ContentlistingFunctionalTestCase):
     """The name of the class should be meaningful. This may be a class that
     tests the installation of a particular product.
     """
@@ -20,6 +23,7 @@ class TestSetup(ContentlistingTestCase):
         should be done in that test method.
         """
         self.workflow = getToolByName(self.portal, 'portal_workflow')
+        self.catalog = getToolByName(self.portal, 'portal_catalog')
         
     def beforeTearDown(self):
         """This method is called after each single test. It can be used for
@@ -50,13 +54,39 @@ class TestSetup(ContentlistingTestCase):
         self.assertEquals("Plone site", self.portal.getProperty('title'))
 
     def test_able_to_add_document(self):
+        #just a dummy test to see that the basics are running
         new_id = self.folder.invokeFactory('Document', 'my-page')
         self.assertEquals('my-page', new_id)
         
-    # Keep adding methods here, or break it into multiple classes or
-    # multiple files as appropriate. Having tests in multiple files makes
-    # it possible to run tests from just one package:
-    #
+    def test_empty_folder_contents(self):
+        folderlisting = self.folder.restrictedTraverse('@@folderListing')()
+        self.assertEqual(len(folderlisting), 0)
+        
+    def test_item_in_folder_contents(self):
+        new_id = self.folder.invokeFactory('Document', 'my-page')
+        folderlisting = self.folder.restrictedTraverse('@@folderListing')()
+        self.assertEqual(len(folderlisting), 1)
+        
+    def testListingImplementsInterface(self):
+        # Check that IContentListing conforms to its interface
+        self.failUnless(verifyObject(IContentListing, IContentListing(self.catalog())))
+
+    def testListingObjectsImplementsInterface(self):
+        # Check that IContentListingObject conforms to its interface        
+        self.failUnless(verifyObject(IContentListingObject, IContentListing(self.catalog())[0]))
+
+    def test_performance(self):
+        from time import time
+        for i in range(0,10):
+            new_id = self.folder.invokeFactory('Document', 'my-page'+str(i))
+        oldresults = self.portal.restrictedTraverse('search')()
+        #print oldresults
+
+    
+
+    #  Having tests in multiple files makes
+    #  it possible to run tests from just one package:
+    #   
     #   ./bin/instance test -s example.tests -t test_integration_unit
 
 
