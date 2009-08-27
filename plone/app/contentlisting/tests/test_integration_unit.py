@@ -10,7 +10,8 @@ from base import ContentlistingTestCase, ContentlistingFunctionalTestCase
 from Products.CMFCore.utils import getToolByName
 from zope.interface.verify import verifyObject 
 from plone.app.contentlisting.interfaces import IContentListing, IContentListingObject
-
+from Products.Five.testbrowser import Browser
+        
 
 class TestSetup(ContentlistingFunctionalTestCase):
     """The name of the class should be meaningful. This may be a class that
@@ -75,13 +76,92 @@ class TestSetup(ContentlistingFunctionalTestCase):
         # Check that IContentListingObject conforms to its interface        
         self.failUnless(verifyObject(IContentListingObject, IContentListing(self.catalog())[0]))
 
-    def test_performance(self):
-        from time import time
-        for i in range(0,10):
-            new_id = self.folder.invokeFactory('Document', 'my-page'+str(i))
-        oldresults = self.portal.restrictedTraverse('search')()
-        #print oldresults
 
+    def test_functional_searchresults_page(self):
+        # we need to make sure that we don't make Plone superslower.
+        # in this test, we make 100 documents, then search for them 
+        # first in the old search form
+        # then in the new search form
+        # we time the results and compare them. 
+        # if the new result is slower than the old, the test fails
+        
+        from time import time
+        self.setRoles(['Manager', 'Member'])
+        #make 10 pages
+        for i in range(0,10):
+            new_id = self.folder.invokeFactory('Document', 'my-page'+str(i), text='spam spam ham eggs')
+            obj = getattr(self.folder,new_id)
+            self.portal.portal_workflow.doActionFor(obj, 'publish')
+        portal_url = self.portal.absolute_url()
+        browser2 = Browser()
+        browser2.open(portal_url+'/@@search?SearchableText=spam')
+        self.failUnless("10 items matching your search terms" in browser2.contents)
+
+    def test_performance_for_100_items(self):
+        # we need to make sure that we don't make Plone superslower.
+        # in this test, we make 100 documents, then search for them 
+        # first in the old search form
+        # then in the new search form
+        # we time the results and compare them. 
+        # if the new result is slower than the old, the test fails
+        
+        from time import time
+        self.setRoles(['Manager', 'Member'])
+        for i in range(0,100):
+            new_id = self.folder.invokeFactory('Document', 'my-page'+str(i), text='spam spam ham eggs')
+            obj = getattr(self.folder,new_id)
+            self.portal.portal_workflow.doActionFor(obj, 'publish')
+        portal_url = self.portal.absolute_url()
+        
+        # time rendering the old search page
+        old_start = time()
+        browser = Browser()
+        browser.open(portal_url+'/search?SearchableText=spam')
+        old_end = time()
+        old_time = old_end-old_start
+
+        # then time rendering the new search page
+        new_start = time()
+        browser2 = Browser()
+        browser2.open(portal_url+'/@@search?SearchableText=spam')
+        new_end = time()
+        new_time = new_end-new_start
+        self.failUnless(old_time > new_time)
+
+
+    def test_performance_for_1000_items(self):
+        # we need to make sure that we don't make Plone superslower.
+        # in this test, we make 100 documents, then search for them 
+        # first in the old search form
+        # then in the new search form
+        # we time the results and compare them. 
+        # if the new result is slower than the old, the test fails
+        
+        from time import time
+        self.setRoles(['Manager', 'Member'])
+        for i in range(0,1000):
+            new_id = self.folder.invokeFactory('Document', 'my-page'+str(i), text='spam spam ham eggs')
+            obj = getattr(self.folder,new_id)
+            self.portal.portal_workflow.doActionFor(obj, 'publish')
+        portal_url = self.portal.absolute_url()
+        
+        # time rendering the old search page
+        old_start = time()
+        browser = Browser()
+        browser.open(portal_url+'/search?SearchableText=spam')
+        old_end = time()
+        old_time = old_end-old_start
+
+        # then time rendering the new search page
+        new_start = time()
+        browser2 = Browser()
+        browser2.open(portal_url+'/@@search?SearchableText=spam')
+        new_end = time()
+        new_time = new_end-new_start
+        self.failUnless(old_time > new_time)
+
+
+    
     
 
     #  Having tests in multiple files makes
