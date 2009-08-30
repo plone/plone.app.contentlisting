@@ -117,7 +117,8 @@ class CatalogContentListingObject:
 
     def __getattr__(self, name):
         """ We'll override getattr so that we can defer name lookups to the real underlying objects without knowing the names of all attributes """
-        # 
+        if name.startswith('_'):
+            raise AttributeError, name
         if hasattr(aq_base(self._brain), name):
             LOG('plone.app.contentlisting', INFO, "deferred attribute lookup to brain %s" %(str(self._brain),) )
             return getattr(self._brain, name)
