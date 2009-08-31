@@ -107,6 +107,13 @@ class TestSetup(ContentlistingFunctionalTestCase):
         item = self.folder.restrictedTraverse('@@folderListing')()[0]
         self.assertEqual(item.getIcon(),u'<img width="16" height="16" src="http://nohost/plone/document_icon.png" alt="Page" />')
 
+    def test_item_Type(self):
+        """ checking the Type method"""
+        new_id = self.folder.invokeFactory('Document', 'my-page')
+        item = self.folder.restrictedTraverse('@@folderListing')()[0]
+        self.assertEqual(item.Type(),'Page')
+
+
 
 
 
