@@ -27,7 +27,4 @@ def test_suite():
             'tests/integration.txt', package='plone.app.contentlisting',
             test_class=base.ContentlistingFunctionalTestCase,
             optionflags=doctest.REPORT_ONLY_FIRST_FAILURE | doctest.NORMALIZE_WHITESPACE | doctest.ELLIPSIS),
-            
-
-
         ])

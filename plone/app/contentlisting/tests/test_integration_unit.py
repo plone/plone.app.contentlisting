@@ -26,6 +26,7 @@ class TestSetup(ContentlistingFunctionalTestCase):
         self.workflow = getToolByName(self.portal, 'portal_workflow')
         self.catalog = getToolByName(self.portal, 'portal_catalog')
         
+        
     def beforeTearDown(self):
         """This method is called after each single test. It can be used for
         cleanup, if you need it. Note that the test framework will roll back
@@ -37,16 +38,6 @@ class TestSetup(ContentlistingFunctionalTestCase):
         """
     
     def test_portal_title(self):
-        
-        # This is a simple test. The method needs to start with the name
-        # 'test'. 
-
-        # Look at the Python unittest documentation to learn more about hte
-        # kinds of assertion methods which are available.
-
-        # PloneTestCase has some methods and attributes to help with Plone.
-        # Look at the PloneTestCase documentation, but briefly:
-        # 
         #   - self.portal is the portal root
         #   - self.folder is the current user's folder
         #   - self.logout() "logs out" so that the user is Anonymous
@@ -58,27 +49,66 @@ class TestSetup(ContentlistingFunctionalTestCase):
         #just a dummy test to see that the basics are running
         new_id = self.folder.invokeFactory('Document', 'my-page')
         self.assertEquals('my-page', new_id)
-        
+
+    def test_making_contentlisting(self):
+        """get some catalogresults and make an IContentListing out of it"""
+        results = self.catalog()
+        listing = IContentListing(results)
+        from plone.app.contentlisting.catalog import ContentListing
+        self.failUnless(isinstance(listing, ContentListing))
+
+    def test_making_contentlistingobjects(self):
+        """get some catalogresults and make an IContentListing out of it"""
+        results = self.catalog()
+        listing = IContentListing(results)
+        from plone.app.contentlisting.catalog import CatalogContentListingObject
+        self.failUnless(isinstance(listing[0], CatalogContentListingObject))
+
+    def testListingImplementsInterface(self):
+        """Check that IContentListing conforms to its interface"""
+        self.failUnless(verifyObject(IContentListing, IContentListing(self.catalog())))
+
+    def testListingObjectsImplementsInterface(self):
+        """Check that IContentListingObject conforms to its interface"""
+        self.failUnless(verifyObject(IContentListingObject, IContentListing(self.catalog())[0]))
+
     def test_empty_folder_contents(self):
+        """this is a test of the browserview folderlisting"""
         folderlisting = self.folder.restrictedTraverse('@@folderListing')()
         self.assertEqual(len(folderlisting), 0)
         
     def test_item_in_folder_contents(self):
+        """adding a new page, adds to the length of folder contents"""
         new_id = self.folder.invokeFactory('Document', 'my-page')
         folderlisting = self.folder.restrictedTraverse('@@folderListing')()
         self.assertEqual(len(folderlisting), 1)
-        
-    def testListingImplementsInterface(self):
-        # Check that IContentListing conforms to its interface
-        self.failUnless(verifyObject(IContentListing, IContentListing(self.catalog())))
 
-    def testListingObjectsImplementsInterface(self):
-        # Check that IContentListingObject conforms to its interface        
-        self.failUnless(verifyObject(IContentListingObject, IContentListing(self.catalog())[0]))
+    def test_item_Title(self):
+        """ checking the Title method"""
+        new_id = self.folder.invokeFactory('Document', 'my-page', title='My Page')
+        item = self.folder.restrictedTraverse('@@folderListing')()[0]
+        self.assertEqual(item.Title(),'My Page')
+
+    def test_item_Description(self):
+        """ checking the Description method"""
+        new_id = self.folder.invokeFactory('Document', 'my-page', description='blah')
+        item = self.folder.restrictedTraverse('@@folderListing')()[0]
+        self.assertEqual(item.Description(),'blah')
+
+    def test_item_getId(self):
+        """ checking the getId method"""
+        new_id = self.folder.invokeFactory('Document', 'my-page')
+        item = self.folder.restrictedTraverse('@@folderListing')()[0]
+        self.assertEqual(item.getId(),'my-page')
+
+    def test_item_getIcon(self):
+        """ checking the getId method"""
+        new_id = self.folder.invokeFactory('Document', 'my-page')
+        item = self.folder.restrictedTraverse('@@folderListing')()[0]
+        self.assertEqual(item.getIcon(),u'<img width="16" height="16" src="http://nohost/plone/document_icon.png" alt="Page" />')
 
 
-    
-    
+
 
     #  Having tests in multiple files makes
     #  it possible to run tests from just one package:
