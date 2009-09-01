@@ -8,6 +8,9 @@ from Products.CMFCore.utils import getToolByName
 from zope import interface
 from zLOG import LOG, INFO
 from plone.app.layout.icons.interfaces import IContentIcon
+from plone.i18n.normalizer.interfaces import IIDNormalizer
+from zope.component import queryUtility
+
 
 class ContentListing:
     """ An IContentListing implementation based on sequences of objects"""
@@ -95,10 +98,11 @@ class ContentListing:
         """
         return IContentListing(self._basesequence[i:j])
 
-
+    def batch():
+        pass
 
 class CatalogContentListingObject:
-    """ A Catalog-results based content object representation"""
+    """A Catalog-results based content object representation"""
     
     interface.implements(IContentListingObject)
     
@@ -195,6 +199,10 @@ class CatalogContentListingObject:
         """"""
         return self._brain.Description
 
+    def CroppedDescription(self):
+        """ """
+        #let's port Plones description cropping here instead of implementing it all in the templates.
+        return self.Description()
 
     def Type(self):
         return self._brain.Type
@@ -264,6 +272,7 @@ class CatalogContentListingObject:
 
 
     def Language(self):
+        """the language of the content"""
         if hasattr(aq_base(self._brain), 'Language'):
             return self._brain.Language
         else:
@@ -274,5 +283,18 @@ class CatalogContentListingObject:
         raise NotImplemented
 
 
-
-
+    def appendViewAction(self):
+        """decide whether to produce a string /view to append to links in results listings"""
+        try:
+            types = self._brain.portal_properties.site_properties.typesUseViewActionInListings
+        except AttributeError:
+            return None
+        if self.Type() in types:
+            return "/view"
+        return None
+        
+    def ContentTypeClass(self):
+        """a normalised type name that identifies the object in listings. used for CSS styling"""
+        return "contenttype-" + queryUtility(IIDNormalizer).normalize(self.Type())
+        
+        

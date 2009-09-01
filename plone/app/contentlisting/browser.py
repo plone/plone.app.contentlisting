@@ -46,16 +46,13 @@ class SearchResults(BrowserView):
         catalog = getToolByName(self.context, 'portal_catalog')
         return IContentListing(catalog(query))
 
-
-
-
-    def ensureFriendlyTypes(self):
+    def ensureFriendlyTypes(self, query):
         # ported from Plone's queryCatalog. It hurts to bring this one along. 
-        # The fact that it is needed tells us someone used types where they 
-        # should not have. 
+        # The fact that it is needed at all tells us that we currently abuse 
+        # the concept of types in Plone 
         # please remove this one when it is no longer needed.
         
-        ploneUtils = getToolByName(context, 'plone_utils')
+        ploneUtils = getToolByName(self.context, 'plone_utils')
         portal_type = query.get('portal_type', [])
         if not type(portal_type) is types.ListType:
             portal_type = [portal_type]

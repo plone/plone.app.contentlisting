@@ -84,38 +84,48 @@ class TestSetup(ContentlistingFunctionalTestCase):
         self.assertEqual(len(folderlisting), 1)
 
     def test_item_Title(self):
-        """ checking the Title method"""
+        """checking the Title method"""
         new_id = self.folder.invokeFactory('Document', 'my-page', title='My Page')
         item = self.folder.restrictedTraverse('@@folderListing')()[0]
         self.assertEqual(item.Title(),'My Page')
 
     def test_item_Description(self):
-        """ checking the Description method"""
+        """checking the Description method"""
         new_id = self.folder.invokeFactory('Document', 'my-page', description='blah')
         item = self.folder.restrictedTraverse('@@folderListing')()[0]
         self.assertEqual(item.Description(),'blah')
 
     def test_item_getId(self):
-        """ checking the getId method"""
+        """checking the getId method"""
         new_id = self.folder.invokeFactory('Document', 'my-page')
         item = self.folder.restrictedTraverse('@@folderListing')()[0]
         self.assertEqual(item.getId(),'my-page')
 
     def test_item_getIcon(self):
-        """ checking the getId method"""
+        """checking the getId method"""
         new_id = self.folder.invokeFactory('Document', 'my-page')
         item = self.folder.restrictedTraverse('@@folderListing')()[0]
         self.assertEqual(item.getIcon(),u'<img width="16" height="16" src="http://nohost/plone/document_icon.png" alt="Page" />')
 
     def test_item_Type(self):
-        """ checking the Type method"""
+        """checking the Type method"""
         new_id = self.folder.invokeFactory('Document', 'my-page')
         item = self.folder.restrictedTraverse('@@folderListing')()[0]
         self.assertEqual(item.Type(),'Page')
 
-
-
-
+    def test_item_ContentTypeClass(self):
+        """checking the that we print nice strings for css class identifiers"""
+        new_id = self.folder.invokeFactory('Document', 'my-page')
+        item = self.folder.restrictedTraverse('@@folderListing')()[0]
+        self.assertEqual(item.ContentTypeClass(),'contenttype-page')
+        
+        
+    def test_item_appendViewAction(self):
+        """checking that the right types get /view appended"""
+        self.portal.portal_properties.site_properties.typesUseViewActionInListings = ('File',)
+        new_id = self.folder.invokeFactory('File', 'my-page')
+        item = self.folder.restrictedTraverse('@@folderListing')()[0]
+        self.assertEqual(item.appendViewAction(),'/view')
 
     #  Having tests in multiple files makes
     #  it possible to run tests from just one package:
