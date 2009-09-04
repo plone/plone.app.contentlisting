@@ -114,7 +114,7 @@ class CatalogContentListingObject:
 
 
     def __repr__(self):
-        return "<plone.app.contentlisting.catalog.CatalogContentListingObject instance>"
+        return "<plone.app.contentlisting.catalog.CatalogContentListingObject instance at %s>" %(self.getPath(),)
 
     __str__ = __repr__
 
@@ -256,7 +256,7 @@ class CatalogContentListingObject:
 
 
     def Contributors(self):
-        raise NotImplemented
+        return self.listContributors()
 
 
     def Date(self, zone=None):

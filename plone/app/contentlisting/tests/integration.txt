@@ -33,7 +33,7 @@ a CatalogContentListingObject
 
     >>> listitem = contentlist[3]
     >>> print listitem
-    <plone.app.contentlisting.catalog.CatalogContentListingObject instance>
+    <plone.app.contentlisting.catalog.CatalogContentListingObject instance ...>
 
 The listitem provides all the methods of the IContentListingObject interface
 
