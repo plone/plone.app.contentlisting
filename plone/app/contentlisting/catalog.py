@@ -212,20 +212,36 @@ class CatalogContentListingObject:
         """ """
         return self._brain.listCreators
 
-
-    def Creator(self):
-        """ """
-        username = self._brain.Creator
-        membershiptool = getToolByName(self._brain, 'portal_membership')
-        userdata = membershiptool.getMemberInfo(self._brain.Creator)
-        if not userdata:
-            userdata = {'username': username,
+    def getUserData(self, username):
+        _usercache = self.request.get('usercache',None)
+        if _usercache is None:
+            self.request.set('usercache',{})    
+            _usercache={}
+        fallback = {'username': username,
                         'description': '',
                         'language': '',
                         'home_page': '',
                         'location': '',
                         'fullname': username}
+        userdata = _usercache.get(username, None)
+        if userdata is None:
+            membershiptool = getToolByName(self._brain, 'portal_membership')
+            userdata = membershiptool.getMemberInfo(self._brain.Creator)
+            if not userdata:
+                userdata = {'username': username,
+                'description': '',
+                'language': '',
+                'home_page': '',
+                'location': '',
+                'fullname': username}
+            self.request.usercache[username] = userdata
         return userdata
+            
+
+    def Creator(self):
+        """ """
+        username = self._brain.Creator
+        return self.getUserData(username)
 
     def Subject(self):
         return self._brain.Subject
