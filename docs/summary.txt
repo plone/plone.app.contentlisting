@@ -1,0 +1,144 @@
+
+
+
+
+
+
+
+    def getId():
+        """get the object id in its container"""
+
+
+    def getPath():
+        """Path to the object, relative to the portal root"""
+
+
+    def getURL():
+        """Full url to the object, including the portal root"""
+
+
+    def UID():
+        """Unique content identifier"""
+
+
+    def getIcon():
+        """icon for the object
+        """
+
+    def getSize():
+        """size in bytes"""
+
+
+    def review_state():
+        """Workflow review state"""
+
+    def ContentTypeClass():
+        """a normalised type name that identifies the object in listings. used for CSS styling"""
+
+
+    def Title():
+        """ Return a single string, the DCMI Title element (resource name)."""
+
+    def Description():
+        """ Return the DCMI Description element (resource summary).
+            Result is a natural language description of this object.
+        """
+
+    def Type():
+        """ Return the DCMI Type element (resource type).
+            Result a human-readable type name for the resource (typically
+            the Title of its type info object).
+        """
+
+    def listCreators():
+        """ Return a sequence of DCMI Creator elements (resource authors).
+            Depending on the implementation, this returns the full name(s) of the
+            author(s) of the content object or their ids.
+        """
+
+    def Creator():
+        """ Return the first DCMI Creator element, or an empty string.
+        """
+
+    def Subject():
+        """ Return a sequence of DCMI Subject elements (resource keywords).
+            Result is zero or more keywords associated with the content object.
+        """
+
+    def Publisher():
+        """ Return the DCMI Publisher element (resource publisher).
+            Result is the full formal name of the entity or person responsible
+            for publishing the resource.
+        """
+
+    def listContributors():
+        """ Return a sequence of DCMI Contributor elements (resource
+            collaborators).
+
+            Return zero or more collaborators (beyond thos returned by
+            'listCreators').
+        """
+
+    def Contributors():
+        """ Deprecated alias for 'listContributors'.
+        """
+
+    def Date(zone=None):
+        """ Return the DCMI Date element (default resource date).
+            Result is a string, formatted 'YYYY-MM-DD H24:MN:SS TZ'.
+            If 'zone' is 'None', return the time in the system default
+            timezone.
+        """
+
+    def CreationDate(zone=None):
+        """ Return the DCMI Date element (date resource created).
+            Result is a string, formatted 'YYYY-MM-DD H24:MN:SS TZ'.
+            If 'zone' is 'None', return the time in the system default
+            timezone.
+        """
+
+    def EffectiveDate(zone=None):
+        """ Return the DCMI Date element (date resource becomes effective).
+            Result is a string, formatted 'YYYY-MM-DD H24:MN:SS TZ', or
+            None.
+            If 'zone' is 'None', return the time in the system default
+            timezone.
+        """
+
+    def ExpirationDate(zone=None):
+        """ Return the DCMI Date element (date resource expires).
+            Result is a string, formatted 'YYYY-MM-DD H24:MN:SS TZ', or
+            None.
+            If 'zone' is 'None', return the time in the system default
+            timezone.
+        """
+
+    def ModificationDate(zone=None):
+        """ DCMI Date element - date resource last modified.
+            Result is a string, formatted 'YYYY-MM-DD H24:MN:SS TZ'.
+            If 'zone' is 'None', return the time in the system default
+            timezone.
+        """
+
+    def Format():
+        """ Return the DCMI Format element (resource format).
+            Result is the resource's MIME type (e.g. 'text/html',
+            'image/png', etc.).
+        """
+
+    def Identifier():
+        """ Return the DCMI Identifier element (resource ID).
+            Result is a unique ID (a URL) for the resource.
+        """
+
+    def Language():
+        """ DCMI Language element (resource language).
+            Result it the RFC language code (e.g. 'en-US', 'pt-BR') for the
+            resource.
+        """
+
+    def Rights():
+        """ Return the DCMI Rights element (resource copyright).
+            Return a string describing the intellectual property status, if
+            any, of the resource.
+        """
