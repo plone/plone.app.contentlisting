@@ -83,6 +83,22 @@ class TestSetup(ContentlistingFunctionalTestCase):
         folderlisting = self.folder.restrictedTraverse('@@folderListing')()
         self.assertEqual(len(folderlisting), 1)
 
+    def test_folder_contents(self):
+        """call the generic folder contents browserview. Check that it makes 
+        the results a contentlisting, regardless of batching"""
+        new_id = self.folder.invokeFactory('Document', 'my-page')
+        folderlisting = self.folder.restrictedTraverse('@@folderListing')()
+        self.failUnless(verifyObject(IContentListing, folderlisting))
+
+    def test_batching_folder_contents(self):
+        """call the generic folder contents browserview. Check that it makes 
+        the results a contentlisting, regardless of batching"""
+        new_id = self.folder.invokeFactory('Document', 'my-page')
+        folderlisting = self.folder.restrictedTraverse('@@folderListing')(batch=True, b_size=1)
+        self.failUnless(verifyObject(IContentListing, folderlisting))
+        self.assertEqual(len(folderlisting), 1)
+
+
     def test_item_Title(self):
         """checking the Title method"""
         new_id = self.folder.invokeFactory('Document', 'my-page', title='My Page')
@@ -126,6 +142,7 @@ class TestSetup(ContentlistingFunctionalTestCase):
         new_id = self.folder.invokeFactory('File', 'my-page')
         item = self.folder.restrictedTraverse('@@folderListing')()[0]
         self.assertEqual(item.appendViewAction(),'/view')
+
 
     #  Having tests in multiple files makes
     #  it possible to run tests from just one package:

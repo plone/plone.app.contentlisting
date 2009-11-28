@@ -29,6 +29,10 @@
     for="Products.ZCatalog.interfaces.ICatalogBrain"
     />
 
+<adapter
+    factory=".catalog.ContentListing"
+    for="Products.CMFPlone.PloneBatch.Batch"
+    />
 
 <browser:page
     name="folderListing"

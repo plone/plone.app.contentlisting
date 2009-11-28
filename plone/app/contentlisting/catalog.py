@@ -35,6 +35,7 @@ class ContentListing:
 
 
     def __iter__(self):
+        """ let the sequence be iterable"""
         for obj in self._basesequence:
             yield IContentListingObject(obj)
 

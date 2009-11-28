@@ -6,7 +6,7 @@ import types
 
 class FolderListing(BrowserView):
     
-    def __call__(self, batch=False, b_size=100, **kw):
+    def __call__(self, batch=False, b_size=100,b_start=0, **kw):
         query = {}
         query.update(kw)
         if not kw:
@@ -28,8 +28,7 @@ class FolderListing(BrowserView):
             from Products.CMFPlone import Batch
             b_start = self.request.get('b_start', 0)
             batch = Batch(results, b_size, int(b_start), orphan=0)
-            return batch
-        
+            return IContentListing(batch)
         return results
 
 
