@@ -26,7 +26,6 @@ class FolderListing(BrowserView):
 
         if batch:
             from Products.CMFPlone import Batch
-            b_start = self.request.get('b_start', 0)
             batch = Batch(results, b_size, int(b_start), orphan=0)
             return IContentListing(batch)
         return results

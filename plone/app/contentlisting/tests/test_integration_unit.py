@@ -98,6 +98,20 @@ class TestSetup(ContentlistingFunctionalTestCase):
         self.failUnless(verifyObject(IContentListing, folderlisting))
         self.assertEqual(len(folderlisting), 1)
 
+    def test_batching_folder_contents_2(self):
+        """call the generic folder contents browserview. Check that it makes 
+        the results a contentlisting, regardless of batching"""
+        new_id = self.folder.invokeFactory('Document', 'my-page')
+        new_id2 = self.folder.invokeFactory('Document', 'my-page2')
+        folderlisting = self.folder.restrictedTraverse('@@folderListing')(batch=True, b_size=1)
+        self.assertEqual(len(folderlisting), 1)
+        self.failUnless(folderlisting[0].getId()==new_id)
+
+        folderlisting = self.folder.restrictedTraverse('@@folderListing')(batch=True, b_size=1, b_start=1)
+        self.assertEqual(len(folderlisting), 1)
+        self.assertEqual(folderlisting[0].getId(),new_id2)
+
+
 
     def test_item_Title(self):
         """checking the Title method"""
