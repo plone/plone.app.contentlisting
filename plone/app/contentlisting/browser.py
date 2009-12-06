@@ -33,7 +33,7 @@ class FolderListing(BrowserView):
 
 class SearchResults(BrowserView):
     
-    def __call__(self, **kw):
+    def __call__(self, batch=False, b_size=100,b_start=0, **kw):
         query = {}
         query.update(kw)
         if not kw:
@@ -41,8 +41,14 @@ class SearchResults(BrowserView):
             #query.update(dict(getattr(self.request, 'other',{})))
         if not query:
             return IContentListing([])
+        query = self.ensureFriendlyTypes(query)
         catalog = getToolByName(self.context, 'portal_catalog')
-        return IContentListing(catalog(query))
+        results = IContentListing(catalog(query))
+        if batch:
+            from Products.CMFPlone import Batch
+            batch = Batch(results, b_size, int(b_start), orphan=0)
+            return IContentListing(batch)
+        return results
 
     def ensureFriendlyTypes(self, query):
         # ported from Plone's queryCatalog. It hurts to bring this one along. 
@@ -61,3 +67,4 @@ class SearchResults(BrowserView):
         if not typesList:
             friendlyTypes = ploneUtils.getUserFriendlyTypes(typesList)
             query['portal_type'] = friendlyTypes
+        return query
