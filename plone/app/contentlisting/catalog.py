@@ -102,8 +102,6 @@ class ContentListing:
         """
         return IContentListing(self._basesequence[i:j])
 
-    def batch():
-        pass
 
 class CatalogContentListingObject:
     """A Catalog-results based content object representation"""
