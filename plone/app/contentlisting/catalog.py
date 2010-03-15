@@ -113,11 +113,15 @@ class CatalogContentListingObject:
         self._cached_realobject = None
         self.request = brain.REQUEST
 
-
     def __repr__(self):
         return "<plone.app.contentlisting.catalog.CatalogContentListingObject instance at %s>" %(self.getPath(),)
 
     __str__ = __repr__
+
+    def __eq__(self,other):
+        "For comparing two contentlistingobject"
+        other = IContentListingObject(other)
+        return self.UID() == other.UID()            
 
 
     def __getattr__(self, name):
@@ -131,12 +135,12 @@ class CatalogContentListingObject:
             LOG('plone.app.contentlisting', INFO, "deferred attribute lookup to the real object %s" %(str(self._brain),) )
             return getattr(aq_base(self.realobject), name)
         else:
-            return "AttributeError"
             raise AttributeError, name
 
 
     def getDataOrigin(self):
-        """ The origin of the data for the object """
+        """ The origin of the data for the object. 
+            Sometimes we just need to know if we are looking at a brain or the real object"""
         if self._cached_realobject is not None:
             return self._cached_realobject
         else:
@@ -314,4 +318,71 @@ class CatalogContentListingObject:
         """a normalised type name that identifies the object in listings. used for CSS styling"""
         return "contenttype-" + queryUtility(IIDNormalizer).normalize(self.Type())
         
+        
+
+
+
+
+class RealContentListingObject:
+    """A content object representation wrapping a real content object"""
+    
+    interface.implements(IContentListingObject)
+    
+
+    def __init__(self, obj):
+        self.realobject = obj 
+        self.request = self.realobject.REQUEST
+
+    def __repr__(self):
+        return "<plone.app.contentlisting.catalog.CatalogContentListingObject instance at %s>" %(self.getPath(),)
+
+    __str__ = __repr__
+
+    def __eq__(self,other):
+        "For comparing two contentlistingobject"
+        other = IContentListingObject(other)
+        return self.UID() == other.UID()             
+
+    def __getattr__(self, name):
+        """ We'll override getattr so that we can defer name lookups to the real underlying objects without knowing the names of all attributes """
+        if name.startswith('_'):
+            raise AttributeError, name
+        elif hasattr(aq_base(self.realobject), name):
+            LOG('plone.app.contentlisting', INFO, "deferred attribute lookup to the real object %s" %(str(self._brain),) )
+            return getattr(aq_base(self.realobject), name)
+        else:
+            raise AttributeError, name
+
+    def getDataOrigin(self):
+        """ The origin of the data for the object. 
+            Sometimes we just need to know if we are looking at a brain or the real object"""
+        return self.realobject
+    
+    # a base set of elements that are needed but not defined in dublin core 
+        
+    def getPath(self):
+        return '/'.join(self.realobject.getPhysicalPath())
+
+        
+    def getURL(self):
+        return self.realobject.absolute_url()
+
+
+    def UID(self):
+        # content objects might have UID and might not. Same thing for their brain.
+        if hasattr(aq_base(self.realobject),'UID'):
+            return self.realobject.UID()
+        else:
+            raise AttributeError('UID')
+
+    def getIcon(self):
+        return queryMultiAdapter((self.realobject, self.request, self.realobject),interface=IContentIcon)()
+
+
+    def review_state(self):
+        wftool = getToolByName(self.realobject, "portal_workflow")
+        return wftool.getInfoFor(self.realobject, 'review_state')
+
+
+
         

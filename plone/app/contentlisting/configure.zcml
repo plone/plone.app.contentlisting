@@ -24,10 +24,17 @@
     for="list"
 />
 
+
 <adapter
     factory=".catalog.CatalogContentListingObject"
     for="Products.ZCatalog.interfaces.ICatalogBrain"
     />
+
+<adapter
+    factory=".catalog.RealContentListingObject"
+    for="Products.CMFCore.interfaces.IContentish "
+    />
+
 
 <adapter
     factory=".catalog.ContentListing"
