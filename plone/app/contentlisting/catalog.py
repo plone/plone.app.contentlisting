@@ -44,7 +44,10 @@ class ContentListing:
         """`x.__contains__(item)` <==> `item in x`"""
         # huhm. How do we check this? Waking all contained objects is not fun
         # A content hash? Perhaps UID?
-        raise NotImplemented
+        for i in self:
+            if i==item:
+                return True
+        return False
     
     
     def __lt__(self, other):
@@ -317,8 +320,6 @@ class CatalogContentListingObject:
     def ContentTypeClass(self):
         """a normalised type name that identifies the object in listings. used for CSS styling"""
         return "contenttype-" + queryUtility(IIDNormalizer).normalize(self.Type())
-        
-        
 
 
 

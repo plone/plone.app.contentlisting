@@ -117,6 +117,9 @@ class TestIndividualContentItems(ContentlistingFunctionalTestCase):
         """ testing equality"""
         self.assertEqual(IContentListingObject(self.folder.mypage), self.item)
         
+    def testContainment(self):
+        """we can test containment for normal content objects against contentlistings"""
+        self.failUnless(self.folder.mypage in self.folder.restrictedTraverse('@@folderListing')())
 
 class TestFolderContents(ContentlistingFunctionalTestCase):
     """Testing that the folder contents browserview works and behaves as it should
