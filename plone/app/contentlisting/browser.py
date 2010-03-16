@@ -34,6 +34,11 @@ class FolderListing(BrowserView):
 class SearchResults(BrowserView):
     
     def __call__(self, query=None, batch=False, b_size=100,b_start=0, **kw):
+        """ Get properly wrapped search results from the catalog. 
+            Everything in Plone that performs searches should go through this view.
+            query (optional) should be a dictionary of catalog parameters
+            you can also pass catalog parameters as individual named keywords
+        """
         if query is None:
             query = {}
         query.update(kw)
