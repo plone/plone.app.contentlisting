@@ -33,8 +33,9 @@ class FolderListing(BrowserView):
 
 class SearchResults(BrowserView):
     
-    def __call__(self, batch=False, b_size=100,b_start=0, **kw):
-        query = {}
+    def __call__(self, query=None, batch=False, b_size=100,b_start=0, **kw):
+        if query is None:
+            query = {}
         query.update(kw)
         if not kw:
             query.update(getattr(self.request, 'form',{}))
