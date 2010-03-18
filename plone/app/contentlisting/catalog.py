@@ -52,47 +52,47 @@ class ContentListing:
     
     def __lt__(self, other):
         """`x.__lt__(other)` <==> `x < other`"""
-        raise NotImplemented
+        raise NotImplementedError
 
 
     def __le__(self, other):
         """`x.__le__(other)` <==> `x <= other`"""
-        raise NotImplemented
+        raise NotImplementedError
 
 
     def __eq__(self, other):
         """`x.__eq__(other)` <==> `x == other`"""
-        raise NotImplemented
+        raise NotImplementedError
 
 
     def __ne__(self, other):
         """`x.__ne__(other)` <==> `x != other`"""
-        raise NotImplemented
+        raise NotImplementedError
 
 
     def __gt__(self, other):
         """`x.__gt__(other)` <==> `x > other`"""
-        raise NotImplemented
+        raise NotImplementedError
 
 
     def __ge__(self, other):
         """`x.__ge__(other)` <==> `x >= other`"""
-        raise NotImplemented
+        raise NotImplementedError
 
 
     def __add__(self, other):
         """`x.__add__(other)` <==> `x + other`"""
-        raise NotImplemented
+        raise NotImplementedError
 
 
     def __mul__(self, n):
         """`x.__mul__(n)` <==> `x * n`"""
-        raise NotImplemented
+        raise NotImplementedError
 
 
     def __rmul__(self, n):
         """`x.__rmul__(n)` <==> `n * x`"""
-        raise NotImplemented
+        raise NotImplementedError
 
 
     def __getslice__(self, i, j):
@@ -254,11 +254,11 @@ class CatalogContentListingObject:
 
 
     def Publisher(self):
-        raise NotImplemented
+        raise NotImplementedError
 
 
     def listContributors(self):
-        raise NotImplemented
+        raise NotImplementedError
 
 
     def Contributors(self):
@@ -286,7 +286,7 @@ class CatalogContentListingObject:
 
 
     def Format(self):
-        raise NotImplemented
+        raise NotImplementedError
 
 
     def Identifier(self):
@@ -302,7 +302,7 @@ class CatalogContentListingObject:
 
 
     def Rights(self):
-        raise NotImplemented
+        raise NotImplementedError
 
 
     def appendViewAction(self):
