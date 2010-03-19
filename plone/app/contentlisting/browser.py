@@ -45,8 +45,6 @@ class SearchResults(BrowserView):
         if not query:
             return IContentListing([])
 
-        query = self.ensureFriendlyTypes(query)
-
         # make sure that all the used indexes really are indexes
         # Error will be logged to prevent everything from crashing.
         logger = logging.getLogger('plone.app.contentlisting')
@@ -63,6 +61,8 @@ class SearchResults(BrowserView):
             logger.warning("Using empty set because there are no valid indexes used.")
             return IContentListing([])
 
+        query = self.ensureFriendlyTypes(query)
+
         results = IContentListing(catalog(query))
         if batch:
             from Products.CMFPlone import Batch
@@ -75,9 +75,6 @@ class SearchResults(BrowserView):
         # The fact that it is needed at all tells us that we currently abuse
         # the concept of types in Plone
         # please remove this one when it is no longer needed.
-
-        # I do not like this here, because it conflicts for collections searching on portal_type.
-        return query
 
         ploneUtils = getToolByName(self.context, 'plone_utils')
         portal_type = query.get('portal_type', [])
