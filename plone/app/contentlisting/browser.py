@@ -4,6 +4,21 @@ from Products.CMFCore.utils import getToolByName
 import types
 
 
+class InvalidCatalogIndexException(Exception):
+    """The profile does not exist."""
+
+
+def checkIndexes(context, query):
+    # make sure that all the used indexes really are indexes
+    # If not, then return no results because something somewhere is wrong.
+    # Error will be logged to prevent everything from crashing.
+    catalog = getToolByName(context, 'portal_catalog')
+    indexes = catalog.indexes()
+    for index in query:
+        if not index in indexes:
+            raise InvalidCatalogIndexException("'%s' is not an valid catalog index." % index)
+
+
 class FolderListing(BrowserView):
     
     def __call__(self, batch=False, b_size=100,b_start=0, **kw):
@@ -45,6 +60,9 @@ class SearchResults(BrowserView):
         if not query:
             return IContentListing([])
         query = self.ensureFriendlyTypes(query)
+        
+        checkIndexes(self.context, query)
+                
         catalog = getToolByName(self.context, 'portal_catalog')
         results = IContentListing(catalog(query))
         if batch:
