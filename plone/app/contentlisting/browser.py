@@ -42,9 +42,6 @@ class SearchResults(BrowserView):
         if query is None:
             query = {}
         query.update(kw)
-        if not kw:
-            query.update(getattr(self.request, 'form',{}))
-            #query.update(dict(getattr(self.request, 'other',{})))
         if not query:
             return IContentListing([])
         query = self.ensureFriendlyTypes(query)
