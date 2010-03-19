@@ -56,10 +56,11 @@ class SearchResults(BrowserView):
         valid_indexes = [index for index in query if index in indexes]
         if invalid_indexes:
             for index in invalid_indexes:
-                logger.warning("'%s' is an invalid catalog index" % index)
+                logger.info("'%s' is an invalid catalog index" % index)
 
         # We'll ignore any invalid index, but will return an empty set if none of the indexes are valid.
         if not valid_indexes:
+            logger.warning("Using empty set because there are no valid indexes used.")
             return IContentListing([])
 
         results = IContentListing(catalog(query))
