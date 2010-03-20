@@ -45,21 +45,13 @@ class SearchResults(BrowserView):
         if not query:
             return IContentListing([])
 
-        # make sure that all the used indexes really are indexes
-        # Error will be logged to prevent everything from crashing.
+        # Check for invalid indexes
         logger = logging.getLogger('plone.app.contentlisting')
         catalog = getToolByName(self.context, 'portal_catalog')
         indexes = catalog.indexes()
         invalid_indexes = [index for index in query if index not in indexes]
-        valid_indexes = [index for index in query if index in indexes]
-        if invalid_indexes:
-            for index in invalid_indexes:
-                logger.info("'%s' is an invalid catalog index" % index)
-
-        # We'll ignore any invalid index, but will return an empty set if none of the indexes are valid.
-        if not valid_indexes:
-            logger.warning("Using empty set because there are no valid indexes used.")
-            return IContentListing([])
+        for index in invalid_indexes:
+            logger.info("'%s' is an invalid catalog index" % index)
 
         query = self.ensureFriendlyTypes(query)
 
