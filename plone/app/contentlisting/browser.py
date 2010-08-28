@@ -14,15 +14,20 @@ class FolderListing(BrowserView):
             query.update(getattr(self.request, 'form', {}))
             query.update(dict(getattr(self.request, 'other', {})))
 
-        query['path'] = {'query': '/'.join(self.context.getPhysicalPath()), 'depth': 1}
+        query['path'] = {'query': '/'.join(self.context.getPhysicalPath()),
+                         'depth': 1}
 
         # if we don't have asked explicitly for other sorting, we'll want
         # it by position in parent
         if not query.get('sort_on', None):
             query['sort_on'] = 'getObjPositionInParent'
 
-        show_inactive = getToolByName(self.context, 'portal_membership').checkPermission('Access inactive portal content', self.context)
-        results = IContentListing(getToolByName(self.context, 'portal_catalog')(query))
+        # Not used:
+        #show_inactive = getToolByName(
+        #    self.context, 'portal_membership').checkPermission(
+        #    'Access inactive portal content', self.context)
+        results = IContentListing(
+            getToolByName(self.context, 'portal_catalog')(query))
 
         if batch:
             from Products.CMFPlone import Batch
@@ -35,9 +40,12 @@ class SearchResults(BrowserView):
 
     def __call__(self, query=None, batch=False, b_size=100, b_start=0, **kw):
         """ Get properly wrapped search results from the catalog.
-            Everything in Plone that performs searches should go through this view.
-            query (optional) should be a dictionary of catalog parameters
-            you can also pass catalog parameters as individual named keywords
+
+        Everything in Plone that performs searches should go through this view.
+
+        'query' (optional) should be a dictionary of catalog parameters.
+
+        You can also pass catalog parameters as individual named keywords.
         """
         if query is None:
             query = {}

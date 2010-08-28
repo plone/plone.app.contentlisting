@@ -18,7 +18,7 @@
     factory=".catalog.ContentListing"
     for="zope.interface.common.sequence.IFiniteSequence"
     />
-    
+
 <adapter
     factory=".catalog.ContentListing"
     for="list"
