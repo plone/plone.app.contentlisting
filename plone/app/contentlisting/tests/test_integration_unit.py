@@ -18,7 +18,7 @@ class TestSetup(ContentlistingFunctionalTestCase):
     tests the installation of a particular product.
     """
 
-    def afterSetUp(self):
+    def setUp(self):
         """This method is called before each single test. It can be used to
         set up common state. Setup that is specific to a particular test
         should be done in that test method.
@@ -28,6 +28,7 @@ class TestSetup(ContentlistingFunctionalTestCase):
         #   - self.logout() "logs out" so that the user is Anonymous
         #   - self.setRoles(['Manager', 'Member']) adjusts the roles
         #     of the current user
+        super(TestSetup, self).setUp()
         self.workflow = getToolByName(self.portal, 'portal_workflow')
         self.catalog = getToolByName(self.portal, 'portal_catalog')
 
@@ -84,11 +85,12 @@ class TestIndividualContentItems(ContentlistingFunctionalTestCase):
     as it should.
     """
 
-    def afterSetUp(self):
+    def setUp(self):
         """This method is called before each single test. It can be used to
         set up common state. Setup that is specific to a particular test
         should be done in that test method.
         """
+        super(TestIndividualContentItems, self).setUp()
         new_id = self.folder.invokeFactory('Document', 'mypage',
                                            title='My Page', description='blah')
         self.item = self.folder.restrictedTraverse('@@folderListing')()[0]
@@ -183,11 +185,12 @@ class TestSearch(ContentlistingFunctionalTestCase):
     """Testing that the search browserview works and behaves as it should
     """
 
-    def afterSetUp(self):
+    def setUp(self):
         """This method is called before each single test. It can be used to
         set up common state. Setup that is specific to a particular test
         should be done in that test method.
         """
+        super(TestSearch, self).setUp()
         self.workflow = getToolByName(self.portal, 'portal_workflow')
         self.catalog = getToolByName(self.portal, 'portal_catalog')
         new_id = self.folder.invokeFactory('Document', 'mypage')
