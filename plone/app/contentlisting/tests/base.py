@@ -1,7 +1,8 @@
-import unittest
+import unittest2 as unittest
 
 from plone.app.testing import PloneSandboxLayer
 from plone.app.testing import PLONE_FIXTURE
+from plone.app.testing import TEST_USER_NAME, setRoles
 from plone.app.testing import IntegrationTesting, FunctionalTesting
 from zope.configuration import xmlconfig
 
@@ -24,9 +25,14 @@ CONTENTLISTING_FUNCTIONAL_TESTING = FunctionalTesting(bases=(CONTENTLISTING_FIXT
 class ContentlistingTestCase(unittest.TestCase):
     layer = CONTENTLISTING_INTEGRATION_TESTING
     
-    @property
-    def portal(self):
-        return self.layer['portal']
+    def setUp(self):
+        self.portal = self.layer['portal']
+
+        setRoles(self.portal, TEST_USER_NAME, ['Manager'])
+        self.portal.invokeFactory('Folder', 'test-folder')
+        setRoles(self.portal, TEST_USER_NAME, ['Member'])
+
+        self.folder = self.portal['test-folder']
 
 class ContentlistingFunctionalTestCase(ContentlistingTestCase):
     layer = CONTENTLISTING_FUNCTIONAL_TESTING
