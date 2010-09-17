@@ -1,8 +1,7 @@
-from zope import interface
+from zope.interface.common.sequence import IReadSequence
 from Products.CMFCore.interfaces import IDublinCore
 
-
-class IContentListing(interface.common.sequence.IReadSequence):
+class IContentListing(IReadSequence):
     """Sequence of IContentListingObjects"""
 
 
