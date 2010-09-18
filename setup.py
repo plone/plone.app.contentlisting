@@ -8,7 +8,6 @@ setup(name='plone.app.contentlisting',
       description="Listing of content for the Plone CMS",
       long_description=open("README.txt").read() + "\n" +
                        open(os.path.join("docs", "HISTORY.txt")).read(),
-      # Get more strings from http://www.python.org/pypi?%3Aaction=list_classifiers
       classifiers=[
         "Framework :: Plone",
         "Programming Language :: Python",
@@ -27,12 +26,12 @@ setup(name='plone.app.contentlisting',
           'setuptools',
           # -*- Extra requirements: -*-
       ],
-      extras_require = {
+      extras_require={
           'test': [
                   'plone.app.testing',
               ],
       },
-      entry_points = '''
+      entry_points='''
           [z3c.autoinclude.plugin]
           target = plone
       ''',

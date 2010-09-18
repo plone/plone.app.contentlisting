@@ -100,7 +100,8 @@ class CatalogContentListingObject:
         self.request = brain.REQUEST
 
     def __repr__(self):
-        return "<plone.app.contentlisting.catalog.CatalogContentListingObject instance at %s>" % (
+        return "<plone.app.contentlisting.catalog." + \
+               "CatalogContentListingObject instance at %s>" % (
             self.getPath(), )
 
     __str__ = __repr__
@@ -278,7 +279,8 @@ class CatalogContentListingObject:
         """decide whether to produce a string /view to append to links
         in results listings"""
         try:
-            types = self._brain.portal_properties.site_properties.typesUseViewActionInListings
+            types = self._brain.portal_properties.site_properties \
+                        .typesUseViewActionInListings
         except AttributeError:
             return None
         if self.Type() in types:
@@ -302,7 +304,8 @@ class RealContentListingObject:
         self.request = self.realobject.REQUEST
 
     def __repr__(self):
-        return "<plone.app.contentlisting.catalog.CatalogContentListingObject instance at %s>" % (
+        return "<plone.app.contentlisting.catalog." + \
+               "CatalogContentListingObject instance at %s>" % (
             self.getPath(), )
 
     __str__ = __repr__
