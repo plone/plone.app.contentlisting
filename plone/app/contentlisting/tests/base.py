@@ -4,6 +4,8 @@ from plone.app.testing import PloneSandboxLayer
 from plone.app.testing import PLONE_FIXTURE
 from plone.app.testing import TEST_USER_NAME, setRoles
 from plone.app.testing import IntegrationTesting, FunctionalTesting
+from plone.app.testing import applyProfile
+from plone.testing.z2 import installProduct
 from zope.configuration import xmlconfig
 
 
@@ -18,6 +20,13 @@ class ContentListingLayer(PloneSandboxLayer):
                        plone.app.layout, context=configurationContext)
         xmlconfig.file('configure.zcml',
                        plone.app.contentlisting, context=configurationContext)
+        # Do we need the workaround for ZopeLite here? This seems unnecessary.
+        installProduct(app, 'Products.PythonScripts')
+
+    def setUpPloneSite(self, portal):
+        # I don't understand why this first one is needed
+        applyProfile(portal, 'Products.CMFPlone:plone')
+        applyProfile(portal, 'Products.CMFPlone:plone-content')
 
 
 CONTENTLISTING_FIXTURE = ContentListingLayer()
