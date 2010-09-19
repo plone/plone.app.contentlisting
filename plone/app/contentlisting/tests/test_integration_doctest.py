@@ -1,7 +1,3 @@
-"""This is an integration doctest test. It uses PloneTestCase and doctest
-syntax.
-"""
-
 import unittest
 import doctest
 
@@ -11,18 +7,8 @@ import base
 
 
 def test_suite():
-    """This sets up a test suite that actually runs the tests in the class
-    above
-    """
+    # Wire in integration.txt tests as doctests in the integration layer
     return unittest.TestSuite([
-
-        # Here, we create a test suite passing the name of a file relative
-        # to the package home, the name of the package, and the test base
-        # class to use. Here, the base class is a full PloneTestCase, which
-        # means that we get a full Plone site set up.
-
-        # The actual test is in integration.txt
-
         ztc.ZopeDocFileSuite(
             'tests/integration.txt', package='plone.app.contentlisting',
             test_class=base.ContentlistingFunctionalTestCase,
