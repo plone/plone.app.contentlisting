@@ -119,12 +119,13 @@ class CatalogContentListingObject:
             raise AttributeError(name)
         if hasattr(aq_base(self._brain), name):
             LOG('plone.app.contentlisting', INFO,
-                "deferred attribute lookup to brain %s" % (str(self._brain), ))
+                "deferred attribute lookup '%s' to brain %s" % (
+                    name, str(self._brain), ))
             return getattr(self._brain, name)
         elif hasattr(aq_base(self.realobject), name):
             LOG('plone.app.contentlisting', INFO,
-                "deferred attribute lookup to the real object %s" % (
-                    str(self._brain), ))
+                "deferred attribute lookup '%s' to the real object %s" % (
+                    name, str(self.realobject), ))
             return getattr(aq_base(self.realobject), name)
         else:
             raise AttributeError(name)
