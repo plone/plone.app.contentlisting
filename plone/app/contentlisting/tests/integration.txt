@@ -61,9 +61,6 @@ returns the object.
 
 This item's origin is no longer a Brain, but the real object
     
-    >>> print listitem.getIcon()
-    <img width="16" height="16"...
-
     >>> listitem.review_state()
     'published'
 
@@ -76,7 +73,7 @@ browser views to get to these listings.
     <plone.app.contentlisting.catalog.ContentListing instance ...
 
     >>> len(folderlisting)
-    4
+    5
     
 we can even slice the new folderlisting
 

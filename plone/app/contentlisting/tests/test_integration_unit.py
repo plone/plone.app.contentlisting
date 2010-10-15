@@ -108,10 +108,13 @@ class TestIndividualContentItems(ContentlistingFunctionalTestCase):
         self.assertEqual(self.item.getId(), 'mypage')
 
     def test_item_getIcon(self):
-        """checking the getId method"""
+        """checking icons"""
+        #since icons were changed to css sprites for most types for Plone 4, this one needs to use an image for the test.
+        new_id = self.folder.invokeFactory('Image', 'myimage',
+                                           title='My Image', description='blah')
+        self.item = self.folder.restrictedTraverse('@@folderListing')()[1]
         self.assertEqual(
-            self.item.getIcon(),
-            u'<img width="16" height="16" src="http://nohost/plone/document_icon.png" alt="Page" />')
+            self.item.getIcon(), u'<img width="16" height="16" src="http://nohost/plone/png.png" alt="Image" />')
 
     def test_item_Type(self):
         """checking the Type method"""
