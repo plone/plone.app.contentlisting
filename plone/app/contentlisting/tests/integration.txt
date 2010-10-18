@@ -47,7 +47,7 @@ It can report what its source of data is
     
 and if we access attributes on it that are not in the interface or in the 
 brain, it will transparently fetch the real object and cache it to get 
-properties from that instead
+properties from that instead.
 
 
 After accessing an attribute of the object that was neither in the 

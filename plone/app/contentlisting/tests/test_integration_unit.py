@@ -94,18 +94,24 @@ class TestIndividualContentItems(ContentlistingFunctionalTestCase):
         new_id = self.folder.invokeFactory('Document', 'mypage',
                                            title='My Page', description='blah')
         self.item = self.folder.restrictedTraverse('@@folderListing')()[0]
+        self.realitem = self.folder.mypage
 
     def test_item_Title(self):
         """checking the Title method"""
         self.assertEqual(self.item.Title(), 'My Page')
+        self.assertEqual(self.item.Title(), self.realitem.Title())
+
 
     def test_item_Description(self):
         """checking the Description method"""
         self.assertEqual(self.item.Description(), 'blah')
+        self.assertEqual(self.item.Description(), self.realitem.Description())
 
-    def test_item_getId(self):
-        """checking the getId method"""
-        self.assertEqual(self.item.getId(), 'mypage')
+
+    def test_item_getURL(self):
+        """checking the getURL method"""
+        self.assertEqual(self.item.getURL(), 'http://nohost/plone/test-folder/mypage')
+        self.assertEqual(self.item.getURL(), self.realitem.absolute_url())
 
     def test_item_getIcon(self):
         """checking icons"""
@@ -116,13 +122,38 @@ class TestIndividualContentItems(ContentlistingFunctionalTestCase):
         self.assertEqual(
             self.item.getIcon(), u'<img width="16" height="16" src="http://nohost/plone/png.png" alt="Image" />')
 
+    def test_item_getSize(self):
+        """checking the getSize method"""
+        self.assertEqual(self.item.getSize(), '0 kB')
+
+    def test_item_reviewState(self):
+        """checking the getSize method"""
+        wftool = getToolByName(self.realitem, "portal_workflow")
+        wf = wftool.getInfoFor(self.realitem, 'review_state')
+        self.assertEqual(self.item.review_state(), wf)
+
     def test_item_Type(self):
         """checking the Type method"""
         self.assertEqual(self.item.Type(), 'Page')
 
+    def test_appendViewAction(self):
+        """checking that we append the view action to urls when needed"""
+        self.assertEqual(self.item.appendViewAction(), '')
+        new_id = self.folder.invokeFactory('Image', 'myimage',
+                                           title='My Image', description='blah')
+        self.item = self.folder.restrictedTraverse('@@folderListing')()[1]
+        self.assertEqual(self.item.appendViewAction(), '/view')
+
     def test_item_ContentTypeClass(self):
         """checking the that we print nice strings for css class identifiers"""
         self.assertEqual(self.item.ContentTypeClass(), 'contenttype-page')
+
+    def test_item_Language(self):
+        """checking DC Language"""
+        self.assertEqual(self.item.Language(), 'en')
+
+
+
 
     def testComparingContentlistingobjects(self):
         """testing equality"""

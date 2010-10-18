@@ -109,6 +109,8 @@ class CatalogContentListingObject:
     def __eq__(self, other):
         """For comparing two contentlistingobject"""
         other = IContentListingObject(other)
+        # TODO: For object types that don't support UID, we must make it 
+        # compare a different attribute.
         return self.UID() == other.UID()
 
     def __getattr__(self, name):
@@ -283,10 +285,10 @@ class CatalogContentListingObject:
             types = self._brain.portal_properties.site_properties \
                         .typesUseViewActionInListings
         except AttributeError:
-            return None
+            return ''
         if self.Type() in types:
             return "/view"
-        return None
+        return ''
 
     def ContentTypeClass(self):
         """A normalised type name that identifies the object in listings.
