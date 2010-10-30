@@ -56,7 +56,7 @@ class SearchResults(BrowserView):
         # Check for invalid indexes
         logger = logging.getLogger('plone.app.contentlisting')
         catalog = getToolByName(self.context, 'portal_catalog')
-        indexes = catalog.indexes()
+        indexes = catalog.indexes() + ['sort_on', 'sort_order', ]
         invalid_indexes = [index for index in query if index not in indexes]
         for index in invalid_indexes:
             logger.info("'%s' is an invalid catalog index" % index)
