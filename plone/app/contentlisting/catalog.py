@@ -211,29 +211,30 @@ class CatalogContentListingObject:
         """ """
         return self._brain.listCreators
 
-    def getUserData(self, username):
-        _usercache = self.request.get('usercache', None)
-        if _usercache is None:
-            self.request.set('usercache', {})
-            _usercache = {}
-        userdata = _usercache.get(username, None)
-        if userdata is None:
-            membershiptool = getToolByName(self._brain, 'portal_membership')
-            userdata = membershiptool.getMemberInfo(self._brain.Creator)
-            if not userdata:
-                userdata = {'username': username,
-                'description': '',
-                'language': '',
-                'home_page': '',
-                'location': '',
-                'fullname': username}
-            self.request.usercache[username] = userdata
-        return userdata
-
+# Not used yet
+#    def getUserData(self, username):
+#        _usercache = self.request.get('usercache', None)
+#        if _usercache is None:
+#            self.request.set('usercache', {})
+#            _usercache = {}
+#        userdata = _usercache.get(username, None)
+#        if userdata is None:
+#            membershiptool = getToolByName(self._brain, 'portal_membership')
+#            userdata = membershiptool.getMemberInfo(self._brain.Creator)
+#            if not userdata:
+#                userdata = {'username': username,
+#                'description': '',
+#                'language': '',
+#                'home_page': '',
+#                'location': '',
+#                'fullname': username}
+#            self.request.usercache[username] = userdata
+#        return userdata
+#
     def Creator(self):
         """ """
         username = self._brain.Creator
-        return self.getUserData(username)
+        return username
 
     def Subject(self):
         return self._brain.Subject
@@ -328,7 +329,7 @@ class RealContentListingObject:
         elif hasattr(aq_base(self.realobject), name):
             LOG('plone.app.contentlisting', INFO,
                 "deferred attribute lookup to the real object %s" % (
-                    str(self._brain), ))
+                    str(self.realobject), ))
             return getattr(aq_base(self.realobject), name)
         else:
             raise AttributeError(name)
@@ -365,3 +366,15 @@ class RealContentListingObject:
     def review_state(self):
         wftool = getToolByName(self.realobject, "portal_workflow")
         return wftool.getInfoFor(self.realobject, 'review_state')
+
+    def ContentTypeClass(self):
+        """A normalised type name that identifies the object in listings.
+        used for CSS styling"""
+        return "contenttype-" + queryUtility(IIDNormalizer).normalize(
+            self.Type())
+
+# Needed: A method Type() that returns the same as is cataloged as Type. 
+# Currently Type() returns different values depending on the data source being a brain or a real object. 
+# Probably needed. Support for all the attributes from the indexablemetadata wrappers.
+
+

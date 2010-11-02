@@ -80,9 +80,11 @@ class TestSetup(ContentlistingFunctionalTestCase):
                                      IContentListing(self.catalog())[0]))
 
 
-class TestIndividualContentItems(ContentlistingFunctionalTestCase):
-    """Testing that the folder contents browserview works and behaves
-    as it should.
+
+
+
+class TestIndividualCatalogContentItems(ContentlistingFunctionalTestCase):
+    """Test the individual methods and code of the contentlisting objects
     """
 
     def setUp(self):
@@ -90,23 +92,42 @@ class TestIndividualContentItems(ContentlistingFunctionalTestCase):
         set up common state. Setup that is specific to a particular test
         should be done in that test method.
         """
-        super(TestIndividualContentItems, self).setUp()
+        super(TestIndividualCatalogContentItems, self).setUp()
         new_id = self.folder.invokeFactory('Document', 'mypage',
                                            title='My Page', description='blah')
         self.item = self.folder.restrictedTraverse('@@folderListing')()[0]
         self.realitem = self.folder.mypage
+
+    def test_printing_item(self):
+        self.assertEqual(repr(self.item), '<plone.app.contentlisting.catalog.CatalogContentListingObject instance at /plone/test-folder/mypage>')
+        self.assertEqual(str(self.item), '<plone.app.contentlisting.catalog.CatalogContentListingObject instance at /plone/test-folder/mypage>')
+
+    def test_special_getattr_with_underscore(self):
+        """looking up attributes starting with _ should always raise AttributeError"""
+        self.assertRaises(AttributeError, self.item.__getattr__,'foo')
+        
+    def test_special_getattr_from_brain(self):
+        """Asking for an attribute not in the contentlistingobject, should defer lookup to the brain"""
+        self.assertEqual(self.item.is_folderish,False) 
+        self.failUnless(repr(self.item.getDataOrigin())[:35], '<Products.ZCatalog.Catalog.mybrains')
+
+    def test_special_getattr_from_object(self):
+        """Asking for an attribute not in the contentlistingobject, should defer lookup to the brain"""
+        self.assertEqual(self.item.absolute_url(),'') 
+        self.assertEqual(repr(self.item.getDataOrigin()), '<ATDocument at /plone/test-folder/mypage>')
 
     def test_item_Title(self):
         """checking the Title method"""
         self.assertEqual(self.item.Title(), 'My Page')
         self.assertEqual(self.item.Title(), self.realitem.Title())
 
-
     def test_item_Description(self):
         """checking the Description method"""
         self.assertEqual(self.item.Description(), 'blah')
         self.assertEqual(self.item.Description(), self.realitem.Description())
 
+    def test_item_Creator(self):
+        self.assertEqual(self.item.Creator(), 'test_user_1_')
 
     def test_item_getURL(self):
         """checking the getURL method"""
@@ -165,6 +186,91 @@ class TestIndividualContentItems(ContentlistingFunctionalTestCase):
         """
         self.failUnless(self.folder.mypage in
                         self.folder.restrictedTraverse('@@folderListing')())
+
+
+
+
+
+
+
+
+class TestIndividualRealContentItems(ContentlistingFunctionalTestCase):
+    """Test the individual methods and code of the contentlisting objects
+    """
+
+    def setUp(self):
+        """This method is called before each single test. It can be used to
+        set up common state. Setup that is specific to a particular test
+        should be done in that test method.
+        """
+        super(TestIndividualRealContentItems, self).setUp()
+        new_id = self.folder.invokeFactory('Document', 'mypage',
+                                           title='My Page', description='blah')
+        self.item = IContentListingObject(self.folder.mypage)
+        self.realitem = self.folder.mypage
+
+    def test_printing_item(self):
+        self.assertEqual(repr(self.item), '<plone.app.contentlisting.catalog.CatalogContentListingObject instance at /plone/test-folder/mypage>')
+        self.assertEqual(str(self.item), '<plone.app.contentlisting.catalog.CatalogContentListingObject instance at /plone/test-folder/mypage>')
+
+    def test_special_getattr_with_underscore(self):
+        """looking up attributes starting with _ should always raise AttributeError"""
+        self.assertRaises(AttributeError, self.item.__getattr__,'foo')
+        
+    def test_special_getattr_from_object(self):
+        """Asking for an attribute not in the contentlistingobject, should defer lookup to the brain"""
+        self.assertEqual(self.item.absolute_url(),'') 
+        self.assertEqual(repr(self.item.getDataOrigin()), '<ATDocument at /plone/test-folder/mypage>')
+
+    def test_item_Title(self):
+        """checking the Title method"""
+        self.assertEqual(self.item.Title(), 'My Page')
+        self.assertEqual(self.item.Title(), self.realitem.Title())
+
+    def test_item_Description(self):
+        """checking the Description method"""
+        self.assertEqual(self.item.Description(), 'blah')
+        self.assertEqual(self.item.Description(), self.realitem.Description())
+
+    def test_item_Creator(self):
+        self.assertEqual(self.item.Creator(), 'test_user_1_')
+
+    def test_item_getURL(self):
+        """checking the getURL method"""
+        self.assertEqual(self.item.getURL(), 'http://nohost/plone/test-folder/mypage')
+        self.assertEqual(self.item.getURL(), self.realitem.absolute_url())
+
+    def test_item_getIcon(self):
+        """checking icons"""
+        #since icons were changed to css sprites for most types for Plone 4, this one needs to use an image for the test.
+        new_id = self.folder.invokeFactory('Image', 'myimage',
+                                           title='My Image', description='blah')
+        self.item = self.folder.restrictedTraverse('@@folderListing')()[1]
+        self.assertEqual(
+            self.item.getIcon(), u'<img width="16" height="16" src="http://nohost/plone/png.png" alt="Image" />')
+
+    def test_item_reviewState(self):
+        """checking the getSize method"""
+        wftool = getToolByName(self.realitem, "portal_workflow")
+        wf = wftool.getInfoFor(self.realitem, 'review_state')
+        self.assertEqual(self.item.review_state(), wf)
+
+#    def test_item_Type(self):
+#        """checking the Type method"""
+#        self.assertEqual(self.item.Type(), 'Page')
+#
+#    def test_item_ContentTypeClass(self):
+#        """checking the that we print nice strings for css class identifiers"""
+#        self.assertEqual(self.item.ContentTypeClass(), 'contenttype-page')
+
+    def test_item_Language(self):
+        """checking DC Language"""
+        self.assertEqual(self.item.Language(), 'en')
+
+
+
+
+
 
 
 class TestFolderContents(ContentlistingFunctionalTestCase):
@@ -275,7 +381,8 @@ def test_suite():
     """
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(TestSetup))
-    suite.addTest(unittest.makeSuite(TestIndividualContentItems))
+    suite.addTest(unittest.makeSuite(TestIndividualCatalogContentItems))
+    suite.addTest(unittest.makeSuite(TestIndividualRealContentItems))
     suite.addTest(unittest.makeSuite(TestFolderContents))
     suite.addTest(unittest.makeSuite(TestSearch))
     return suite
