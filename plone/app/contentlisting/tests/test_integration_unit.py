@@ -52,14 +52,14 @@ class TestSetup(ContentlistingFunctionalTestCase):
         """get some catalogresults and make an IContentListing out of it"""
         results = []
         listing = IContentListing(results)
-        from plone.app.contentlisting.catalog import ContentListing
+        from plone.app.contentlisting.contentlisting import ContentListing
         self.failUnless(isinstance(listing, ContentListing))
 
     def test_making_contentlisting(self):
         """get some catalogresults and make an IContentListing out of it"""
         results = self.catalog()
         listing = IContentListing(results)
-        from plone.app.contentlisting.catalog import ContentListing
+        from plone.app.contentlisting.contentlisting import ContentListing
         self.failUnless(isinstance(listing, ContentListing))
 
     def test_making_contentlistingobjects(self):
@@ -245,7 +245,7 @@ class TestIndividualRealContentItems(ContentlistingFunctionalTestCase):
         #since icons were changed to css sprites for most types for Plone 4, this one needs to use an image for the test.
         new_id = self.folder.invokeFactory('Image', 'myimage',
                                            title='My Image', description='blah')
-        self.item = self.folder.restrictedTraverse('@@folderListing')()[1]
+        self.item = IContentListingObject(self.folder.myimage)
         self.assertEqual(
             self.item.getIcon(), u'<img width="16" height="16" src="http://nohost/plone/png.png" alt="Image" />')
 

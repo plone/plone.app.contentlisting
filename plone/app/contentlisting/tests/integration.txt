@@ -22,7 +22,7 @@ this case (and most common cases) the sequence will be a catalog search result s
     >>> results = catalog.searchResults()
     >>> contentlist = IContentListing(results)
     >>> print contentlist 
-    <plone.app.contentlisting.catalog.ContentListing instance at ...>
+    <plone.app.contentlisting.contentlisting.ContentListing instance ...>
 
 We get a ContentListing. That is the catalog based implementation of 
 IContentListing. In other cases you might get a different implementations,
@@ -70,7 +70,7 @@ browser views to get to these listings.
 
     >>> folderlisting = self.portal.restrictedTraverse('@@folderListing')()
     >>> print folderlisting
-    <plone.app.contentlisting.catalog.ContentListing instance ...
+    <plone.app.contentlisting.contentlisting.ContentListing instance ...
 
     >>> len(folderlisting)
     5

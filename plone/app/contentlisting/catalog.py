@@ -1,7 +1,3 @@
-# Implementation of IContentListing and friends based on queries to
-# the portal_catalog.  At the time of writing, this is the only and
-# default IContentListing implementation.
-
 from zope.component import queryMultiAdapter
 from interfaces import IContentListing, IContentListingObject
 from Acquisition import aq_base
@@ -13,84 +9,11 @@ from plone.i18n.normalizer.interfaces import IIDNormalizer
 from zope.component import queryUtility
 
 
-class ContentListing:
-    """ An IContentListing implementation based on sequences of objects"""
-    interface.implements(IContentListing)
-
-    def __init__(self, sequence):
-        self._basesequence = sequence
-
-    def __getitem__(self, index):
-        """`x.__getitem__(index)` <==> `x[index]`
-        """
-        return IContentListingObject(self._basesequence[index])
-
-    def __len__(self):
-        """ length of the resultset is equal to the lenght of the underlying
-            catalog resultset
-        """
-        return self._basesequence.__len__()
-
-    def __iter__(self):
-        """ let the sequence be iterable"""
-        for obj in self._basesequence:
-            yield IContentListingObject(obj)
-
-    def __contains__(self, item):
-        """`x.__contains__(item)` <==> `item in x`"""
-        # huhm. How do we check this? Waking all contained objects is not fun
-        # A content hash? Perhaps UID?
-        for i in self:
-            if i == item:
-                return True
-        return False
-
-    def __lt__(self, other):
-        """`x.__lt__(other)` <==> `x < other`"""
-        raise NotImplementedError
-
-    def __le__(self, other):
-        """`x.__le__(other)` <==> `x <= other`"""
-        raise NotImplementedError
-
-    def __eq__(self, other):
-        """`x.__eq__(other)` <==> `x == other`"""
-        raise NotImplementedError
-
-    def __ne__(self, other):
-        """`x.__ne__(other)` <==> `x != other`"""
-        raise NotImplementedError
-
-    def __gt__(self, other):
-        """`x.__gt__(other)` <==> `x > other`"""
-        raise NotImplementedError
-
-    def __ge__(self, other):
-        """`x.__ge__(other)` <==> `x >= other`"""
-        raise NotImplementedError
-
-    def __add__(self, other):
-        """`x.__add__(other)` <==> `x + other`"""
-        raise NotImplementedError
-
-    def __mul__(self, n):
-        """`x.__mul__(n)` <==> `x * n`"""
-        raise NotImplementedError
-
-    def __rmul__(self, n):
-        """`x.__rmul__(n)` <==> `n * x`"""
-        raise NotImplementedError
-
-    def __getslice__(self, i, j):
-        """`x.__getslice__(i, j)` <==> `x[i:j]`
-        Use of negative indices is not supported.
-        Deprecated since Python 2.0 but still a part of `UserList`.
-        """
-        return IContentListing(self._basesequence[i:j])
-
-
 class CatalogContentListingObject:
-    """A Catalog-results based content object representation"""
+    """A Catalog-results based content object representation
+       Whenever sequences of catalog brains are turned into contentlistings, 
+       This is the type of objects they are adapted to.
+    """
 
     interface.implements(IContentListingObject)
 
@@ -298,83 +221,5 @@ class CatalogContentListingObject:
             self.Type())
 
 
-class RealContentListingObject:
-    """A content object representation wrapping a real content object"""
-
-    interface.implements(IContentListingObject)
-
-    def __init__(self, obj):
-        self.realobject = obj
-        self.request = self.realobject.REQUEST
-
-    def __repr__(self):
-        return "<plone.app.contentlisting.catalog." + \
-               "CatalogContentListingObject instance at %s>" % (
-            self.getPath(), )
-
-    __str__ = __repr__
-
-    def __eq__(self, other):
-        """For comparing two contentlistingobject"""
-        other = IContentListingObject(other)
-        return self.UID() == other.UID()
-
-    def __getattr__(self, name):
-        """We'll override getattr so that we can defer name lookups to
-        the real underlying objects without knowing the names of all
-        attributes.
-        """
-        if name.startswith('_'):
-            raise AttributeError(name)
-        elif hasattr(aq_base(self.realobject), name):
-            LOG('plone.app.contentlisting', INFO,
-                "deferred attribute lookup to the real object %s" % (
-                    str(self.realobject), ))
-            return getattr(aq_base(self.realobject), name)
-        else:
-            raise AttributeError(name)
-
-    def getDataOrigin(self):
-        """The origin of the data for the object.
-
-        Sometimes we just need to know if we are looking at a brain or
-        the real object.
-        """
-        return self.realobject
-
-    # a base set of elements that are needed but not defined in dublin core
-
-    def getPath(self):
-        return '/'.join(self.realobject.getPhysicalPath())
-
-    def getURL(self):
-        return self.realobject.absolute_url()
-
-    def UID(self):
-        # content objects might have UID and might not. Same thing for
-        # their brain.
-        if hasattr(aq_base(self.realobject), 'UID'):
-            return self.realobject.UID()
-        else:
-            raise AttributeError('UID')
-
-    def getIcon(self):
-        return queryMultiAdapter(
-            (self.realobject, self.request, self.realobject),
-            interface=IContentIcon)()
-
-    def review_state(self):
-        wftool = getToolByName(self.realobject, "portal_workflow")
-        return wftool.getInfoFor(self.realobject, 'review_state')
-
-    def ContentTypeClass(self):
-        """A normalised type name that identifies the object in listings.
-        used for CSS styling"""
-        return "contenttype-" + queryUtility(IIDNormalizer).normalize(
-            self.Type())
-
-# Needed: A method Type() that returns the same as is cataloged as Type. 
-# Currently Type() returns different values depending on the data source being a brain or a real object. 
-# Probably needed. Support for all the attributes from the indexablemetadata wrappers.
 
 

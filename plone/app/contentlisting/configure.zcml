@@ -5,24 +5,29 @@
 
 
 <adapter
-    factory=".catalog.ContentListing"
+    factory=".contentlisting.ContentListing"
     for="Products.ZCatalog.Lazy.LazyMap"
     />
 
 <adapter
-    factory=".catalog.ContentListing"
+    factory=".contentlisting.ContentListing"
     for="Products.ZCatalog.Lazy.LazyCat"
     />
 
 <adapter
-    factory=".catalog.ContentListing"
+    factory=".contentlisting.ContentListing"
     for="zope.interface.common.sequence.IFiniteSequence"
     />
 
 <adapter
-    factory=".catalog.ContentListing"
+    factory=".contentlisting.ContentListing"
     for="list"
 />
+
+<adapter
+    factory=".contentlisting.ContentListing"
+    for="Products.CMFPlone.PloneBatch.Batch"
+    />
 
 
 <adapter
@@ -31,14 +36,8 @@
     />
 
 <adapter
-    factory=".catalog.RealContentListingObject"
+    factory=".realobject.RealContentListingObject"
     for="Products.CMFCore.interfaces.IContentish "
-    />
-
-
-<adapter
-    factory=".catalog.ContentListing"
-    for="Products.CMFPlone.PloneBatch.Batch"
     />
 
 <browser:page
