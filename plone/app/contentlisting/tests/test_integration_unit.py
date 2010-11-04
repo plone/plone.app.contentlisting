@@ -210,8 +210,8 @@ class TestIndividualRealContentItems(ContentlistingFunctionalTestCase):
         self.realitem = self.folder.mypage
 
     def test_printing_item(self):
-        self.assertEqual(repr(self.item), '<plone.app.contentlisting.catalog.CatalogContentListingObject instance at /plone/test-folder/mypage>')
-        self.assertEqual(str(self.item), '<plone.app.contentlisting.catalog.CatalogContentListingObject instance at /plone/test-folder/mypage>')
+        self.assertEqual(repr(self.item), '<plone.app.contentlisting.realobject.RealContentListingObject instance at /plone/test-folder/mypage>')
+        self.assertEqual(str(self.item), '<plone.app.contentlisting.realobject.RealContentListingObject instance at /plone/test-folder/mypage>')
 
     def test_special_getattr_with_underscore(self):
         """looking up attributes starting with _ should always raise AttributeError"""
