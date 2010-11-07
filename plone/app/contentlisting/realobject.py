@@ -1,9 +1,6 @@
-# Implementation of IContentListing and friends based on queries to
-# the portal_catalog.  At the time of writing, this is the only and
-# default IContentListing implementation.
-
 from zope.component import queryMultiAdapter
 from interfaces import IContentListing, IContentListingObject
+from contentlisting import BaseContentListingObject
 from Acquisition import aq_base
 from Products.CMFCore.utils import getToolByName
 from zope import interface
@@ -13,7 +10,7 @@ from plone.i18n.normalizer.interfaces import IIDNormalizer
 from zope.component import queryUtility
 
 
-class RealContentListingObject:
+class RealContentListingObject(BaseContentListingObject):
     """A content object representation wrapping a real content object"""
 
     interface.implements(IContentListingObject)
@@ -23,16 +20,11 @@ class RealContentListingObject:
         self.request = self.realobject.REQUEST
 
     def __repr__(self):
-        return "<plone.app.contentlisting.catalog." + \
-               "CatalogContentListingObject instance at %s>" % (
+        return "<plone.app.contentlisting.realobject." + \
+               "RealContentListingObject instance at %s>" % (
             self.getPath(), )
 
     __str__ = __repr__
-
-    def __eq__(self, other):
-        """For comparing two contentlistingobject"""
-        other = IContentListingObject(other)
-        return self.UID() == other.UID()
 
     def __getattr__(self, name):
         """We'll override getattr so that we can defer name lookups to
@@ -82,11 +74,14 @@ class RealContentListingObject:
         wftool = getToolByName(self.realobject, "portal_workflow")
         return wftool.getInfoFor(self.realobject, 'review_state')
 
-    def ContentTypeClass(self):
-        """A normalised type name that identifies the object in listings.
-        used for CSS styling"""
-        return "contenttype-" + queryUtility(IIDNormalizer).normalize(
-            self.Type())
+    def Type(self):
+        """Dublin Core element - Object type"""
+        typestool = getToolByName(self.realobject,'portal_types')
+        ti = typestool.getTypeInfo(self.realobject)
+        if ti is not None:
+            return ti.Title()
+        return self.realobject.meta_type
+
 
 # Needed: A method Type() that returns the same as is cataloged as Type. 
 # Currently Type() returns different values depending on the data source being a brain or a real object. 

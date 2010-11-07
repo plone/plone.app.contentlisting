@@ -1,5 +1,6 @@
 from zope.component import queryMultiAdapter
 from interfaces import IContentListing, IContentListingObject
+from contentlisting import BaseContentListingObject
 from Acquisition import aq_base
 from Products.CMFCore.utils import getToolByName
 from zope import interface
@@ -9,7 +10,7 @@ from plone.i18n.normalizer.interfaces import IIDNormalizer
 from zope.component import queryUtility
 
 
-class CatalogContentListingObject:
+class CatalogContentListingObject(BaseContentListingObject):
     """A Catalog-results based content object representation
        Whenever sequences of catalog brains are turned into contentlistings, 
        This is the type of objects they are adapted to.
@@ -28,13 +29,6 @@ class CatalogContentListingObject:
             self.getPath(), )
 
     __str__ = __repr__
-
-    def __eq__(self, other):
-        """For comparing two contentlistingobject"""
-        other = IContentListingObject(other)
-        # TODO: For object types that don't support UID, we must make it 
-        # compare a different attribute.
-        return self.UID() == other.UID()
 
     def __getattr__(self, name):
         """We'll override getattr so that we can defer name lookups
@@ -134,26 +128,25 @@ class CatalogContentListingObject:
         """ """
         return self._brain.listCreators
 
-# Not used yet
-#    def getUserData(self, username):
-#        _usercache = self.request.get('usercache', None)
-#        if _usercache is None:
-#            self.request.set('usercache', {})
-#            _usercache = {}
-#        userdata = _usercache.get(username, None)
-#        if userdata is None:
-#            membershiptool = getToolByName(self._brain, 'portal_membership')
-#            userdata = membershiptool.getMemberInfo(self._brain.Creator)
-#            if not userdata:
-#                userdata = {'username': username,
-#                'description': '',
-#                'language': '',
-#                'home_page': '',
-#                'location': '',
-#                'fullname': username}
-#            self.request.usercache[username] = userdata
-#        return userdata
-#
+    def getUserData(self, username):
+        _usercache = self.request.get('usercache', None)
+        if _usercache is None:
+            self.request.set('usercache', {})
+            _usercache = {}
+        userdata = _usercache.get(username, None)
+        if userdata is None:
+            membershiptool = getToolByName(self._brain, 'portal_membership')
+            userdata = membershiptool.getMemberInfo(self._brain.Creator)
+            if not userdata:
+                userdata = {'username': username,
+                'description': '',
+                'language': '',
+                'home_page': '',
+                'location': '',
+                'fullname': username}
+            self.request.usercache[username] = userdata
+        return userdata
+
     def Creator(self):
         """ """
         username = self._brain.Creator
@@ -202,23 +195,7 @@ class CatalogContentListingObject:
     def Rights(self):
         raise NotImplementedError
 
-    def appendViewAction(self):
-        """decide whether to produce a string /view to append to links
-        in results listings"""
-        try:
-            types = self._brain.portal_properties.site_properties \
-                        .typesUseViewActionInListings
-        except AttributeError:
-            return ''
-        if self.Type() in types:
-            return "/view"
-        return ''
 
-    def ContentTypeClass(self):
-        """A normalised type name that identifies the object in listings.
-        used for CSS styling"""
-        return "contenttype-" + queryUtility(IIDNormalizer).normalize(
-            self.Type())
 
 
 

@@ -83,3 +83,37 @@ class ContentListing:
         Deprecated since Python 2.0 but still a part of `UserList`.
         """
         return IContentListing(self._basesequence[i:j])
+
+
+
+class BaseContentListingObject:
+    """A baseclass for the different types of contentlistingobjects
+        To avoid duplication of the stuff that is not implementation-specific
+    """
+    
+    def __eq__(self, other):
+        """For comparing two contentlistingobject"""
+        other = IContentListingObject(other)
+        return self.UID() == other.UID()
+
+    def ContentTypeClass(self):
+        """A normalised type name that identifies the object in listings.
+        used for CSS styling"""
+        return "contenttype-" + queryUtility(IIDNormalizer).normalize(
+            self.Type())
+
+    def appendViewAction(self):
+        """decide whether to produce a string /view to append to links
+        in results listings"""
+        try:
+            types = self._brain.portal_properties.site_properties \
+                        .typesUseViewActionInListings
+        except AttributeError:
+            return ''
+        if self.Type() in types:
+            return "/view"
+        return ''
+
+
+
+

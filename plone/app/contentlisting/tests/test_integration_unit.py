@@ -255,13 +255,13 @@ class TestIndividualRealContentItems(ContentlistingFunctionalTestCase):
         wf = wftool.getInfoFor(self.realitem, 'review_state')
         self.assertEqual(self.item.review_state(), wf)
 
-#    def test_item_Type(self):
-#        """checking the Type method"""
-#        self.assertEqual(self.item.Type(), 'Page')
-#
-#    def test_item_ContentTypeClass(self):
-#        """checking the that we print nice strings for css class identifiers"""
-#        self.assertEqual(self.item.ContentTypeClass(), 'contenttype-page')
+    def test_item_Type(self):
+        """checking the Type method"""
+        self.assertEqual(self.item.Type(), 'Page')
+
+    def test_item_ContentTypeClass(self):
+        """checking the that we print nice strings for css class identifiers"""
+        self.assertEqual(self.item.ContentTypeClass(), 'contenttype-page')
 
     def test_item_Language(self):
         """checking DC Language"""

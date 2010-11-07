@@ -49,7 +49,6 @@ and if we access attributes on it that are not in the interface or in the
 brain, it will transparently fetch the real object and cache it to get 
 properties from that instead.
 
-
 After accessing an attribute of the object that was neither in the 
 IContentListingObject or on the catalog brain, we can now see that the 
 real object has been silently fetched in the background. getDataOrigin now 
@@ -63,7 +62,6 @@ This item's origin is no longer a Brain, but the real object
     
     >>> listitem.review_state()
     'published'
-
 
 For user and integrator convenience we also include a couple of handy 
 browser views to get to these listings.
@@ -82,7 +80,6 @@ we can even slice the new folderlisting
     
     >>> len(self.portal.restrictedTraverse('news/@@folderListing')())
     1
-
 
 And we can use batching in it:
 
