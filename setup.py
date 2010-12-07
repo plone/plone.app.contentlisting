@@ -3,6 +3,8 @@ import os
 
 version = '0.1'
 
+tests_require = ['plone.app.testing']
+
 setup(name='plone.app.contentlisting',
       version=version,
       description="Listing of content for the Plone CMS",
@@ -26,10 +28,9 @@ setup(name='plone.app.contentlisting',
           'setuptools',
           # -*- Extra requirements: -*-
       ],
+      tests_require=tests_require,
       extras_require={
-          'test': [
-                  'plone.app.testing',
-              ],
+          'test': tests_require,
       },
       entry_points='''
           [z3c.autoinclude.plugin]
