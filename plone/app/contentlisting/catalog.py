@@ -4,7 +4,7 @@ from contentlisting import BaseContentListingObject
 from Acquisition import aq_base
 from Products.CMFCore.utils import getToolByName
 from zope import interface
-from zLOG import LOG, INFO
+from zLOG import LOG, INFO, DEBUG
 from plone.app.layout.icons.interfaces import IContentIcon
 from plone.i18n.normalizer.interfaces import IIDNormalizer
 from zope.component import queryUtility
@@ -37,12 +37,12 @@ class CatalogContentListingObject(BaseContentListingObject):
         if name.startswith('_'):
             raise AttributeError(name)
         if hasattr(aq_base(self._brain), name):
-            LOG('plone.app.contentlisting', INFO,
+            LOG('plone.app.contentlisting', DEBUG,
                 "deferred attribute lookup '%s' to brain %s" % (
                     name, str(self._brain), ))
             return getattr(self._brain, name)
         elif hasattr(aq_base(self.realobject), name):
-            LOG('plone.app.contentlisting', INFO,
+            LOG('plone.app.contentlisting', DEBUG,
                 "deferred attribute lookup '%s' to the real object %s" % (
                     name, str(self.realobject), ))
             return getattr(aq_base(self.realobject), name)
@@ -71,7 +71,7 @@ class CatalogContentListingObject(BaseContentListingObject):
         """
         if self._cached_realobject is None:
             self._cached_realobject = self._brain.getObject()
-            LOG('plone.app.contentlisting', INFO,
+            LOG('plone.app.contentlisting', DEBUG,
                 "fetched real object for %s" % (str(self._brain), ))
         return self._cached_realobject
 
@@ -86,13 +86,15 @@ class CatalogContentListingObject(BaseContentListingObject):
     def getURL(self):
         return self._brain.getURL()
 
-    def UID(self):
-        # content objects might have UID and might not. Same thing for
-        # their brain.
+    def uniqueIdentifier(self):
+        # content objects might have UID and might not.
         if hasattr(aq_base(self._brain), 'UID'):
             return self._brain.UID
+        # if there is no UID, we'll just use the path as an identifier
+        # please someone add uuid support here too. 
         else:
-            return aq_base(self.realobject).UID()
+            return self.getPath()
+
 
     def getIcon(self):
         return queryMultiAdapter((self._brain, self.request, self._brain),
@@ -141,7 +143,7 @@ class CatalogContentListingObject(BaseContentListingObject):
                 userdata = {'username': username,
                 'description': '',
                 'language': '',
-                'home_page': '',
+                'home_page': '/HOMEPAGEURL', #string:${navigation_root_url}/author/${item_creator}
                 'location': '',
                 'fullname': username}
             self.request.usercache[username] = userdata
@@ -151,6 +153,9 @@ class CatalogContentListingObject(BaseContentListingObject):
         """ """
         username = self._brain.Creator
         return username
+        
+    def Author(self):
+        return self.getUserData(self.Creator())
 
     def Subject(self):
         return self._brain.Subject
