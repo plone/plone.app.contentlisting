@@ -21,7 +21,7 @@ class IContentListingObject(IDublinCore):
     def getURL():
         """Full url to the object, including the portal root"""
 
-    def UID():
+    def uniqueIdentifier():
         """Unique content identifier"""
 
     def getIcon():

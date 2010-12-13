@@ -15,7 +15,7 @@ knows what to expect.
     >>> from plone.app.contentlisting.interfaces import IContentListing
     >>> from Products.CMFCore.utils import getToolByName
 
-We simply ask for an IContentLister and pass it a sequence of something. In 
+We simply adapt a sequence of something content-like. In 
 this case (and most common cases) the sequence will be a catalog search result set.
 
     >>> catalog = getToolByName(self.portal, 'portal_catalog')
