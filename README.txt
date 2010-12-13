@@ -11,16 +11,46 @@ To make it simpler to work with these, we have made plone.app.contentlisting, wh
 =====================================
 Making or getting a contentListing
 =====================================
-
 The typical way to get a contentlisting is to call one of two built-in views:
 
+----------------------------------
+Listing the contents of a folder
+-----------------------------------
 A ContentListing of a particular folder's contents can be fetched by using: 
     >>> path.to.your.folder.restrictedTraverse('@@folderListing')() 
 
+The folderListing view called above implements all the logic the old getFolderContents script in Plone used to do. The old script has been left in place to not break compatibility for customisations and add-ons that might depend on its particular return values. 
 
-or, to search outside a single folder:
-    >>> some.context.restrictedTraverse('@@searchResults')()
 
+----------------------------------
+Making a search
+-----------------------------------
+To search outside a single folder:
+    >>> context.restrictedTraverse('@@searchResults')()
+
+the searchResults view can take the same parameters as you would normally pass to the portal_catalog. 
+
+for example:
+
+    >>> context.restrictedTraverse('@@searchResults')(Type='Page')
+
+Consult the catalog documentation for further information on how to query the catalog for specifics. 
+
+
+-----------------------------------------------------
+getting a contentlisting directly from a template
+-----------------------------------------------------
+…
+…
+…
+
+
+
+
+
+--------------------------------
+Rolling your own with adaption
+---------------------------------
 At the time of writing, all parts of Plone do not yet return 'contentlistings' when asked for lists of content. It was impossible to change this everywhere without breaking backwards compatibility. Therefore you may have to convert your sequence of stuff to a contentlisting manually. 
 
 To do this, you need to import and adapt
@@ -32,10 +62,44 @@ To do this, you need to import and adapt
     >>> print contentlist 
     <plone.app.contentlisting.contentlisting.ContentListing instance ...>
 
+=====================================================
+The contentListing, its properties and behaviors
+=====================================================
 
 Now, you no longer need to worry whether you have a bunch of catalog brains or the actual objects (or fake objects for that sake). As long as you have a contentlisting, you know what you can expect from it. You also know what you can expect from each item within it: a contentListingObject
 
 The contentListing is a normal iterator that we can loop over and do all sorts of stuff you normally can do with sequences. 
+
+
+
+
+=====================================================
+contentListingObjects, the items in the sequence 
+=====================================================
+
+How do they work?…
+…
+…
+
+
+
+
+-------------------------------------
+Methods of contentlistingObjects
+-------------------------------------
+
+
+
+
+
+
+
+------------------------------------------
+Usage example directly from a template
+------------------------------------------
+
+
+
 
 
 
