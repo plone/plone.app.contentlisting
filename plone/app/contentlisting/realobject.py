@@ -57,13 +57,15 @@ class RealContentListingObject(BaseContentListingObject):
     def getURL(self):
         return self.realobject.absolute_url()
 
-    def UID(self):
+    def uniqueIdentifier(self):
         # content objects might have UID and might not. Same thing for
         # their brain.
+        # if there is no UID, we'll just use the path as an identifier
         if hasattr(aq_base(self.realobject), 'UID'):
             return self.realobject.UID()
+        # please someone add uuid support here too. 
         else:
-            raise AttributeError('UID')
+            return self.getPath()
 
     def getIcon(self):
         return queryMultiAdapter(
