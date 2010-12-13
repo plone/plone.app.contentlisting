@@ -93,6 +93,11 @@ class BaseContentListingObject:
     
     def __eq__(self, other):
         """For comparing two contentlistingobject"""
+        # TODO
+        # this method needs to be able to compare objects that don't have UID as well. 
+        # how are uuids available for the objects that support that? as a property? 
+        # the fallback would be to compare paths.
+        # an object that doesn't suppot uuid or UID is never equal to one that does
         other = IContentListingObject(other)
         return self.UID() == other.UID()
 
@@ -101,6 +106,12 @@ class BaseContentListingObject:
         used for CSS styling"""
         return "contenttype-" + queryUtility(IIDNormalizer).normalize(
             self.Type())
+            
+    def ReviewStateClass(self):
+        """A normalised type name that identifies the object in listings.
+        used for CSS styling"""
+        return "state-" + queryUtility(IIDNormalizer).normalize(
+            self.review_state())
 
     def appendViewAction(self):
         """decide whether to produce a string /view to append to links
