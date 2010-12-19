@@ -16,6 +16,34 @@ The typical way to get a contentlisting is to call one of two built-in views:
 ----------------------------------
 Listing the contents of a folder
 -----------------------------------
+
+
+In Page templates
+
+getting the contents of a folder is as simple as this 
+
+    context/folderListing
+
+Every template-writer's dream ;)
+
+A real example of listing the titles of the content objects of a folder:
+
+<ul>
+  <li tal:repeat="item context/folderListing" tal:content="item/Title"/>
+</ul>
+
+The context in which it is called defines which folder is listed.
+
+You can also use python expression to be able to pass parameters, like which content type or review state you want to use:
+
+ <li tal:repeat="item python:context.folderListing(Type='Page')"
+
+
+
+
+
+In Python
+
 A ContentListing of a particular folder's contents can be fetched by using: 
     >>> path.to.your.folder.restrictedTraverse('@@folderListing')() 
 
