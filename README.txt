@@ -36,7 +36,7 @@ The context in which it is called defines which folder is listed.
 
 You can also use python expression to be able to pass parameters, like which content type or review state you want to use:
 
- <li tal:repeat="item python:context.folderListing(Type='Page')"
+ <li tal:repeat="item python:context.folderListing(Type='Page')">
 
 
 
@@ -98,15 +98,16 @@ Now, you no longer need to worry whether you have a bunch of catalog brains or t
 
 The contentListing is a normal iterator that we can loop over and do all sorts of stuff you normally can do with sequences. 
 
-
+in 
 
 
 =====================================================
 contentListingObjects, the items in the sequence 
 =====================================================
 
-How do they work?…
-…
+the contentListingObjects are wrapper objects, each representing a content object in the site. Their intention is to be predictable so you can always call at least a common base set of methods on the objects listed. 
+
+You do not have to be aware whether the object originates from a brain, a full object or something else. If you try to call a method or access an attribute of the object and the wrapper is not aware of it, it will silently fetch the real object and delegate the call to it. This means you can treat your objects as you would any other — even writing to it. 
 …
 
 
