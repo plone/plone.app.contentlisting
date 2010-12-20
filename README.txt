@@ -88,7 +88,7 @@ To do this, you need to import and adapt
     >>> results = catalog.searchResults()
     >>> contentlist = IContentListing(results)
     >>> print contentlist 
-    <plone.app.contentlisting.contentlisting.ContentListing instance ...>
+    <plone.app.contentlisting.contentlisting.ContentListing object ...>
 
 =====================================================
 The contentListing, its properties and behaviors

@@ -9,7 +9,7 @@ from plone.i18n.normalizer.interfaces import IIDNormalizer
 from zope.component import queryUtility
 
 
-class ContentListing:
+class ContentListing(object):
     """ An IContentListing implementation based on sequences of objects"""
     interface.implements(IContentListing)
 
@@ -86,7 +86,7 @@ class ContentListing:
 
 
 
-class BaseContentListingObject:
+class BaseContentListingObject(object):
     """A baseclass for the different types of contentlistingobjects
         To avoid duplication of the stuff that is not implementation-specific
     """
