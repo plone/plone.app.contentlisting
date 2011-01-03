@@ -22,7 +22,12 @@ class ContentListing(object):
         """ length of the resultset is equal to the length of the underlying
             sequence
         """
-        return self._basesequence.__len__()
+        return len(self._basesequence)
+
+    @property
+    def actual_result_count(self):
+        bs = self._basesequence
+        return getattr(bs, 'actual_result_count', len(bs))
 
     def __iter__(self):
         """ let the sequence be iterable and whenever we look at an object,

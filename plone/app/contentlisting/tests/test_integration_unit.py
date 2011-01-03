@@ -223,12 +223,14 @@ class TestFolderContents(ContentlistingFunctionalTestCase):
     def test_empty_folder_contents(self):
         folderlisting = self.folder.restrictedTraverse('@@folderListing')()
         self.assertEqual(len(folderlisting), 0)
+        self.assertEqual(folderlisting.actual_result_count, 0)
 
     def test_item_in_folder_contents(self):
         # adding a new page, adds to the length of folder contents
         self.folder.invokeFactory('Document', 'mypage')
         folderlisting = self.folder.restrictedTraverse('@@folderListing')()
         self.assertEqual(len(folderlisting), 1)
+        self.assertEqual(folderlisting.actual_result_count, 1)
 
     def test_folder_contents(self):
         # call the generic folder contents browserview. Check that it makes
@@ -254,10 +256,12 @@ class TestFolderContents(ContentlistingFunctionalTestCase):
         folderlisting = self.folder.restrictedTraverse('@@folderListing')(
             batch=True, b_size=1)
         self.failUnless(folderlisting[0].getId() == new_id)
+        self.assertEqual(folderlisting.actual_result_count, 1)
 
         folderlisting = self.folder.restrictedTraverse('@@folderListing')(
             batch=True, b_size=1, b_start=1)
         self.assertEqual(folderlisting[0].getId(), new_id2)
+        self.assertEqual(folderlisting.actual_result_count, 1)
 
 
 class TestSearch(ContentlistingFunctionalTestCase):
