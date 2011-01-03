@@ -1,5 +1,3 @@
-import types
-
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone import Batch
 from zope.publisher.browser import BrowserView
@@ -78,10 +76,10 @@ class SearchResults(BrowserView):
 
         ploneUtils = getToolByName(self.context, 'plone_utils')
         portal_type = query.get('portal_type', [])
-        if not type(portal_type) is types.ListType:
+        if not isinstance(portal_type, list):
             portal_type = [portal_type]
         Type = query.get('Type', [])
-        if not type(Type) is types.ListType:
+        if not isinstance(Type, list):
             Type = [Type]
         typesList = portal_type + Type
         if not typesList:
