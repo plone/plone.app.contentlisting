@@ -25,8 +25,9 @@ class FolderListing(BrowserView):
         #    'Access inactive portal content', self.context)
 
         # Provide batching hints to the catalog
-        query['b_start'] = b_start
-        query['b_size'] = b_size
+        if batch:
+            query['b_start'] = b_start
+            query['b_size'] = b_size
 
         catalog = getToolByName(self.context, 'portal_catalog')
         brains = catalog(query)
@@ -59,8 +60,9 @@ class SearchResults(BrowserView):
         query = self.ensureFriendlyTypes(query)
 
         # Provide batching hints to the catalog
-        query['b_start'] = b_start
-        query['b_size'] = b_size
+        if batch:
+            query['b_start'] = b_start
+            query['b_size'] = b_size
 
         results = IContentListing(catalog(query))
         if batch:
