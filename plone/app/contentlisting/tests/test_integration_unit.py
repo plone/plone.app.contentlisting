@@ -253,12 +253,10 @@ class TestFolderContents(ContentlistingFunctionalTestCase):
         new_id2 = self.folder.invokeFactory('Document', 'mypage2')
         folderlisting = self.folder.restrictedTraverse('@@folderListing')(
             batch=True, b_size=1)
-        self.assertEqual(len(folderlisting), 1)
         self.failUnless(folderlisting[0].getId() == new_id)
 
         folderlisting = self.folder.restrictedTraverse('@@folderListing')(
             batch=True, b_size=1, b_start=1)
-        self.assertEqual(len(folderlisting), 1)
         self.assertEqual(folderlisting[0].getId(), new_id2)
 
 

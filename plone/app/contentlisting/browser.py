@@ -25,12 +25,17 @@ class FolderListing(BrowserView):
         #show_inactive = getToolByName(
         #    self.context, 'portal_membership').checkPermission(
         #    'Access inactive portal content', self.context)
+
+        # Provide batching hints to the catalog
+        query['b_start'] = b_start
+        query['b_size'] = b_size
+
         catalog = getToolByName(self.context, 'portal_catalog')
         brains = catalog(query)
         results = IContentListing(brains)
 
         if batch:
-            batch = Batch(results, b_size, int(b_start), orphan=0)
+            batch = Batch(results, b_size, b_start, orphan=0)
             return IContentListing(batch)
         return results
 
