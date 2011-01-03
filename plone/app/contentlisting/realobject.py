@@ -50,7 +50,6 @@ class RealContentListingObject(BaseContentListingObject):
         return self.realobject
 
     # a base set of elements that are needed but not defined in dublin core
-
     def getPath(self):
         return '/'.join(self.realobject.getPhysicalPath())
 
@@ -78,15 +77,13 @@ class RealContentListingObject(BaseContentListingObject):
 
     def Type(self):
         """Dublin Core element - Object type"""
-        typestool = getToolByName(self.realobject,'portal_types')
+        typestool = getToolByName(self.realobject, 'portal_types')
         ti = typestool.getTypeInfo(self.realobject)
         if ti is not None:
             return ti.Title()
         return self.realobject.meta_type
 
-
 # Needed: A method Type() that returns the same as is cataloged as Type.
-# Currently Type() returns different values depending on the data source being a brain or a real object.
-# Probably needed. Support for all the attributes from the indexablemetadata wrappers.
-
-
+# Currently Type() returns different values depending on the data source being
+# a brain or a real object. Probably needed. Support for all the attributes
+# from the indexablemetadata wrappers.

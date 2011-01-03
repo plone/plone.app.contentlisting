@@ -75,7 +75,6 @@ class CatalogContentListingObject(BaseContentListingObject):
         return self._cached_realobject
 
     # a base set of elements that are needed but not defined in dublin core
-
     def getId(self):
         return self._brain.getId
 
@@ -94,7 +93,6 @@ class CatalogContentListingObject(BaseContentListingObject):
         else:
             return self.getPath()
 
-
     def getIcon(self):
         return queryMultiAdapter((self._brain, self.request, self._brain),
                                  interface=IContentIcon)()
@@ -107,7 +105,6 @@ class CatalogContentListingObject(BaseContentListingObject):
 
     # All the dublin core elements. Most of them should be in the
     # brain for easy access
-
     def Title(self):
         """title"""
         return self._brain.Title
@@ -142,7 +139,8 @@ class CatalogContentListingObject(BaseContentListingObject):
                 userdata = {'username': username,
                 'description': '',
                 'language': '',
-                'home_page': '/HOMEPAGEURL', #string:${navigation_root_url}/author/${item_creator}
+                # TODO string:${navigation_root_url}/author/${item_creator}
+                'home_page': '/HOMEPAGEURL',
                 'location': '',
                 'fullname': username}
             self.request.usercache[username] = userdata
@@ -198,9 +196,3 @@ class CatalogContentListingObject(BaseContentListingObject):
 
     def Rights(self):
         raise NotImplementedError
-
-
-
-
-
-

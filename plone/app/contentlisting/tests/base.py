@@ -11,7 +11,7 @@ from zope.configuration import xmlconfig
 
 class ContentListingLayer(PloneSandboxLayer):
 
-    defaultBases = (PLONE_FIXTURE,)
+    defaultBases = (PLONE_FIXTURE, )
 
     def setUpZope(self, app, configurationContext):
         import plone.app.layout
@@ -31,9 +31,9 @@ class ContentListingLayer(PloneSandboxLayer):
 
 CONTENTLISTING_FIXTURE = ContentListingLayer()
 CONTENTLISTING_INTEGRATION_TESTING = IntegrationTesting(
-    bases=(CONTENTLISTING_FIXTURE,), name="ContentListing:Integration")
+    bases=(CONTENTLISTING_FIXTURE, ), name="ContentListing:Integration")
 CONTENTLISTING_FUNCTIONAL_TESTING = FunctionalTesting(
-    bases=(CONTENTLISTING_FIXTURE,), name="ContentListing:Functional")
+    bases=(CONTENTLISTING_FIXTURE, ), name="ContentListing:Functional")
 
 
 class ContentlistingTestCase(unittest.TestCase):

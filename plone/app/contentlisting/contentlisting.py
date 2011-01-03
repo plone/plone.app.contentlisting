@@ -85,7 +85,6 @@ class ContentListing(object):
         return IContentListing(self._basesequence[i:j])
 
 
-
 class BaseContentListingObject(object):
     """A baseclass for the different types of contentlistingobjects
         To avoid duplication of the stuff that is not implementation-specific
@@ -118,7 +117,3 @@ class BaseContentListingObject(object):
         if self.Type() in types:
             return "/view"
         return ''
-
-
-
-
