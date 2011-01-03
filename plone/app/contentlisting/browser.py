@@ -7,7 +7,7 @@ from .interfaces import IContentListing
 
 class FolderListing(BrowserView):
 
-    def __call__(self, batch=False, b_size=100, b_start=0, **kw):
+    def __call__(self, batch=False, b_size=20, b_start=0, **kw):
         query = {}
         query.update(kw)
 
@@ -40,7 +40,7 @@ class FolderListing(BrowserView):
 
 class SearchResults(BrowserView):
 
-    def __call__(self, query=None, batch=False, b_size=100, b_start=0, **kw):
+    def __call__(self, query=None, batch=False, b_size=20, b_start=0, **kw):
         """ Get properly wrapped search results from the catalog.
 
         Everything in Plone that performs searches should go through this view.
