@@ -21,7 +21,7 @@ this case (and most common cases) the sequence will be a catalog search result s
     >>> catalog = getToolByName(self.portal, 'portal_catalog')
     >>> results = catalog.searchResults()
     >>> contentlist = IContentListing(results)
-    >>> print contentlist
+    >>> print(contentlist)
     <plone.app.contentlisting.contentlisting.ContentListing object ...>
 
 We get a ContentListing. That is the catalog based implementation of
@@ -32,17 +32,17 @@ The contentListing is a normal iterator that we can loop over. Each entry is
 a CatalogContentListingObject
 
     >>> listitem = contentlist[3]
-    >>> print listitem
+    >>> print(listitem)
     <plone.app.contentlisting.catalog.CatalogContentListingObject instance ...>
 
 The listitem provides all the methods of the IContentListingObject interface
 
-    >>> print listitem.review_state()
+    >>> print(listitem.review_state())
     published
 
 It can report what its source of data is
 
-    >>> print listitem.getDataOrigin()
+    >>> print(listitem.getDataOrigin())
     <Products.ZCatalog.Catalog.mybrains object at...
 
 and if we access attributes on it that are not in the interface or in the
@@ -55,7 +55,7 @@ real object has been silently fetched in the background. getDataOrigin now
 returns the object.
 
     >>> dummy= listitem.absolute_url()
-    >>> print listitem.getDataOrigin()
+    >>> print(listitem.getDataOrigin())
     <AT...
 
 This item's origin is no longer a Brain, but the real object
@@ -67,7 +67,7 @@ For user and integrator convenience we also include a couple of handy
 browser views to get to these listings.
 
     >>> folderlisting = self.portal.restrictedTraverse('@@folderListing')()
-    >>> print folderlisting
+    >>> print(folderlisting)
     <plone.app.contentlisting.contentlisting.ContentListing object ...
 
     >>> len(folderlisting)
@@ -89,10 +89,3 @@ And we can use batching in it:
 We can use filtering by catalog indexes:
     >>> len(self.portal.restrictedTraverse('@@folderListing')(Type='Page'))
     1
-
-
-
-
-
-
-
