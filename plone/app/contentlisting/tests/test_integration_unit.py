@@ -105,15 +105,15 @@ class TestIndividualCatalogContentItems(ContentlistingFunctionalTestCase):
     def test_special_getattr_with_underscore(self):
         """looking up attributes starting with _ should always raise AttributeError"""
         self.assertRaises(AttributeError, self.item.__getattr__,'foo')
-        
+
     def test_special_getattr_from_brain(self):
         """Asking for an attribute not in the contentlistingobject, should defer lookup to the brain"""
-        self.assertEqual(self.item.is_folderish,False) 
+        self.assertEqual(self.item.is_folderish,False)
         self.failUnless(repr(self.item.getDataOrigin())[:35], '<Products.ZCatalog.Catalog.mybrains')
 
     def test_special_getattr_from_object(self):
         """Asking for an attribute not in the contentlistingobject, should defer lookup to the brain"""
-        self.assertEqual(self.item.absolute_url(),'') 
+        self.assertEqual(self.item.absolute_url(),'')
         self.assertEqual(repr(self.item.getDataOrigin()), '<ATDocument at /plone/test-folder/mypage>')
 
     def test_item_Title(self):
@@ -216,10 +216,10 @@ class TestIndividualRealContentItems(ContentlistingFunctionalTestCase):
     def test_special_getattr_with_underscore(self):
         """looking up attributes starting with _ should always raise AttributeError"""
         self.assertRaises(AttributeError, self.item.__getattr__,'foo')
-        
+
     def test_special_getattr_from_object(self):
         """Asking for an attribute not in the contentlistingobject, should defer lookup to the brain"""
-        self.assertEqual(self.item.absolute_url(),'') 
+        self.assertEqual(self.item.absolute_url(),'')
         self.assertEqual(repr(self.item.getDataOrigin()), '<ATDocument at /plone/test-folder/mypage>')
 
     def test_item_Title(self):

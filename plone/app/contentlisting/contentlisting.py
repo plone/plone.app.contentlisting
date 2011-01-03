@@ -28,7 +28,7 @@ class ContentListing(object):
         return self._basesequence.__len__()
 
     def __iter__(self):
-        """ let the sequence be iterable and whenever we look at an object, 
+        """ let the sequence be iterable and whenever we look at an object,
             it should be a ContentListingObject"""
         for obj in self._basesequence:
             yield IContentListingObject(obj)
@@ -90,7 +90,7 @@ class BaseContentListingObject(object):
     """A baseclass for the different types of contentlistingobjects
         To avoid duplication of the stuff that is not implementation-specific
     """
-    
+
     def __eq__(self, other):
         """For comparing two contentlistingobject"""
         other = IContentListingObject(other)
@@ -101,7 +101,7 @@ class BaseContentListingObject(object):
         used for CSS styling"""
         return "contenttype-" + queryUtility(IIDNormalizer).normalize(
             self.Type())
-            
+
     def ReviewStateClass(self):
         """A normalised review state string for CSS styling use in listings."""
         return "state-" + queryUtility(IIDNormalizer).normalize(

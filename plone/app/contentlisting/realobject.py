@@ -63,7 +63,7 @@ class RealContentListingObject(BaseContentListingObject):
         # if there is no UID, we'll just use the path as an identifier
         if hasattr(aq_base(self.realobject), 'UID'):
             return self.realobject.UID()
-        # please someone add uuid support here too. 
+        # please someone add uuid support here too.
         else:
             return self.getPath()
 
@@ -85,8 +85,8 @@ class RealContentListingObject(BaseContentListingObject):
         return self.realobject.meta_type
 
 
-# Needed: A method Type() that returns the same as is cataloged as Type. 
-# Currently Type() returns different values depending on the data source being a brain or a real object. 
+# Needed: A method Type() that returns the same as is cataloged as Type.
+# Currently Type() returns different values depending on the data source being a brain or a real object.
 # Probably needed. Support for all the attributes from the indexablemetadata wrappers.
 
 

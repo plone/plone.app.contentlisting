@@ -12,7 +12,7 @@ from zope.component import queryUtility
 
 class CatalogContentListingObject(BaseContentListingObject):
     """A Catalog-results based content object representation
-       Whenever sequences of catalog brains are turned into contentlistings, 
+       Whenever sequences of catalog brains are turned into contentlistings,
        This is the type of objects they are adapted to.
     """
 
@@ -91,7 +91,7 @@ class CatalogContentListingObject(BaseContentListingObject):
         if hasattr(aq_base(self._brain), 'UID'):
             return self._brain.UID
         # if there is no UID, we'll just use the path as an identifier
-        # please someone add uuid support here too. 
+        # please someone add uuid support here too.
         else:
             return self.getPath()
 
@@ -153,7 +153,7 @@ class CatalogContentListingObject(BaseContentListingObject):
         """ """
         username = self._brain.Creator
         return username
-        
+
     def Author(self):
         return self.getUserData(self.Creator())
 

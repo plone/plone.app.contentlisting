@@ -1,34 +1,34 @@
-======================
+===========
 Basic usage
-======================
+===========
 
-The idea behind plone.app.contentlisting is to have a unified way of listing 
-Plone content whenever needed, whether in folderlistings, collections, 
+The idea behind plone.app.contentlisting is to have a unified way of listing
+Plone content whenever needed, whether in folderlistings, collections,
 portlets, search results.
 
 It should be simple to use for new developers and integrators
-The core concept of the module is to take a list of something (in this case a 
-catalog resultset) and turn it into an IContentListing so that the user always 
+The core concept of the module is to take a list of something (in this case a
+catalog resultset) and turn it into an IContentListing so that the user always
 knows what to expect.
 
     >>> from zope import interface
     >>> from plone.app.contentlisting.interfaces import IContentListing
     >>> from Products.CMFCore.utils import getToolByName
 
-We simply adapt a sequence of something content-like. In 
+We simply adapt a sequence of something content-like. In
 this case (and most common cases) the sequence will be a catalog search result set.
 
     >>> catalog = getToolByName(self.portal, 'portal_catalog')
     >>> results = catalog.searchResults()
     >>> contentlist = IContentListing(results)
-    >>> print contentlist 
+    >>> print contentlist
     <plone.app.contentlisting.contentlisting.ContentListing object ...>
 
-We get a ContentListing. That is the catalog based implementation of 
+We get a ContentListing. That is the catalog based implementation of
 IContentListing. In other cases you might get a different implementations,
 but they should all conform to the rules of the interface.
 
-The contentListing is a normal iterator that we can loop over. Each entry is 
+The contentListing is a normal iterator that we can loop over. Each entry is
 a CatalogContentListingObject
 
     >>> listitem = contentlist[3]
@@ -44,26 +44,26 @@ It can report what its source of data is
 
     >>> print listitem.getDataOrigin()
     <Products.ZCatalog.Catalog.mybrains object at...
-    
-and if we access attributes on it that are not in the interface or in the 
-brain, it will transparently fetch the real object and cache it to get 
+
+and if we access attributes on it that are not in the interface or in the
+brain, it will transparently fetch the real object and cache it to get
 properties from that instead.
 
-After accessing an attribute of the object that was neither in the 
-IContentListingObject or on the catalog brain, we can now see that the 
-real object has been silently fetched in the background. getDataOrigin now 
-returns the object. 
+After accessing an attribute of the object that was neither in the
+IContentListingObject or on the catalog brain, we can now see that the
+real object has been silently fetched in the background. getDataOrigin now
+returns the object.
 
     >>> dummy= listitem.absolute_url()
     >>> print listitem.getDataOrigin()
     <AT...
 
 This item's origin is no longer a Brain, but the real object
-    
+
     >>> listitem.review_state()
     'published'
 
-For user and integrator convenience we also include a couple of handy 
+For user and integrator convenience we also include a couple of handy
 browser views to get to these listings.
 
     >>> folderlisting = self.portal.restrictedTraverse('@@folderListing')()
@@ -72,12 +72,12 @@ browser views to get to these listings.
 
     >>> len(folderlisting)
     5
-    
+
 we can even slice the new folderlisting
 
     >>> len (folderlisting[2:4])
     2
-    
+
     >>> len(self.portal.restrictedTraverse('news/@@folderListing')())
     1
 
