@@ -50,8 +50,8 @@ class TestIndividualCatalogContentItems(ContentlistingFunctionalTestCase):
 
     def setUp(self):
         super(TestIndividualCatalogContentItems, self).setUp()
-        new_id = self.folder.invokeFactory('Document', 'mypage',
-                                           title='My Page', description='blah')
+        self.folder.invokeFactory(
+            'Document', 'mypage', title='My Page', description='blah')
         self.item = self.folder.restrictedTraverse('@@folderListing')()[0]
         self.realitem = self.folder.mypage
 
@@ -101,7 +101,7 @@ class TestIndividualCatalogContentItems(ContentlistingFunctionalTestCase):
     def test_item_getIcon(self):
         # since icons were changed to css sprites for most types for Plone 4,
         # this one needs to use an image for the test.
-        new_id = self.folder.invokeFactory(
+        self.folder.invokeFactory(
             'Image', 'myimage', title='My Image', description='blah')
         self.item = self.folder.restrictedTraverse('@@folderListing')()[1]
         self.assertEqual(self.item.getIcon(),
@@ -122,7 +122,7 @@ class TestIndividualCatalogContentItems(ContentlistingFunctionalTestCase):
     def test_appendViewAction(self):
         # checking that we append the view action to urls when needed
         self.assertEqual(self.item.appendViewAction(), '')
-        new_id = self.folder.invokeFactory(
+        self.folder.invokeFactory(
             'Image', 'myimage', title='My Image', description='blah')
         self.item = self.folder.restrictedTraverse('@@folderListing')()[1]
         self.assertEqual(self.item.appendViewAction(), '/view')
@@ -148,7 +148,7 @@ class TestIndividualRealContentItems(ContentlistingFunctionalTestCase):
 
     def setUp(self):
         super(TestIndividualRealContentItems, self).setUp()
-        new_id = self.folder.invokeFactory(
+        self.folder.invokeFactory(
             'Document', 'mypage', title='My Page', description='blah')
         self.item = IContentListingObject(self.folder.mypage)
         self.realitem = self.folder.mypage
@@ -192,7 +192,7 @@ class TestIndividualRealContentItems(ContentlistingFunctionalTestCase):
     def test_item_getIcon(self):
         # since icons were changed to css sprites for most types for Plone 4,
         # this one needs to use an image for the test.
-        new_id = self.folder.invokeFactory(
+        self.folder.invokeFactory(
             'Image', 'myimage', title='My Image', description='blah')
         self.item = IContentListingObject(self.folder.myimage)
         self.assertEqual(self.item.getIcon(),
@@ -216,9 +216,9 @@ class TestIndividualRealContentItems(ContentlistingFunctionalTestCase):
 
 
 class TestFolderContents(ContentlistingFunctionalTestCase):
-    # """Testing that the folder contents browserview works and behaves
-    # as it should.
-    # """
+    """Testing that the folder contents browserview works and behaves
+    as it should.
+    """
 
     def test_empty_folder_contents(self):
         folderlisting = self.folder.restrictedTraverse('@@folderListing')()
@@ -226,21 +226,21 @@ class TestFolderContents(ContentlistingFunctionalTestCase):
 
     def test_item_in_folder_contents(self):
         # adding a new page, adds to the length of folder contents
-        new_id = self.folder.invokeFactory('Document', 'mypage')
+        self.folder.invokeFactory('Document', 'mypage')
         folderlisting = self.folder.restrictedTraverse('@@folderListing')()
         self.assertEqual(len(folderlisting), 1)
 
     def test_folder_contents(self):
         # call the generic folder contents browserview. Check that it makes
         # the results a contentlisting, regardless of batching
-        new_id = self.folder.invokeFactory('Document', 'mypage')
+        self.folder.invokeFactory('Document', 'mypage')
         folderlisting = self.folder.restrictedTraverse('@@folderListing')()
         self.failUnless(verifyObject(IContentListing, folderlisting))
 
     def test_batching_folder_contents(self):
         # call the generic folder contents browserview. Check that it makes
         # the results a contentlisting, regardless of batching
-        new_id = self.folder.invokeFactory('Document', 'mypage')
+        self.folder.invokeFactory('Document', 'mypage')
         folderlisting = self.folder.restrictedTraverse('@@folderListing')(
             batch=True, b_size=1)
         self.failUnless(verifyObject(IContentListing, folderlisting))
@@ -263,15 +263,15 @@ class TestFolderContents(ContentlistingFunctionalTestCase):
 
 
 class TestSearch(ContentlistingFunctionalTestCase):
-    # """Testing that the search browserview works and behaves as it should
-    # """
+    """Testing that the search browserview works and behaves as it should
+    """
 
     def setUp(self):
         super(TestSearch, self).setUp()
         self.workflow = getToolByName(self.portal, 'portal_workflow')
         self.catalog = getToolByName(self.portal, 'portal_catalog')
-        new_id = self.folder.invokeFactory('Document', 'mypage')
-        new_id2 = self.folder.invokeFactory('Document', 'mypage2')
+        self.folder.invokeFactory('Document', 'mypage')
+        self.folder.invokeFactory('Document', 'mypage2')
 
     def test_search_generates_IContentListing(self):
         # call the generic search browserview. Check that it makes
