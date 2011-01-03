@@ -1,8 +1,10 @@
-from Products.Five.browser import BrowserView
-from interfaces import IContentListing
-from Products.CMFCore.utils import getToolByName
 import logging
 import types
+
+from Products.CMFCore.utils import getToolByName
+from zope.publisher.browser import BrowserView
+
+from interfaces import IContentListing
 
 
 class FolderListing(BrowserView):
