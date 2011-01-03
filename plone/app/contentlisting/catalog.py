@@ -89,7 +89,7 @@ class CatalogContentListingObject(BaseContentListingObject):
         # content objects might have UID and might not.
         if hasattr(aq_base(self._brain), 'UID'):
             return self._brain.UID
-        # if there is no UID, we'll just use the path as an identifier
+        # TODO: if there is no UID, we'll just use the path as an identifier
         # please someone add uuid support here too.
         else:
             return self.getPath()
@@ -116,7 +116,7 @@ class CatalogContentListingObject(BaseContentListingObject):
 
     def CroppedDescription(self):
         """cropped description"""
-        # Let's port Plones description cropping here instead of
+        # TODO: Let's port Plones description cropping here instead of
         # implementing it all in the templates.
         return self.Description()
 
