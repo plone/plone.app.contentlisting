@@ -12,9 +12,6 @@ class FolderListing(BrowserView):
     def __call__(self, batch=False, b_size=100, b_start=0, **kw):
         query = {}
         query.update(kw)
-        if not kw:
-            query.update(getattr(self.request, 'form', {}))
-            query.update(dict(getattr(self.request, 'other', {})))
 
         query['path'] = {'query': '/'.join(self.context.getPhysicalPath()),
                          'depth': 1}
