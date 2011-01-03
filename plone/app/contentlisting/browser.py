@@ -1,6 +1,7 @@
 import types
 
 from Products.CMFCore.utils import getToolByName
+from Products.CMFPlone import Batch
 from zope.publisher.browser import BrowserView
 
 from .interfaces import IContentListing
@@ -20,18 +21,18 @@ class FolderListing(BrowserView):
 
         # if we don't have asked explicitly for other sorting, we'll want
         # it by position in parent
-        if not query.get('sort_on', None):
+        if 'sort_on' not in query:
             query['sort_on'] = 'getObjPositionInParent'
 
         # Not used:
         #show_inactive = getToolByName(
         #    self.context, 'portal_membership').checkPermission(
         #    'Access inactive portal content', self.context)
-        results = IContentListing(
-            getToolByName(self.context, 'portal_catalog')(query))
+        catalog = getToolByName(self.context, 'portal_catalog')
+        brains = catalog(query)
+        results = IContentListing(brains)
 
         if batch:
-            from Products.CMFPlone import Batch
             batch = Batch(results, b_size, int(b_start), orphan=0)
             return IContentListing(batch)
         return results
