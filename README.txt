@@ -1,6 +1,7 @@
 =============================================================================
 Listing and working with Plone content objects using plone.app.contentlisting
 =============================================================================
+
 This is valid for Plone 4.1 upwards.
 
 Many of the operations for customizations, templates, views and portlets in
@@ -12,8 +13,7 @@ To make it simpler to work with these, we have made plone.app.contentlisting,
 which ensures that lists of content objects always behave in the same way and
 according to predefined interfaces, regardless of what the source of the
 objects are. The integrator shouldn't have to care whether the list of objects
-came from the catalog, and ORM or they are the actual objects.
-
+came from the catalog, an ORM or they are the actual objects.
 
 ==================================
 Making or getting a contentListing
@@ -39,7 +39,7 @@ A real example of listing the titles of the content objects of a folder::
 
 The context in which it is called defines which folder is listed.
 
-You can also use python expression to be able to pass parameters, like which
+You can also use Python expressions to be able to pass parameters, like which
 content type or review state you want to use::
 
  <li tal:repeat="item python:context.folderListing(Type='Page')">
@@ -102,13 +102,10 @@ The contentListing, its properties and behaviors
 Now, you no longer need to worry whether you have a bunch of catalog brains or
 the actual objects (or fake objects for that sake). As long as you have a
 contentlisting, you know what you can expect from it. You also know what you
-can expect from each item within it: a contentListingObject
+can expect from each item within it - a contentListingObject.
 
 The contentListing is a normal iterator that we can loop over and do all sorts
 of stuff you normally can do with sequences.
-
-You can also do stuff you cannot normally do with catalog result sets, like
-concatenating two.
 
 ====================================================
 contentListingObjects, the items inside the sequence
