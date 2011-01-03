@@ -60,10 +60,13 @@ class SearchResults(BrowserView):
         catalog = getToolByName(self.context, 'portal_catalog')
         query = self.ensureFriendlyTypes(query)
 
+        # Provide batching hints to the catalog
+        query['b_start'] = b_start
+        query['b_size'] = b_size
+
         results = IContentListing(catalog(query))
         if batch:
-            from Products.CMFPlone import Batch
-            batch = Batch(results, b_size, int(b_start), orphan=0)
+            batch = Batch(results, b_size, b_start, orphan=0)
             return IContentListing(batch)
         return results
 
