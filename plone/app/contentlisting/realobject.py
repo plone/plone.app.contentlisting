@@ -1,13 +1,15 @@
-from zope.component import queryMultiAdapter
-from interfaces import IContentListing, IContentListingObject
-from contentlisting import BaseContentListingObject
+import logging
+
 from Acquisition import aq_base
-from Products.CMFCore.utils import getToolByName
-from zope import interface
-from zLOG import LOG, INFO
 from plone.app.layout.icons.interfaces import IContentIcon
-from plone.i18n.normalizer.interfaces import IIDNormalizer
-from zope.component import queryUtility
+from Products.CMFCore.utils import getToolByName
+from zope.component import queryMultiAdapter
+from zope import interface
+
+from .contentlisting import BaseContentListingObject
+from .interfaces import IContentListingObject
+
+logger = logging.getLogger('plone.app.contentlisting')
 
 
 class RealContentListingObject(BaseContentListingObject):
@@ -34,9 +36,8 @@ class RealContentListingObject(BaseContentListingObject):
         if name.startswith('_'):
             raise AttributeError(name)
         elif hasattr(aq_base(self.realobject), name):
-            LOG('plone.app.contentlisting', INFO,
-                "deferred attribute lookup to the real object %s" % (
-                    str(self.realobject), ))
+            logger.debug("deferred attribute lookup to the real object %s" %
+                self.realobject)
             return getattr(aq_base(self.realobject), name)
         else:
             raise AttributeError(name)
