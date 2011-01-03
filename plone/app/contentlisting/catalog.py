@@ -1,13 +1,15 @@
-from zope.component import queryMultiAdapter
-from interfaces import IContentListing, IContentListingObject
-from contentlisting import BaseContentListingObject
+import logging
+
 from Acquisition import aq_base
-from Products.CMFCore.utils import getToolByName
-from zope import interface
-from zLOG import LOG, INFO, DEBUG
 from plone.app.layout.icons.interfaces import IContentIcon
-from plone.i18n.normalizer.interfaces import IIDNormalizer
-from zope.component import queryUtility
+from Products.CMFCore.utils import getToolByName
+from zope.component import queryMultiAdapter
+from zope import interface
+
+from .contentlisting import BaseContentListingObject
+from .interfaces import IContentListingObject
+
+logger = logging.getLogger('plone.app.contentlisting')
 
 
 class CatalogContentListingObject(BaseContentListingObject):
@@ -37,14 +39,12 @@ class CatalogContentListingObject(BaseContentListingObject):
         if name.startswith('_'):
             raise AttributeError(name)
         if hasattr(aq_base(self._brain), name):
-            LOG('plone.app.contentlisting', DEBUG,
-                "deferred attribute lookup '%s' to brain %s" % (
-                    name, str(self._brain), ))
+            logger.debug("deferred attribute lookup '%s' to brain %s" % (
+                name, self._brain))
             return getattr(self._brain, name)
         elif hasattr(aq_base(self.realobject), name):
-            LOG('plone.app.contentlisting', DEBUG,
-                "deferred attribute lookup '%s' to the real object %s" % (
-                    name, str(self.realobject), ))
+            logger.debug("deferred attribute lookup '%s' to the real object "
+                "%s" % (name, self.realobject))
             return getattr(aq_base(self.realobject), name)
         else:
             raise AttributeError(name)
@@ -71,8 +71,7 @@ class CatalogContentListingObject(BaseContentListingObject):
         """
         if self._cached_realobject is None:
             self._cached_realobject = self._brain.getObject()
-            LOG('plone.app.contentlisting', DEBUG,
-                "fetched real object for %s" % (str(self._brain), ))
+            logger.debug("fetched real object for %s" % self._brain)
         return self._cached_realobject
 
     # a base set of elements that are needed but not defined in dublin core

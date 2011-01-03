@@ -4,7 +4,7 @@ import types
 from Products.CMFCore.utils import getToolByName
 from zope.publisher.browser import BrowserView
 
-from interfaces import IContentListing
+from .interfaces import IContentListing
 
 
 class FolderListing(BrowserView):
