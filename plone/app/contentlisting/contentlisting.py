@@ -1,4 +1,5 @@
 from plone.i18n.normalizer.interfaces import IIDNormalizer
+from Products.CMFCore.utils import getToolByName
 from zope.component import queryUtility
 from zope import interface
 
@@ -106,8 +107,8 @@ class BaseContentListingObject(object):
         """decide whether to produce a string /view to append to links
         in results listings"""
         try:
-            types = self._brain.portal_properties.site_properties \
-                        .typesUseViewActionInListings
+            ttool = getToolByName(self._brain, 'portal_properties')
+            types = ttool.site_properties.typesUseViewActionInListings
         except AttributeError:
             return ''
         if self.Type() in types:
