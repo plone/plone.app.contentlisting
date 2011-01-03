@@ -1,6 +1,7 @@
 import logging
 
 from Acquisition import aq_base
+from Acquisition import aq_get
 from plone.app.layout.icons.interfaces import IContentIcon
 from Products.CMFCore.utils import getToolByName
 from zope.component import queryMultiAdapter
@@ -23,7 +24,7 @@ class CatalogContentListingObject(BaseContentListingObject):
     def __init__(self, brain):
         self._brain = brain
         self._cached_realobject = None
-        self.request = brain.REQUEST
+        self.request = aq_get(brain, 'REQUEST')
 
     def __repr__(self):
         return "<plone.app.contentlisting.catalog." + \

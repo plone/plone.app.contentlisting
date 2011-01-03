@@ -1,6 +1,7 @@
 import logging
 
 from Acquisition import aq_base
+from Acquisition import aq_get
 from plone.app.layout.icons.interfaces import IContentIcon
 from Products.CMFCore.utils import getToolByName
 from zope.component import queryMultiAdapter
@@ -19,7 +20,7 @@ class RealContentListingObject(BaseContentListingObject):
 
     def __init__(self, obj):
         self.realobject = obj
-        self.request = self.realobject.REQUEST
+        self.request = aq_get(self.realobject, 'REQUEST')
 
     def __repr__(self):
         return "<plone.app.contentlisting.realobject." + \
