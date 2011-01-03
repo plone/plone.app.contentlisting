@@ -4,22 +4,21 @@ Basic usage
 
 The idea behind plone.app.contentlisting is to have a unified way of listing
 Plone content whenever needed, whether in folderlistings, collections,
-portlets, search results.
+portlets or search results.
 
-It should be simple to use for new developers and integrators
-The core concept of the module is to take a list of something (in this case a
-catalog resultset) and turn it into an IContentListing so that the user always
-knows what to expect.
+It should be simple to use for new developers and integrators. The core concept
+is to take a list of something (in this case a catalog result set) and turn it
+into an IContentListing so that the user always knows what to expect.
 
     >>> from zope import interface
     >>> from plone.app.contentlisting.interfaces import IContentListing
     >>> from Products.CMFCore.utils import getToolByName
 
-We simply adapt a sequence of something content-like. In
-this case (and most common cases) the sequence will be a catalog search result set.
+We simply adapt a sequence of something content-like. In this case (and most
+common cases) the sequence will be a catalog search result set.
 
     >>> catalog = getToolByName(self.portal, 'portal_catalog')
-    >>> results = catalog.searchResults()
+    >>> results = catalog.searchResults(dict(is_default_page=False))
     >>> contentlist = IContentListing(results)
     >>> print(contentlist)
     <plone.app.contentlisting.contentlisting.ContentListing object ...>
@@ -31,7 +30,7 @@ but they should all conform to the rules of the interface.
 The contentListing is a normal iterator that we can loop over. Each entry is
 a CatalogContentListingObject
 
-    >>> listitem = contentlist[3]
+    >>> listitem = contentlist[2]
     >>> print(listitem)
     <plone.app.contentlisting.catalog.CatalogContentListingObject instance ...>
 
@@ -43,7 +42,7 @@ The listitem provides all the methods of the IContentListingObject interface
 It can report what its source of data is
 
     >>> print(listitem.getDataOrigin())
-    <Products.ZCatalog.Catalog.mybrains object at...
+    <Products.ZCatalog.Catalog.mybrains object at...>
 
 and if we access attributes on it that are not in the interface or in the
 brain, it will transparently fetch the real object and cache it to get
@@ -56,7 +55,7 @@ returns the object.
 
     >>> dummy= listitem.absolute_url()
     >>> print(listitem.getDataOrigin())
-    <AT...
+    <AT...>
 
 This item's origin is no longer a Brain, but the real object
 
@@ -73,7 +72,7 @@ browser views to get to these listings.
     >>> len(folderlisting)
     5
 
-we can even slice the new folderlisting
+We can even slice the new folderlisting
 
     >>> len (folderlisting[2:4])
     2
