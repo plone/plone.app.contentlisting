@@ -1,5 +1,5 @@
 from Products.CMFCore.utils import getToolByName
-from Products.CMFPlone import Batch
+from Products.CMFPlone.PloneBatch import Batch
 from zope.publisher.browser import BrowserView
 
 from .interfaces import IContentListing
