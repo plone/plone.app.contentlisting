@@ -22,6 +22,7 @@ setup(name='plone.app.contentlisting',
       zip_safe=False,
       install_requires=[
           'setuptools',
+          'plone.uuid',
       ],
       extras_require={
         'test': ['plone.app.testing'],

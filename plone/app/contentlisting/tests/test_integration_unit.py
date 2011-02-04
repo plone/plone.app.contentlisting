@@ -214,6 +214,11 @@ class TestIndividualRealContentItems(ContentlistingFunctionalTestCase):
     def test_item_Language(self):
         self.assertEqual(self.item.Language(), 'en')
 
+    def test_item_uniqueIdentifier(self):
+        uuid = self.item.uniqueIdentifier()
+        assert uuid
+        assert uuid != self.item.getPath()
+
 
 class TestFolderContents(ContentlistingFunctionalTestCase):
     """Testing that the folder contents browserview works and behaves

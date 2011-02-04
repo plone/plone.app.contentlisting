@@ -89,10 +89,7 @@ class CatalogContentListingObject(BaseContentListingObject):
         # content objects might have UID and might not.
         if hasattr(aq_base(self._brain), 'UID'):
             return self._brain.UID
-        # TODO: if there is no UID, we'll just use the path as an identifier
-        # please someone add uuid support here too.
-        else:
-            return self.getPath()
+        return self.getPath()
 
     def getIcon(self):
         return queryMultiAdapter((self._brain, self.request, self._brain),

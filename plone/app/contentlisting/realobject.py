@@ -3,6 +3,7 @@ import logging
 from Acquisition import aq_base
 from Acquisition import aq_get
 from plone.app.layout.icons.interfaces import IContentIcon
+from plone.uuid.interfaces import IUUID
 from Products.CMFCore.utils import getToolByName
 from zope.component import queryMultiAdapter
 from zope import interface
@@ -61,12 +62,10 @@ class RealContentListingObject(BaseContentListingObject):
     def uniqueIdentifier(self):
         # content objects might have UID and might not. Same thing for
         # their brain.
-        # if there is no UID, we'll just use the path as an identifier
-        if hasattr(aq_base(self.realobject), 'UID'):
-            return self.realobject.UID()
-        # please someone add uuid support here too.
-        else:
-            return self.getPath()
+        uuid = IUUID(self.realobject, None)
+        if uuid is not None:
+            return uuid
+        return self.getPath()
 
     def getIcon(self):
         return queryMultiAdapter(
