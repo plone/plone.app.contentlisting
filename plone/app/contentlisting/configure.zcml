@@ -26,6 +26,11 @@
       for="Products.CMFPlone.PloneBatch.Batch"
       />
 
+  <adapter
+      factory=".contentlisting.ContentListing"
+      for="ZTUtils.Batch.Batch"
+      />
+
 
   <adapter
       factory=".catalog.CatalogContentListingObject"

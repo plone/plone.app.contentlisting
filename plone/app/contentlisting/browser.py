@@ -1,5 +1,7 @@
 from Products.CMFCore.utils import getToolByName
-from Products.CMFPlone.PloneBatch import Batch
+## PloneBatch currently has problems
+# from Products.CMFPlone.PloneBatch import Batch
+from ZTUtils.Batch import Batch
 from zope.publisher.browser import BrowserView
 
 from .interfaces import IContentListing
@@ -7,7 +9,7 @@ from .interfaces import IContentListing
 
 class FolderListing(BrowserView):
 
-    def __call__(self, batch=False, b_size=20, b_start=0, **kw):
+    def __call__(self, batch=False, b_size=20, b_start=0, orphan=0, **kw):
         query = {}
         query.update(kw)
 
@@ -27,21 +29,18 @@ class FolderListing(BrowserView):
         # Provide batching hints to the catalog
         if batch:
             query['b_start'] = b_start
-            query['b_size'] = b_size
+            query['b_size'] = b_size + orphan
 
         catalog = getToolByName(self.context, 'portal_catalog')
-        brains = catalog(query)
-        results = IContentListing(brains)
-
+        results = catalog(query)
         if batch:
-            batch = Batch(results, b_size, b_start, orphan=0)
-            return IContentListing(batch)
-        return results
+            results = Batch(results, b_size, b_start, orphan=orphan)
+        return IContentListing(results)
 
 
 class SearchResults(BrowserView):
 
-    def __call__(self, query=None, batch=False, b_size=20, b_start=0, **kw):
+    def __call__(self, query=None, batch=False, b_size=20, b_start=0, orphan=0, **kw):
         """ Get properly wrapped search results from the catalog.
 
         Everything in Plone that performs searches should go through this view.
@@ -62,13 +61,12 @@ class SearchResults(BrowserView):
         # Provide batching hints to the catalog
         if batch:
             query['b_start'] = b_start
-            query['b_size'] = b_size
+            query['b_size'] = b_size + orphan
 
-        results = IContentListing(catalog(query))
+        results = catalog(query)
         if batch:
-            batch = Batch(results, b_size, b_start, orphan=0)
-            return IContentListing(batch)
-        return results
+            results = Batch(results, b_size, b_start, orphan=orphan)
+        return IContentListing(results)
 
     def ensureFriendlyTypes(self, query):
         # ported from Plone's queryCatalog. It hurts to bring this one along.
