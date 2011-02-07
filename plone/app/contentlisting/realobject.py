@@ -20,8 +20,8 @@ class RealContentListingObject(BaseContentListingObject):
     interface.implements(IContentListingObject)
 
     def __init__(self, obj):
-        self.realobject = obj
-        self.request = aq_get(self.realobject, 'REQUEST')
+        self._realobject = obj
+        self.request = aq_get(obj, 'REQUEST')
 
     def __repr__(self):
         return "<plone.app.contentlisting.realobject." + \
@@ -37,12 +37,16 @@ class RealContentListingObject(BaseContentListingObject):
         """
         if name.startswith('_'):
             raise AttributeError(name)
-        elif hasattr(aq_base(self.realobject), name):
+        obj = self.getObject()
+        if hasattr(aq_base(obj), name):
             logger.debug("deferred attribute lookup to the real object %s" %
-                self.realobject)
-            return getattr(aq_base(self.realobject), name)
+                obj)
+            return getattr(aq_base(obj), name)
         else:
             raise AttributeError(name)
+
+    def getObject(self):
+        return self._realobject
 
     def getDataOrigin(self):
         """The origin of the data for the object.
@@ -50,39 +54,42 @@ class RealContentListingObject(BaseContentListingObject):
         Sometimes we just need to know if we are looking at a brain or
         the real object.
         """
-        return self.realobject
+        return self.getObject()
 
     # a base set of elements that are needed but not defined in dublin core
     def getPath(self):
-        return '/'.join(self.realobject.getPhysicalPath())
+        return '/'.join(self.getObject().getPhysicalPath())
 
     def getURL(self):
-        return self.realobject.absolute_url()
+        return self.getObject().absolute_url()
 
     def uniqueIdentifier(self):
         # content objects might have UID and might not. Same thing for
         # their brain.
-        uuid = IUUID(self.realobject, None)
+        uuid = IUUID(self.getObject(), None)
         if uuid is not None:
             return uuid
         return self.getPath()
 
     def getIcon(self):
+        obj = self.getObject()
         return queryMultiAdapter(
-            (self.realobject, self.request, self.realobject),
+            (obj, self.request, obj),
             interface=IContentIcon)()
 
     def review_state(self):
-        wftool = getToolByName(self.realobject, "portal_workflow")
-        return wftool.getInfoFor(self.realobject, 'review_state')
+        obj = self.getObject()
+        wftool = getToolByName(obj, "portal_workflow")
+        return wftool.getInfoFor(obj, 'review_state')
 
     def Type(self):
         """Dublin Core element - Object type"""
-        typestool = getToolByName(self.realobject, 'portal_types')
-        ti = typestool.getTypeInfo(self.realobject)
+        obj = self.getObject()
+        typestool = getToolByName(obj, 'portal_types')
+        ti = typestool.getTypeInfo(obj)
         if ti is not None:
             return ti.Title()
-        return self.realobject.meta_type
+        return obj.meta_type
 
 # Needed: A method Type() that returns the same as is cataloged as Type.
 # Currently Type() returns different values depending on the data source being

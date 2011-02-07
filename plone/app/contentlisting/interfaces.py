@@ -12,6 +12,9 @@ class IContentListingObject(IDublinCore):
     def getId():
         """get the object id in its container"""
 
+    def getObject():
+        """get the real object (may be expensive)"""
+
     def getPath():
         """Path to the object, relative to the portal root"""
 

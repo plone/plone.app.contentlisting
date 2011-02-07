@@ -43,10 +43,10 @@ class CatalogContentListingObject(BaseContentListingObject):
             logger.debug("deferred attribute lookup '%s' to brain %s" % (
                 name, self._brain))
             return getattr(self._brain, name)
-        elif hasattr(aq_base(self.realobject), name):
+        elif hasattr(aq_base(self.getObject()), name):
             logger.debug("deferred attribute lookup '%s' to the real object "
-                "%s" % (name, self.realobject))
-            return getattr(aq_base(self.realobject), name)
+                "%s" % (name, self.getObject()))
+            return getattr(aq_base(self.getObject()), name)
         else:
             raise AttributeError(name)
 
@@ -61,8 +61,7 @@ class CatalogContentListingObject(BaseContentListingObject):
         else:
             return self._brain
 
-    @property
-    def realobject(self):
+    def getObject(self):
         """get the real, underlying object
 
         This is performance intensive compared to just getting the
@@ -190,7 +189,7 @@ class CatalogContentListingObject(BaseContentListingObject):
         if hasattr(aq_base(self._brain), 'Language'):
             return self._brain.Language
         else:
-            return self.realobject.Language()
+            return self.getObject().Language()
 
     def Rights(self):
         raise NotImplementedError

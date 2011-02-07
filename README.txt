@@ -128,6 +128,9 @@ Methods of contentlistingObjects
 getId() -
   Returns the object id in its container for example "my-example-page"
 
+getObject() -
+  Returns the real object (may be expensive)
+
 getPath() -
   Path to the object, relative to the portal root for example
   "/artifacts/my-example-page"
