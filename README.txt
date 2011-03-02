@@ -119,7 +119,7 @@ You do not have to be aware whether the object originates from a brain, a full
 object or something else. If you try to call a method or access an attribute of
 the object and the wrapper is not aware of it, it will silently fetch the real
 object and delegate the call to it. This means you can treat your objects as
-you would any other — even writing to it. …
+you would any other -- even writing to it. ...
 
 --------------------------------
 Methods of contentlistingObjects
