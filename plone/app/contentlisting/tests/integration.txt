@@ -89,6 +89,43 @@ We can use filtering by catalog indexes:
     >>> len(self.portal.restrictedTraverse('@@folderListing')(Type='Page'))
     1
 
+==================
+Append View Action
+==================
+
+Some types may require '/view' appended to their URLs. Currently these don't
+
+    >>> frontpage = self.portal.restrictedTraverse('@@folderListing')(id='front-page')[0]
+    >>> frontpage.appendViewAction()
+    ''
+    >>> news = self.portal.restrictedTraverse('@@folderListing')(id='news')[0]
+    >>> news.appendViewAction()
+    ''
+    >>> realfrontpage = IContentListingObject(self.portal['front-page'])
+    >>> realfrontpage.appendViewAction()
+    ''
+
+By altering portal_properties, we can make this true for Documents
+
+    >>> ttool = getToolByName(self.portal, 'portal_properties')
+    >>> ttool.site_properties.typesUseViewActionInListings = [frontpage.portal_type]
+    >>> frontpage.appendViewAction()
+    '/view'
+    >>> news.appendViewAction()
+    ''
+    >>> realfrontpage.appendViewAction()
+    '/view'
+
+And turn it off again
+
+    >>> ttool.site_properties.typesUseViewActionInListings = []
+    >>> frontpage.appendViewAction()
+    ''
+    >>> news.appendViewAction()
+    ''
+    >>> realfrontpage.appendViewAction()
+    ''
+
 ========================
 Visibility in Navigation
 ========================

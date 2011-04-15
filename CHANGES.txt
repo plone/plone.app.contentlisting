@@ -3,6 +3,8 @@ Changelog
 
 0.1b2 - 2011-04-15
 ------------------
+- Unit tests for appendViewAction, compare against portal_type rather than Type.
+  [lentinj]
 
 - Handle RealContentListingObject objects in isVisibleFromNav, 
   appendViewAction. Remove memoise, isn't going to cache anything for a useful

@@ -116,7 +116,7 @@ class BaseContentListingObject(object):
             types = ttool.site_properties.typesUseViewActionInListings
         except AttributeError:
             return ''
-        if self.Type() in types:
+        if self.portal_type in types:
             return "/view"
         return ''
 
