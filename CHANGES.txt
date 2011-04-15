@@ -1,7 +1,15 @@
 Changelog
 =========
 
+
+0.1a1 - unreleased
+------------------
+
+- Add MANIFEST.in.
+  [WouterVH]
+
+
 0.1a1 - 2010-03-02
 ------------------
 
-* Initial release
+- Initial release
