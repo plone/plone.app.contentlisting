@@ -11,7 +11,7 @@ is to take a list of something (in this case a catalog result set) and turn it
 into an IContentListing so that the user always knows what to expect.
 
     >>> from zope import interface
-    >>> from plone.app.contentlisting.interfaces import IContentListing
+    >>> from plone.app.contentlisting.interfaces import IContentListing, IContentListingObject
     >>> from Products.CMFCore.utils import getToolByName
 
 We simply adapt a sequence of something content-like. In this case (and most
@@ -89,9 +89,9 @@ We can use filtering by catalog indexes:
     >>> len(self.portal.restrictedTraverse('@@folderListing')(Type='Page'))
     1
 
-===========
+========================
 Visibility in Navigation
-===========
+========================
 
 Items by default are visible in navigation
 
@@ -103,21 +103,33 @@ Items by default are visible in navigation
     >>> news.isVisibleInNav()
     True
 
-This shouldn't require converting the item into a real object.
+Just to check, these will be catalog objects using a brain internally
 
+    >>> frontpage.__class__
+    <class 'plone.app.contentlisting.catalog.CatalogContentListingObject'>
     >>> print(frontpage.getDataOrigin())
     <Products.ZCatalog.Catalog.mybrains object at...>
+    >>> frontpage.isVisibleInNav()
+    True
 
-But if it is it still works.
+A catalog object with a real object works
 
-    >>> dummy= frontpage.absolute_url()
-    >>> print(frontpage.getDataOrigin())
+    >>> dummy= listitem.absolute_url()
+    >>> print(listitem.getDataOrigin())
     <AT...>
     >>> frontpage.isVisibleInNav()
     True
 
+Getting a realobject-based listing also works
+
+    >>> realfrontpage = IContentListingObject(self.portal['front-page'])
+    >>> realfrontpage.__class__
+    <class 'plone.app.contentlisting.realobject.RealContentListingObject'>
+    >>> realfrontpage.isVisibleInNav()
+    True
+
 There are several ways something can be hidden from navigation, the most direct
-way is having exclude_from_nav set on it.
+way is the exclude_from_nav property being true
 
     >>> frontpage_object = frontpage.getObject()
     >>> frontpage_object.exclude_from_nav = True
@@ -133,10 +145,10 @@ This will be indexed, so an object isn't necessary to check this
 
 But a real object still works.
 
-    >>> dummy= frontpage.absolute_url()
-    >>> print(frontpage.getDataOrigin())
-    <AT...>
-    >>> frontpage.isVisibleInNav()
+    >>> realfrontpage = IContentListingObject(self.portal['front-page'])
+    >>> realfrontpage.__class__
+    <class 'plone.app.contentlisting.realobject.RealContentListingObject'>
+    >>> realfrontpage.isVisibleInNav()
     False
 
 We can also turn it off again.
@@ -148,16 +160,24 @@ We can also turn it off again.
     >>> frontpage.isVisibleInNav()
     True
 
+    >>> realfrontpage = IContentListingObject(self.portal['front-page'])
+    >>> realfrontpage.isVisibleInNav()
+    True
+
 We can also exclude anything of a particular type using metaTypesNotToList
 
     >>> navtree_properties = getattr(getToolByName(self.portal, 'portal_properties'), 'navtree_properties')
     >>> navtree_properties.metaTypesNotToList = [frontpage.portal_type]
     >>> frontpage.isVisibleInNav()
     False
+    >>> realfrontpage.isVisibleInNav()
+    False
     >>> news.isVisibleInNav()
     True
     >>> navtree_properties.metaTypesNotToList = []
     >>> frontpage.isVisibleInNav()
+    True
+    >>> realfrontpage.isVisibleInNav()
     True
     >>> news.isVisibleInNav()
     True
@@ -167,10 +187,14 @@ Finally, particular ids can be excluded from listings
     >>> navtree_properties.idsNotToList = [news.id]
     >>> frontpage.isVisibleInNav()
     True
+    >>> realfrontpage.isVisibleInNav()
+    True
     >>> news.isVisibleInNav()
     False
     >>> navtree_properties.idsNotToList = []
     >>> frontpage.isVisibleInNav()
+    True
+    >>> realfrontpage.isVisibleInNav()
     True
     >>> news.isVisibleInNav()
     True

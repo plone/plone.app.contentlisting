@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-version = '0.1b1'
+version = '0.1b2'
 
 setup(name='plone.app.contentlisting',
       version=version,
@@ -23,7 +23,6 @@ setup(name='plone.app.contentlisting',
       install_requires=[
           'setuptools',
           'plone.uuid',
-          'plone.memoize',
       ],
       extras_require={
         'test': ['plone.app.testing'],
