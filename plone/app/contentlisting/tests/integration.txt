@@ -88,3 +88,89 @@ And we can use batching in it:
 We can use filtering by catalog indexes:
     >>> len(self.portal.restrictedTraverse('@@folderListing')(Type='Page'))
     1
+
+===========
+Visibility in Navigation
+===========
+
+Items by default are visible in navigation
+
+    >>> frontpage = self.portal.restrictedTraverse('@@folderListing')(id='front-page')[0]
+    >>> frontpage.isVisibleInNav()
+    True
+
+    >>> news = self.portal.restrictedTraverse('@@folderListing')(id='news')[0]
+    >>> news.isVisibleInNav()
+    True
+
+This shouldn't require converting the item into a real object.
+
+    >>> print(frontpage.getDataOrigin())
+    <Products.ZCatalog.Catalog.mybrains object at...>
+
+But if it is it still works.
+
+    >>> dummy= frontpage.absolute_url()
+    >>> print(frontpage.getDataOrigin())
+    <AT...>
+    >>> frontpage.isVisibleInNav()
+    True
+
+There are several ways something can be hidden from navigation, the most direct
+way is having exclude_from_nav set on it.
+
+    >>> frontpage_object = frontpage.getObject()
+    >>> frontpage_object.exclude_from_nav = True
+    >>> frontpage_object.reindexObject()
+
+This will be indexed, so an object isn't necessary to check this
+
+    >>> frontpage = self.portal.restrictedTraverse('@@folderListing')(id='front-page')[0]
+    >>> frontpage.isVisibleInNav()
+    False
+    >>> print(frontpage.getDataOrigin())
+    <Products.ZCatalog.Catalog.mybrains object at...>
+
+But a real object still works.
+
+    >>> dummy= frontpage.absolute_url()
+    >>> print(frontpage.getDataOrigin())
+    <AT...>
+    >>> frontpage.isVisibleInNav()
+    False
+
+We can also turn it off again.
+
+    >>> frontpage_object.exclude_from_nav = False
+    >>> frontpage_object.reindexObject()
+
+    >>> frontpage = self.portal.restrictedTraverse('@@folderListing')(id='front-page')[0]
+    >>> frontpage.isVisibleInNav()
+    True
+
+We can also exclude anything of a particular type using metaTypesNotToList
+
+    >>> navtree_properties = getattr(getToolByName(self.portal, 'portal_properties'), 'navtree_properties')
+    >>> navtree_properties.metaTypesNotToList = [frontpage.portal_type]
+    >>> frontpage.isVisibleInNav()
+    False
+    >>> news.isVisibleInNav()
+    True
+    >>> navtree_properties.metaTypesNotToList = []
+    >>> frontpage.isVisibleInNav()
+    True
+    >>> news.isVisibleInNav()
+    True
+
+Finally, particular ids can be excluded from listings
+
+    >>> navtree_properties.idsNotToList = [news.id]
+    >>> frontpage.isVisibleInNav()
+    True
+    >>> news.isVisibleInNav()
+    False
+    >>> navtree_properties.idsNotToList = []
+    >>> frontpage.isVisibleInNav()
+    True
+    >>> news.isVisibleInNav()
+    True

@@ -23,6 +23,7 @@ setup(name='plone.app.contentlisting',
       install_requires=[
           'setuptools',
           'plone.uuid',
+          'plone.memoize',
       ],
       extras_require={
         'test': ['plone.app.testing'],

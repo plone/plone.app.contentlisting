@@ -1,13 +1,15 @@
 Changelog
 =========
 
-
-0.1a1 - unreleased
+0.1a2 - Unreleased
 ------------------
+
+- Add an isVisibleFromNav method, based on http://siarp.de/node/201, use
+  memoise to cache lookup of portal_properties
+  [lentinj]
 
 - Add MANIFEST.in.
   [WouterVH]
-
 
 0.1a1 - 2010-03-02
 ------------------

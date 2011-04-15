@@ -1,4 +1,5 @@
 from plone.i18n.normalizer.interfaces import IIDNormalizer
+from plone.memoize.instance import memoize
 from Products.CMFCore.utils import getToolByName
 from zope.component import queryUtility
 from zope import interface
@@ -112,10 +113,24 @@ class BaseContentListingObject(object):
         """decide whether to produce a string /view to append to links
         in results listings"""
         try:
-            ttool = getToolByName(self._brain, 'portal_properties')
+            ttool = self._getPortalProperties()
             types = ttool.site_properties.typesUseViewActionInListings
         except AttributeError:
             return ''
         if self.Type() in types:
             return "/view"
         return ''
+
+    def isVisibleInNav(self):
+        """true iff this item should be visible in navigation trees"""
+        if self.exclude_from_nav: return False
+        navtree_properties = getattr(self._getPortalProperties(), 'navtree_properties')
+        if self.portal_type in list(navtree_properties.metaTypesNotToList): return False
+        if self.id in list(navtree_properties.idsNotToList): return False
+        return True
+
+    @memoize
+    def _getPortalProperties(self):
+        """Cache lookup of portal_properties"""
+        return getToolByName(self._brain, 'portal_properties')
+        

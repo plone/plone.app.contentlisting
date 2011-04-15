@@ -242,6 +242,9 @@ Rights() -
   Return the DCMI Rights element (resource copyright). Return a string
   describing the intellectual property status, if any, of the resource.
 
+isVisibleInNav() -
+  Return whether this object will be visible in a navigation view.
+
 --------------------------------------
 Usage example directly from a template
 --------------------------------------
