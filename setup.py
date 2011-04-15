@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-version = '0.1a2'
+version = '0.1b1'
 
 setup(name='plone.app.contentlisting',
       version=version,
