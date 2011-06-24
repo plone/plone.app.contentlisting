@@ -3,6 +3,7 @@ import logging
 from Acquisition import aq_base
 from Acquisition import aq_get
 from plone.app.layout.icons.interfaces import IContentIcon
+from plone.uuid.interfaces import IUUID
 from Products.CMFCore.utils import getToolByName
 from zope.component import queryMultiAdapter
 from zope import interface
@@ -88,6 +89,9 @@ class CatalogContentListingObject(BaseContentListingObject):
         # content objects might have UID and might not.
         if hasattr(aq_base(self._brain), 'UID'):
             return self._brain.UID
+        uuid = IUUID(self.getObject(), None)
+        if uuid is not None:
+            return uuid
         return self.getPath()
 
     def getIcon(self):
