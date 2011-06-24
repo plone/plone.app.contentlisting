@@ -214,8 +214,8 @@ class TestIndividualRealContentItems(ContentlistingFunctionalTestCase):
     def test_item_Language(self):
         self.assertEqual(self.item.Language(), 'en')
 
-    def test_item_uniqueIdentifier(self):
-        uuid = self.item.uniqueIdentifier()
+    def test_item_uuid(self):
+        uuid = self.item.uuid()
         assert uuid
         assert uuid != self.item.getPath()
 

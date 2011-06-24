@@ -132,10 +132,10 @@ getURL()-
   Full url to the object, including the site root for example
   ``http://my.site.com/artifacts/my-example-page``
 
-uniqueIdentifier() -
-  Unique content identifier for example the Archetypes UID or a path or
-  something else. The only real point of it is to be unique. It can for
-  example look like this `0757d0147e63b36f807e2ac982e69b2c`.
+uuid() -
+  Unique content identifier for example an uuid from `plone.uuid` The only real
+  point of it is to be unique. It can for example look like this
+  `b0e80776-d41d-4f48-bf9e-7cb1aebabad5`.
 
 getIcon() -
   Icon for the object. Returns an icon object from plone.app.layout.

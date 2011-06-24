@@ -95,7 +95,7 @@ class BaseContentListingObject(object):
     def __eq__(self, other):
         """For comparing two contentlistingobject"""
         other = IContentListingObject(other)
-        return self.uniqueIdentifier() == other.uniqueIdentifier()
+        return self.uuid() == other.uuid()
 
     def ContentTypeClass(self):
         """A normalised type name that identifies the object in listings.

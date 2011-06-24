@@ -84,7 +84,7 @@ class CatalogContentListingObject(BaseContentListingObject):
     def getURL(self):
         return self._brain.getURL()
 
-    def uniqueIdentifier(self):
+    def uuid(self):
         # content objects might have UID and might not.
         if hasattr(aq_base(self._brain), 'UID'):
             return self._brain.UID

@@ -63,7 +63,7 @@ class RealContentListingObject(BaseContentListingObject):
     def getURL(self):
         return self.getObject().absolute_url()
 
-    def uniqueIdentifier(self):
+    def uuid(self):
         # content objects might have UID and might not. Same thing for
         # their brain.
         uuid = IUUID(self.getObject(), None)

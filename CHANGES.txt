@@ -4,7 +4,9 @@ Changelog
 1.0 - unreleased
 ----------------
 
-
+- Renamed `uniqueIdentifier` method to `uuid` for shorter and more consistent
+  naming with `plone.uuid`.
+  [hannosch]
 
 0.1b2 - 2011-04-15
 ------------------
