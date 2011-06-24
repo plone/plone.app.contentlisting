@@ -64,11 +64,11 @@ class SearchResults(BrowserView):
         return IContentListing(results)
 
     def _filter_types(self, query):
-        plone_utils = getToolByName(self.context, 'plone_utils')
         portal_type = query.get('portal_type', [])
         if not isinstance(portal_type, list):
             portal_type = [portal_type]
         if not portal_type:
+            plone_utils = getToolByName(self.context, 'plone_utils')
             friendlyTypes = plone_utils.getUserFriendlyTypes(portal_type)
             query['portal_type'] = friendlyTypes
         return query
