@@ -31,7 +31,6 @@
       for="ZTUtils.Batch.Batch"
       />
 
-
   <adapter
       factory=".catalog.CatalogContentListingObject"
       for="Products.ZCatalog.interfaces.ICatalogBrain"

@@ -1,5 +1,3 @@
-import logging
-
 from Acquisition import aq_base
 from Acquisition import aq_get
 from plone.app.layout.icons.interfaces import IContentIcon
@@ -10,8 +8,6 @@ from zope import interface
 
 from .contentlisting import BaseContentListingObject
 from .interfaces import IContentListingObject
-
-logger = logging.getLogger('plone.app.contentlisting')
 
 
 class CatalogContentListingObject(BaseContentListingObject):
@@ -41,12 +37,8 @@ class CatalogContentListingObject(BaseContentListingObject):
         if name.startswith('_'):
             raise AttributeError(name)
         if hasattr(aq_base(self._brain), name):
-            logger.debug("deferred attribute lookup '%s' to brain %s" % (
-                name, self._brain))
             return getattr(self._brain, name)
         elif hasattr(aq_base(self.getObject()), name):
-            logger.debug("deferred attribute lookup '%s' to the real object "
-                "%s" % (name, self.getObject()))
             return getattr(aq_base(self.getObject()), name)
         else:
             raise AttributeError(name)
@@ -72,7 +64,6 @@ class CatalogContentListingObject(BaseContentListingObject):
         """
         if self._cached_realobject is None:
             self._cached_realobject = self._brain.getObject()
-            logger.debug("fetched real object for %s" % self._brain)
         return self._cached_realobject
 
     # a base set of elements that are needed but not defined in dublin core

@@ -1,5 +1,3 @@
-import logging
-
 from Acquisition import aq_base
 from Acquisition import aq_get
 from plone.app.layout.icons.interfaces import IContentIcon
@@ -10,8 +8,6 @@ from zope import interface
 
 from .contentlisting import BaseContentListingObject
 from .interfaces import IContentListingObject
-
-logger = logging.getLogger('plone.app.contentlisting')
 
 
 class RealContentListingObject(BaseContentListingObject):
@@ -39,8 +35,6 @@ class RealContentListingObject(BaseContentListingObject):
             raise AttributeError(name)
         obj = self.getObject()
         if hasattr(aq_base(obj), name):
-            logger.debug("deferred attribute lookup to the real object %s" %
-                obj)
             return getattr(aq_base(obj), name)
         else:
             raise AttributeError(name)
