@@ -37,11 +37,11 @@ class TestSetup(ContentlistingFunctionalTestCase):
             CatalogContentListingObject
         self.failUnless(isinstance(listing[0], CatalogContentListingObject))
 
-    def testListingImplementsInterface(self):
+    def test_listing_interface(self):
         self.failUnless(verifyObject(IContentListing,
                                      IContentListing(self.catalog())))
 
-    def testListingObjectsImplementsInterface(self):
+    def test_listing_object_interface(self):
         self.failUnless(verifyObject(IContentListingObject,
                                      IContentListing(self.catalog())[0]))
 
@@ -134,10 +134,10 @@ class TestIndividualCatalogContentItems(ContentlistingFunctionalTestCase):
     def test_item_Language(self):
         self.assertEqual(self.item.Language(), 'en')
 
-    def testComparingContentlistingobjects(self):
+    def test_comparision(self):
         self.assertEqual(IContentListingObject(self.folder.mypage), self.item)
 
-    def testContainment(self):
+    def test_containment(self):
         # we can test containment for normal content objects against
         # contentlistings
         self.failUnless(self.folder.mypage in
