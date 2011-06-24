@@ -235,8 +235,3 @@ Rights() -
 
 isVisibleInNav() -
   Return whether this object will be visible in a navigation view.
-
---------------------------------------
-Usage example directly from a template
---------------------------------------
-
