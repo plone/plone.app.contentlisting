@@ -70,12 +70,12 @@ browser views to get to these listings.
     <plone.app.contentlisting.contentlisting.ContentListing object ...
 
     >>> len(folderlisting)
-    5
+    3
 
 We can even slice the new folderlisting
 
     >>> len (folderlisting[2:4])
-    2
+    1
 
     >>> len(self.portal.restrictedTraverse('news/@@folderListing')())
     1

@@ -4,8 +4,8 @@ from plone.app.testing import PloneSandboxLayer
 from plone.app.testing import PLONE_FIXTURE
 from plone.app.testing import TEST_USER_ID, setRoles
 from plone.app.testing import IntegrationTesting, FunctionalTesting
-from plone.app.testing import applyProfile
 from plone.testing.z2 import installProduct
+from Products.CMFCore.utils import getToolByName
 from zope.configuration import xmlconfig
 
 
@@ -23,11 +23,6 @@ class ContentListingLayer(PloneSandboxLayer):
         # Do we need the workaround for ZopeLite here? This seems unnecessary.
         installProduct(app, 'Products.PythonScripts')
 
-    def setUpPloneSite(self, portal):
-        # I don't understand why this first one is needed
-        applyProfile(portal, 'Products.CMFPlone:plone')
-        applyProfile(portal, 'Products.CMFPlone:plone-content')
-
 
 CONTENTLISTING_FIXTURE = ContentListingLayer()
 CONTENTLISTING_INTEGRATION_TESTING = IntegrationTesting(
@@ -43,7 +38,14 @@ class ContentlistingTestCase(unittest.TestCase):
         self.portal = self.layer['portal']
 
         setRoles(self.portal, TEST_USER_ID, ['Manager'])
+        wftool = getToolByName(self.portal, 'portal_workflow')
+        wftool.setDefaultChain('simple_publication_workflow')
+
         self.portal.invokeFactory('Folder', 'test-folder')
+        self.portal.invokeFactory('Document', 'front-page')
+        self.portal.invokeFactory('Folder', 'news')
+        wftool.doActionFor(self.portal.news, 'publish')
+        self.portal.news.invokeFactory('News Item', 'news1')
         setRoles(self.portal, TEST_USER_ID, ['Member'])
 
         self.folder = self.portal['test-folder']
