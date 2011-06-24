@@ -21,11 +21,6 @@ class FolderListing(BrowserView):
         if 'sort_on' not in query:
             query['sort_on'] = 'getObjPositionInParent'
 
-        # Not used:
-        #show_inactive = getToolByName(
-        #    self.context, 'portal_membership').checkPermission(
-        #    'Access inactive portal content', self.context)
-
         # Provide batching hints to the catalog
         if batch:
             query['b_start'] = b_start
@@ -56,7 +51,7 @@ class SearchResults(BrowserView):
             return IContentListing([])
 
         catalog = getToolByName(self.context, 'portal_catalog')
-        query = self.ensureFriendlyTypes(query)
+        query = self._filter_types(query)
 
         # Provide batching hints to the catalog
         if batch:
@@ -68,21 +63,16 @@ class SearchResults(BrowserView):
             results = Batch(results, b_size, b_start, orphan=orphan)
         return IContentListing(results)
 
-    def ensureFriendlyTypes(self, query):
-        # ported from Plone's queryCatalog. It hurts to bring this one along.
-        # The fact that it is needed at all tells us that we currently abuse
-        # the concept of types in Plone
-        # please remove this one when it is no longer needed.
-
-        ploneUtils = getToolByName(self.context, 'plone_utils')
+    def _filter_types(self, query):
+        plone_utils = getToolByName(self.context, 'plone_utils')
         portal_type = query.get('portal_type', [])
         if not isinstance(portal_type, list):
             portal_type = [portal_type]
         Type = query.get('Type', [])
         if not isinstance(Type, list):
             Type = [Type]
-        typesList = portal_type + Type
-        if not typesList:
-            friendlyTypes = ploneUtils.getUserFriendlyTypes(typesList)
+        types_list = portal_type + Type
+        if not types_list:
+            friendlyTypes = plone_utils.getUserFriendlyTypes(types_list)
             query['portal_type'] = friendlyTypes
         return query
