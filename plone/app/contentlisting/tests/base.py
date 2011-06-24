@@ -3,8 +3,8 @@ import unittest2 as unittest
 from plone.app.testing import PloneSandboxLayer
 from plone.app.testing import PLONE_FIXTURE
 from plone.app.testing import TEST_USER_ID, setRoles
-from plone.app.testing import IntegrationTesting, FunctionalTesting
-from plone.testing.z2 import installProduct
+from plone.app.testing import FunctionalTesting
+from plone.app.testing import IntegrationTesting
 from Products.CMFCore.utils import getToolByName
 from zope.configuration import xmlconfig
 
@@ -20,8 +20,6 @@ class ContentListingLayer(PloneSandboxLayer):
                        plone.app.layout, context=configurationContext)
         xmlconfig.file('configure.zcml',
                        plone.app.contentlisting, context=configurationContext)
-        # Do we need the workaround for ZopeLite here? This seems unnecessary.
-        installProduct(app, 'Products.PythonScripts')
 
 
 CONTENTLISTING_FIXTURE = ContentListingLayer()
