@@ -68,11 +68,7 @@ class SearchResults(BrowserView):
         portal_type = query.get('portal_type', [])
         if not isinstance(portal_type, list):
             portal_type = [portal_type]
-        Type = query.get('Type', [])
-        if not isinstance(Type, list):
-            Type = [Type]
-        types_list = portal_type + Type
-        if not types_list:
-            friendlyTypes = plone_utils.getUserFriendlyTypes(types_list)
+        if not portal_type:
+            friendlyTypes = plone_utils.getUserFriendlyTypes(portal_type)
             query['portal_type'] = friendlyTypes
         return query
