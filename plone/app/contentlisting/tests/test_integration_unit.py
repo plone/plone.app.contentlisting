@@ -117,7 +117,8 @@ class TestIndividualCatalogContentItems(ContentlistingFunctionalTestCase):
         self.assertEqual(self.item.review_state(), wf)
 
     def test_item_Type(self):
-        self.assertEqual(self.item.Type(), 'Page')
+        self.assertEqual(self.item.Type(), u'Page')
+        self.assertEqual(self.item.Type().domain, u'plone')
 
     def test_appendViewAction(self):
         # checking that we append the view action to urls when needed
@@ -205,7 +206,8 @@ class TestIndividualRealContentItems(ContentlistingFunctionalTestCase):
         self.assertEqual(self.item.review_state(), wf)
 
     def test_item_Type(self):
-        self.assertEqual(self.item.Type(), 'Page')
+        self.assertEqual(self.item.Type(), u'Page')
+        self.assertEqual(self.item.Type().domain, u'plone')
 
     def test_item_ContentTypeClass(self):
         # checking the that we print nice strings for css class identifiers
@@ -295,12 +297,12 @@ class TestSearch(ContentlistingFunctionalTestCase):
     def test_search_for_pages(self):
         # this time we search for only pages. We should get 2 results
         searchresultslist = self.folder.restrictedTraverse('@@searchResults')(
-            Type="Page")
+            portal_type='Document')
         self.assertEqual(len(searchresultslist), 3)
 
     def test_search_with_batching(self):
         searchresultslist = self.folder.restrictedTraverse('@@searchResults')(
-            batch=True, b_size=1, Type="Page")
+            batch=True, b_size=1, portal_type="Document")
         self.failUnless(verifyObject(IContentListing, searchresultslist))
         self.assertEqual(len(searchresultslist), 1)
 
@@ -308,10 +310,10 @@ class TestSearch(ContentlistingFunctionalTestCase):
         # we make 2 queries, one starting at the second batch. Test to
         # make sure we don't get the same result from both queries
         searchresultslist = self.folder.restrictedTraverse('@@searchResults')(
-            batch=True, b_size=1, b_start=1, Type="Page")
+            batch=True, b_size=1, b_start=1, portal_type="Document")
         firstbatchitem = searchresultslist[0].getId()
         searchresultslist = self.folder.restrictedTraverse('@@searchResults')(
-            batch=True, b_size=1, b_start=2, Type="Page")
+            batch=True, b_size=1, b_start=2, portal_type="Document")
         secondbatchitem = searchresultslist[0].getId()
         self.assertNotEqual(firstbatchitem, secondbatchitem)
 

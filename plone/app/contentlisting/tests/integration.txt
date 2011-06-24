@@ -86,7 +86,7 @@ And we can use batching in it:
     1
 
 We can use filtering by catalog indexes:
-    >>> len(self.portal.restrictedTraverse('@@folderListing')(Type='Page'))
+    >>> len(self.portal.restrictedTraverse('@@folderListing')(portal_type='Document'))
     1
 
 ==================

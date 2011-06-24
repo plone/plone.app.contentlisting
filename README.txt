@@ -42,7 +42,7 @@ The context in which it is called defines which folder is listed.
 You can also use Python expressions to be able to pass parameters, like which
 content type or review state you want to use::
 
-  <li tal:repeat="item python:context.restrictedTraverse('@@folderListing')(Type='Page')">
+  <li tal:repeat="item python:context.restrictedTraverse('@@folderListing')(portal_typr='Document')">
 
 In Python a ContentListing of a particular folder's contents can be fetched
 by using::
@@ -65,7 +65,7 @@ To search outside a single folder::
 The searchResults view can take the same parameters as you would normally pass
 to the portal_catalog, for example::
 
-    >>> context.restrictedTraverse('@@searchResults')(Type='Page')
+    >>> context.restrictedTraverse('@@searchResults')(portal_type='Document')
 
 Consult the catalog documentation for further information on how to query the
 catalog for specifics.
@@ -162,9 +162,9 @@ Description() -
   describing the object. It should not contain HTML or similar.
 
 Type() -
-  Return the DCMI Type element (resource type). Result is a human-readable type
-  name for the resource (typically the Title of its type info object).
-  For example `Page`.
+  Return the DCMI Type element (resource type). Result is a human-readable
+  message id for the resource (typically the Title of its type info object).
+  For example `u'Page'` from the `plone` domain.
 
 listCreators() -
   Return a sequence of DCMI Creator elements (resource authors).
