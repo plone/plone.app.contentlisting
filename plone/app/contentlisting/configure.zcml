@@ -48,11 +48,4 @@
       for="Products.CMFCore.interfaces.IFolderish"
       />
 
-  <browser:page
-      name="searchResults"
-      class=".browser.SearchResults"
-      permission="zope2.View"
-      for="*"
-      />
-
 </configure>

@@ -54,22 +54,6 @@ getFolderContents script in Plone used to do. The old script has been left in
 place to not break compatibility for customizations and add-ons that might
 depend on its particular return values.
 
----------------
-Making a search
----------------
-
-To search outside a single folder::
-
-    >>> context.restrictedTraverse('@@searchResults')()
-
-The searchResults view can take the same parameters as you would normally pass
-to the portal_catalog, for example::
-
-    >>> context.restrictedTraverse('@@searchResults')(portal_type='Document')
-
-Consult the catalog documentation for further information on how to query the
-catalog for specifics.
-
 ------------------------------
 Rolling your own with adaption
 ------------------------------
