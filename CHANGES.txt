@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.0 - unreleased
+1.0 - 2011-07-19
 ----------------
 
 - Removed `searchResults` view and related code. Search is handled inside
