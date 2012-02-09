@@ -130,7 +130,7 @@ class TestIndividualCatalogContentItems(ContentlistingFunctionalTestCase):
 
     def test_item_ContentTypeClass(self):
         # checking the that we print nice strings for css class identifiers
-        self.assertEqual(self.item.ContentTypeClass(), 'contenttype-page')
+        self.assertEqual(self.item.ContentTypeClass(), 'contenttype-document')
 
     def test_item_Language(self):
         self.assertEqual(self.item.Language(), 'en')
@@ -211,7 +211,7 @@ class TestIndividualRealContentItems(ContentlistingFunctionalTestCase):
 
     def test_item_ContentTypeClass(self):
         # checking the that we print nice strings for css class identifiers
-        self.assertEqual(self.item.ContentTypeClass(), 'contenttype-page')
+        self.assertEqual(self.item.ContentTypeClass(), 'contenttype-document')
 
     def test_item_Language(self):
         self.assertEqual(self.item.Language(), 'en')
