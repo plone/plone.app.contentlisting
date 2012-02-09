@@ -114,6 +114,9 @@ class CatalogContentListingObject(BaseContentListingObject):
     def Type(self):
         return self._brain.Type
 
+    def PortalType(self):
+        return self._brain.portal_type
+
     def listCreators(self):
         """ """
         return self._brain.listCreators

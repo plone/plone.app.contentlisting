@@ -4,7 +4,10 @@ Changelog
 1.0.1 - Unreleased
 ------------------
 
-- Nothing changed yet.
+- Change ContentTypeClass to return contenttype-{portal_type} to match
+  what the rest of Plone expects. This fixes sprite based icons for 
+  pages/documents.
+  [gaudenz]
 
 
 1.0 - 2011-07-19

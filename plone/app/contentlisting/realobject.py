@@ -89,3 +89,7 @@ class RealContentListingObject(BaseContentListingObject):
 # Currently Type() returns different values depending on the data source being
 # a brain or a real object. Probably needed. Support for all the attributes
 # from the indexablemetadata wrappers.
+
+    def PortalType(self):
+        obj = self.getObject()
+        return obj.portal_type
