@@ -101,7 +101,7 @@ class BaseContentListingObject(object):
         """A normalised type name that identifies the object in listings.
         used for CSS styling"""
         return "contenttype-" + queryUtility(IIDNormalizer).normalize(
-            self.Type())
+            self.PortalType())
 
     def ReviewStateClass(self):
         """A normalised review state string for CSS styling use in listings."""
