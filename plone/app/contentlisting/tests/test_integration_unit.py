@@ -109,7 +109,7 @@ class TestIndividualCatalogContentItems(ContentlistingFunctionalTestCase):
             u'alt="Image" />')
 
     def test_item_getSize(self):
-        self.assertEqual(self.item.getSize(), '0 KB')
+        self.assertEqual(self.item.getSize().upper(), '0 KB')
 
     def test_item_reviewState(self):
         wftool = getToolByName(self.realitem, "portal_workflow")
