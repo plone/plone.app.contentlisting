@@ -82,8 +82,16 @@ We can even slice the new folderlisting
 
 And we can use batching in it:
 
-    >>> len(self.portal.restrictedTraverse('@@folderListing')(batch=True, b_size=1))
-    1
+    >>> [i.getURL() for i in self.portal.restrictedTraverse('@@folderListing')()]
+    ['http://nohost/plone/test-folder', 'http://nohost/plone/front-page', 'http://nohost/plone/news']
+    >>> [i.getURL() for i in self.portal.restrictedTraverse('@@folderListing')(batch=True, b_size=1)]
+    ['http://nohost/plone/test-folder']
+    >>> [i.getURL() for i in self.portal.restrictedTraverse('@@folderListing')(batch=True, b_start=1, b_size=1)]
+    ['http://nohost/plone/front-page']
+    >>> [i.getURL() for i in self.portal.restrictedTraverse('@@folderListing')(batch=True, b_start=2, b_size=1)]
+    ['http://nohost/plone/news']
+    >>> [i.getURL() for i in self.portal.restrictedTraverse('@@folderListing')(batch=True, b_start=1, b_size=2)]
+    ['http://nohost/plone/front-page', 'http://nohost/plone/news']
 
 We can use filtering by catalog indexes:
     >>> len(self.portal.restrictedTraverse('@@folderListing')(portal_type='Document'))

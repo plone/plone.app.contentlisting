@@ -109,7 +109,7 @@ class TestIndividualCatalogContentItems(ContentlistingFunctionalTestCase):
             u'alt="Image" />')
 
     def test_item_getSize(self):
-        self.assertEqual(self.item.getSize(), '0 KB')
+        self.assertEqual(self.item.getSize().upper(), '0 KB')
 
     def test_item_reviewState(self):
         wftool = getToolByName(self.realitem, "portal_workflow")
@@ -263,12 +263,14 @@ class TestFolderContents(ContentlistingFunctionalTestCase):
         folderlisting = self.folder.restrictedTraverse('@@folderListing')(
             batch=True, b_size=1)
         self.failUnless(folderlisting[0].getId() == new_id)
-        self.assertEqual(folderlisting.actual_result_count, 1)
+        self.assertEqual(len(folderlisting), 1)
+        self.assertEqual(folderlisting.actual_result_count, 2)
 
         folderlisting = self.folder.restrictedTraverse('@@folderListing')(
             batch=True, b_size=1, b_start=1)
         self.assertEqual(folderlisting[0].getId(), new_id2)
-        self.assertEqual(folderlisting.actual_result_count, 1)
+        self.assertEqual(len(folderlisting), 1)
+        self.assertEqual(folderlisting.actual_result_count, 2)
 
 
 def test_suite():

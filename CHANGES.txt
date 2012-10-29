@@ -4,7 +4,9 @@ Changelog
 1.0.3 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Whoever heard I liked batching was wrong. The Catalog results are
+  already batched, so don't batch them again.
+  [lentinj]
 
 
 1.0.2 (2012-10-15)
