@@ -263,12 +263,14 @@ class TestFolderContents(ContentlistingFunctionalTestCase):
         folderlisting = self.folder.restrictedTraverse('@@folderListing')(
             batch=True, b_size=1)
         self.failUnless(folderlisting[0].getId() == new_id)
-        self.assertEqual(folderlisting.actual_result_count, 1)
+        self.assertEqual(len(folderlisting), 1)
+        self.assertEqual(folderlisting.actual_result_count, 2)
 
         folderlisting = self.folder.restrictedTraverse('@@folderListing')(
             batch=True, b_size=1, b_start=1)
         self.assertEqual(folderlisting[0].getId(), new_id2)
-        self.assertEqual(folderlisting.actual_result_count, 1)
+        self.assertEqual(len(folderlisting), 1)
+        self.assertEqual(folderlisting.actual_result_count, 2)
 
 
 def test_suite():

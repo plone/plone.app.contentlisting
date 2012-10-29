@@ -1,7 +1,4 @@
 from Products.CMFCore.utils import getToolByName
-## PloneBatch currently has problems
-# from Products.CMFPlone.PloneBatch import Batch
-from ZTUtils.Batch import Batch
 from zope.publisher.browser import BrowserView
 
 from .interfaces import IContentListing
@@ -28,6 +25,4 @@ class FolderListing(BrowserView):
 
         catalog = getToolByName(self.context, 'portal_catalog')
         results = catalog(query)
-        if batch:
-            results = Batch(results, b_size, b_start, orphan=orphan)
         return IContentListing(results)
