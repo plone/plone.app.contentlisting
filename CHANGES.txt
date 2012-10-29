@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.0.3 (unreleased)
+1.0.3 (2012-10-29)
 ------------------
 
 - Whoever heard I liked batching was wrong. The Catalog results are
