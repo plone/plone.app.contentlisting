@@ -32,3 +32,9 @@ class IContentListingObject(IDublinCore):
 
     def review_state():
         """Workflow review state"""
+
+    def PortalType():
+        """Portal Type of the opject"""
+
+    def CroppedDescription():
+        """A cropped description"""
