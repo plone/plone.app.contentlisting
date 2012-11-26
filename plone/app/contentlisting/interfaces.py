@@ -38,3 +38,8 @@ class IContentListingObject(IDublinCore):
 
     def CroppedDescription():
         """A cropped description"""
+
+    def ContentTypeClass():
+        """The contenttype suitable as a css class name,
+           matching plone conventions
+        """
