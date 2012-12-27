@@ -256,8 +256,8 @@ class TestFolderContents(ContentlistingFunctionalTestCase):
         self.assertEqual(len(folderlisting), 1)
 
     def test_batching_folder_contents_2(self):
-        # call the generic folder contents browserview. Check that it makes
-        # the results a contentlisting, regardless of batching
+        # Call the generic folder contents browserview. Check that the
+        # result count is correct with batching.
         new_id = self.folder.invokeFactory('Document', 'mypage')
         new_id2 = self.folder.invokeFactory('Document', 'mypage2')
         folderlisting = self.folder.restrictedTraverse('@@folderListing')(
@@ -271,6 +271,38 @@ class TestFolderContents(ContentlistingFunctionalTestCase):
         self.assertEqual(folderlisting[0].getId(), new_id2)
         self.assertEqual(len(folderlisting), 1)
         self.assertEqual(folderlisting.actual_result_count, 2)
+
+    def test_batching_folder_contents_3(self):
+        # Call the generic folder contents browserview. Check that
+        # that the resulting object can be used for batching.  Note
+        # that using the batch properties in a template should not
+        # raise an Unauthorized error, but this is not checked here.
+        self.folder.invokeFactory('Document', 'mypage')
+        self.folder.invokeFactory('Document', 'mypage2')
+        folderlisting = self.folder.restrictedTraverse('@@folderListing')(
+            batch=True, b_size=1)
+        self.assertEqual(folderlisting.pagenumber, 1)
+        self.assertEqual(folderlisting.numpages, 2)
+        self.assertEqual(folderlisting.b_start_str, 'b_start')
+        # next and previous give a result set.  Maybe the test could
+        # be better, but we are mostly interested in checking that
+        # accessing these and the other properties does not give
+        # errors.
+        self.assertTrue(folderlisting.next)
+        self.assertFalse(folderlisting.previous)
+        self.assertTrue(folderlisting.navlist)
+        self.assertTrue(folderlisting.prevlist)
+        self.assertTrue(folderlisting.nextlist)
+        self.assertTrue(folderlisting.pageurl)
+        self.assertTrue(folderlisting.navurls)
+        self.assertTrue(folderlisting.prevurls)
+        self.assertTrue(folderlisting.nexturls)
+        self.assertTrue(folderlisting.leapback)
+        self.assertTrue(folderlisting.leapforward)
+
+        folderlisting = self.folder.restrictedTraverse('@@folderListing')(
+            batch=True, b_size=1, b_start=1)
+        self.assertEqual(folderlisting.pagenumber, 2)
 
 
 def test_suite():
