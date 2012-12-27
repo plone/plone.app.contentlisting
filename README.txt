@@ -44,6 +44,23 @@ content type or review state you want to use::
 
   <li tal:repeat="item python:context.restrictedTraverse('@@folderListing')(portal_type='Document')">
 
+Batching can be done like this::
+
+  <ul tal:define="
+      Batch python:modules['Products.CMFPlone'].Batch;
+      b_size python:int(request.get('b_size', 20));
+      b_start python:int(request.get('b_start', 0));
+      results python:context.restrictedTraverse('@@folderListing')(batch=True, b_size=b_size, b_start=b_start);
+      batch python:Batch(results, b_size, b_start);">
+    <li tal:repeat="item results"
+        tal:content="item/Title" />
+    <div metal:use-macro="context/batch_macros/macros/navigation" />
+  </ul>
+
+Note that you iterate directly over the results that you get from
+``@@folderListing``.  The definition of ``batch`` is only used in the
+``batch_macros`` call.
+
 In Python a ContentListing of a particular folder's contents can be fetched
 by using::
 
