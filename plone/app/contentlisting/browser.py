@@ -1,4 +1,5 @@
 from Products.CMFCore.utils import getToolByName
+from Products.CMFPlone.PloneBatch import Batch
 from zope.publisher.browser import BrowserView
 
 from .interfaces import IContentListing
@@ -25,4 +26,8 @@ class FolderListing(BrowserView):
 
         catalog = getToolByName(self.context, 'portal_catalog')
         results = catalog(query)
-        return IContentListing(results)
+        listing = IContentListing(results)
+        if batch:
+            listing = Batch(listing, size=b_size, start=b_start, orphan=orphan,
+                            **kw)
+        return listing
