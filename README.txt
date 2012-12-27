@@ -42,7 +42,7 @@ The context in which it is called defines which folder is listed.
 You can also use Python expressions to be able to pass parameters, like which
 content type or review state you want to use::
 
-  <li tal:repeat="item python:context.restrictedTraverse('@@folderListing')(portal_typr='Document')">
+  <li tal:repeat="item python:context.restrictedTraverse('@@folderListing')(portal_type='Document')">
 
 In Python a ContentListing of a particular folder's contents can be fetched
 by using::
