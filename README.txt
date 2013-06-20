@@ -125,11 +125,14 @@ getId() -
 getObject() -
   Returns the real object
 
+def getDataOrigin() -
+  The origin of the data for the object.
+
 getPath() -
   Path to the object, relative to the site root for example
   ``/artifacts/my-example-page``
 
-getURL()- 
+getURL()-
   Full url to the object, including the site root for example
   ``http://my.site.com/artifacts/my-example-page``
 
