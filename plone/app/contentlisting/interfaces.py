@@ -15,7 +15,7 @@ class IContentListingObject(IDublinCore):
     def getObject():
         """get the real object (may be expensive)"""
 
-    def getDataOrigin(self):
+    def getDataOrigin():
         """The origin of the data for the object."""
 
     def getPath():
