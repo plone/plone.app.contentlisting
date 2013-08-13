@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.0.5 (unreleased)
+1.0.5 (2013-08-13)
 ------------------
 
 - Add missing getDataOrigin method to interfaces.
