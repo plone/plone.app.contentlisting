@@ -80,7 +80,7 @@ class TestIndividualCatalogContentItems(ContentlistingFunctionalTestCase):
         # defer lookup to the brain"""
         self.assertEqual(self.item.absolute_url(), '')
         self.assertEqual(repr(self.item.getDataOrigin()),
-            '<ATDocument at /plone/test-folder/mypage>')
+            '<Document at /plone/test-folder/mypage>')
 
     def test_item_Title(self):
         self.assertEqual(self.item.Title(), 'My Page')
@@ -131,9 +131,6 @@ class TestIndividualCatalogContentItems(ContentlistingFunctionalTestCase):
     def test_item_ContentTypeClass(self):
         # checking the that we print nice strings for css class identifiers
         self.assertEqual(self.item.ContentTypeClass(), 'contenttype-document')
-
-    def test_item_Language(self):
-        self.assertEqual(self.item.Language(), 'en')
 
     def test_comparision(self):
         self.assertEqual(IContentListingObject(self.folder.mypage), self.item)
@@ -197,8 +194,8 @@ class TestIndividualRealContentItems(ContentlistingFunctionalTestCase):
             'Image', 'myimage', title='My Image', description='blah')
         self.item = IContentListingObject(self.folder.myimage)
         self.assertEqual(self.item.getIcon(),
-            u'<img width="16" height="16" src="http://nohost/plone/png.png" '
-            u'alt="Image" />')
+            u'<img width="16" height="16" src="http://nohost/plone/error_icon.png" '
+            u'alt="My Image" />')
 
     def test_item_reviewState(self):
         wftool = getToolByName(self.realitem, "portal_workflow")
@@ -212,9 +209,6 @@ class TestIndividualRealContentItems(ContentlistingFunctionalTestCase):
     def test_item_ContentTypeClass(self):
         # checking the that we print nice strings for css class identifiers
         self.assertEqual(self.item.ContentTypeClass(), 'contenttype-document')
-
-    def test_item_Language(self):
-        self.assertEqual(self.item.Language(), 'en')
 
     def test_item_uuid(self):
         uuid = self.item.uuid()
