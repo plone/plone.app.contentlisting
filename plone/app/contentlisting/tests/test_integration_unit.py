@@ -172,7 +172,7 @@ class TestIndividualRealContentItems(ContentlistingFunctionalTestCase):
         # defer lookup to the brain
         self.assertEqual(self.item.absolute_url(), '')
         self.assertEqual(repr(self.item.getDataOrigin()),
-            '<ATDocument at /plone/test-folder/mypage>')
+            '<Document at /plone/test-folder/mypage>')
 
     def test_item_Title(self):
         self.assertEqual(self.item.Title(), 'My Page')

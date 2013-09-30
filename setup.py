@@ -25,7 +25,10 @@ setup(name='plone.app.contentlisting',
           'plone.uuid',
       ],
       extras_require={
-        'test': ['plone.app.testing'],
+        'test': [
+            'plone.app.contenttypes',
+            'plone.app.testing',
+        ],
       },
       entry_points='''
       [z3c.autoinclude.plugin]

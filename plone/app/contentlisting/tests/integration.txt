@@ -55,7 +55,7 @@ returns the object.
 
     >>> dummy= listitem.absolute_url()
     >>> print(listitem.getDataOrigin())
-    <AT...>
+    <Folder at news>
 
 This item's origin is no longer a Brain, but the real object
 
@@ -161,7 +161,7 @@ A catalog object with a real object works
 
     >>> dummy= listitem.absolute_url()
     >>> print(listitem.getDataOrigin())
-    <AT...>
+    <Folder at news>
     >>> frontpage.isVisibleInNav()
     True
 
