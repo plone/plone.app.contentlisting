@@ -16,33 +16,33 @@ class TestSetup(ContentlistingFunctionalTestCase):
     def test_able_to_add_document(self):
         # just a dummy test to see that the basics are running
         new_id = self.folder.invokeFactory('Document', 'mypage')
-        self.assertEquals('mypage', new_id)
+        self.assertEqual('mypage', new_id)
 
     def test_simple_contentlisting(self):
         results = []
         listing = IContentListing(results)
         from plone.app.contentlisting.contentlisting import ContentListing
-        self.failUnless(isinstance(listing, ContentListing))
+        self.assertTrue(isinstance(listing, ContentListing))
 
     def test_making_contentlisting(self):
         results = self.catalog()
         listing = IContentListing(results)
         from plone.app.contentlisting.contentlisting import ContentListing
-        self.failUnless(isinstance(listing, ContentListing))
+        self.assertTrue(isinstance(listing, ContentListing))
 
     def test_making_contentlistingobjects(self):
         results = self.catalog()
         listing = IContentListing(results)
         from plone.app.contentlisting.catalog import \
             CatalogContentListingObject
-        self.failUnless(isinstance(listing[0], CatalogContentListingObject))
+        self.assertTrue(isinstance(listing[0], CatalogContentListingObject))
 
     def test_listing_interface(self):
-        self.failUnless(verifyObject(IContentListing,
+        self.assertTrue(verifyObject(IContentListing,
                                      IContentListing(self.catalog())))
 
     def test_listing_object_interface(self):
-        self.failUnless(verifyObject(IContentListingObject,
+        self.assertTrue(verifyObject(IContentListingObject,
                                      IContentListing(self.catalog())[0]))
 
 
@@ -72,7 +72,7 @@ class TestIndividualCatalogContentItems(ContentlistingFunctionalTestCase):
         # Asking for an attribute not in the contentlistingobject, should
         # defer lookup to the brain
         self.assertEqual(self.item.is_folderish, False)
-        self.failUnless(repr(self.item.getDataOrigin())[:35],
+        self.assertTrue(repr(self.item.getDataOrigin())[:35],
             '<Products.ZCatalog.Catalog.mybrains')
 
     def test_special_getattr_from_object(self):
@@ -138,7 +138,7 @@ class TestIndividualCatalogContentItems(ContentlistingFunctionalTestCase):
     def test_containment(self):
         # we can test containment for normal content objects against
         # contentlistings
-        self.failUnless(self.folder.mypage in
+        self.assertTrue(self.folder.mypage in
                         self.folder.restrictedTraverse('@@folderListing')())
 
 
@@ -238,7 +238,7 @@ class TestFolderContents(ContentlistingFunctionalTestCase):
         # the results a contentlisting, regardless of batching
         self.folder.invokeFactory('Document', 'mypage')
         folderlisting = self.folder.restrictedTraverse('@@folderListing')()
-        self.failUnless(verifyObject(IContentListing, folderlisting))
+        self.assertTrue(verifyObject(IContentListing, folderlisting))
 
     def test_batching_folder_contents(self):
         # call the generic folder contents browserview. Check that it makes
@@ -246,7 +246,7 @@ class TestFolderContents(ContentlistingFunctionalTestCase):
         self.folder.invokeFactory('Document', 'mypage')
         folderlisting = self.folder.restrictedTraverse('@@folderListing')(
             batch=True, b_size=1)
-        self.failUnless(verifyObject(IContentListing, folderlisting))
+        self.assertTrue(verifyObject(IContentListing, folderlisting))
         self.assertEqual(len(folderlisting), 1)
 
     def test_batching_folder_contents_2(self):
@@ -256,7 +256,7 @@ class TestFolderContents(ContentlistingFunctionalTestCase):
         new_id2 = self.folder.invokeFactory('Document', 'mypage2')
         folderlisting = self.folder.restrictedTraverse('@@folderListing')(
             batch=True, b_size=1)
-        self.failUnless(folderlisting[0].getId() == new_id)
+        self.assertTrue(folderlisting[0].getId() == new_id)
         self.assertEqual(len(folderlisting), 1)
         self.assertEqual(folderlisting.actual_result_count, 2)
 
