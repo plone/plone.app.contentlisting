@@ -15,15 +15,15 @@ according to predefined interfaces, regardless of what the source of the
 objects are. The integrator shouldn't have to care whether the list of objects
 came from the catalog, an ORM or they are the actual objects.
 
-==================================
+
 Making or getting a contentListing
-==================================
+----------------------------------
 
 The typical way to get a contentlisting is to call one of two built-in views:
 
---------------------------------
+
 Listing the contents of a folder
---------------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 In Page templates getting the contents of a folder is as simple as this::
 
@@ -71,9 +71,9 @@ getFolderContents script in Plone used to do. The old script has been left in
 place to not break compatibility for customizations and add-ons that might
 depend on its particular return values.
 
-------------------------------
+
 Rolling your own with adaption
-------------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 At the time of writing, all parts of Plone do not yet return 'contentlistings'
 when asked for lists of content. It was impossible to change this everywhere
@@ -89,9 +89,9 @@ To do this, you need to import and adapt::
     >>> print(contentlist)
     <plone.app.contentlisting.contentlisting.ContentListing object ...>
 
-================================================
+
 The contentListing, its properties and behaviors
-================================================
+------------------------------------------------
 
 Now, you no longer need to worry whether you have a bunch of catalog brains or
 the actual objects (or fake objects for that sake). As long as you have a
@@ -101,9 +101,9 @@ can expect from each item within it - a content listing object.
 The content listing is a normal iterator that we can loop over and do all sorts
 of stuff you normally can do with sequences.
 
-====================================================
+
 contentListingObjects, the items inside the sequence
-====================================================
+-----------------------------------------------------
 
 The `contentListingObjects` are wrapper objects, each representing a content
 object in the site. Their intention is to be predictable so you can always call
@@ -115,9 +115,9 @@ the object and the wrapper is not aware of it, it will silently fetch the real
 object and delegate the call to it. This means you can treat your objects as
 you would any other -- even writing to it.
 
---------------------------------
+
 Methods of contentlistingObjects
---------------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 getId() -
   Returns the object id in its container for example `my-example-page`.
