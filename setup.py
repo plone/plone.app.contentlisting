@@ -1,12 +1,20 @@
 from setuptools import setup, find_packages
 
+import os
+
+def read(*rnames):
+    return open(os.path.join(os.path.dirname(__file__), *rnames)).read()
+
 version = '1.1.0.dev0'
+
+long_description = \
+    read('docs', 'README.rst') + \
+    read('CHANGES.txt')
 
 setup(name='plone.app.contentlisting',
       version=version,
       description="Listing of content for the Plone CMS",
-      long_description=open("README.txt").read() + "\n" +
-                       open("CHANGES.txt").read(),
+      long_description=long_description,
       classifiers=[
         "Framework :: Plone",
         "Programming Language :: Python",
