@@ -4,7 +4,20 @@ Changelog
 1.1.0 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Use proper styleguide for headings.
+  [polyester]
+
+- Move README to /docs folder.
+  [polyester]
+
+- Replace deprecated test assert statements.
+  [tisto]
+
+- Removing language tests and fixing icon tests to get the correct images.
+  [bloodbare]
+
+- Use PLONE_APP_CONTENTTYPES fixture for Plone 5.
+  [tisto]
 
 
 1.0.5 (2013-08-13)
@@ -35,7 +48,7 @@ Changelog
 ------------------
 
 - Change ContentTypeClass to return contenttype-{portal_type} to match
-  what the rest of Plone expects. This fixes sprite based icons for 
+  what the rest of Plone expects. This fixes sprite based icons for
   pages/documents.
   [gaudenz]
 
