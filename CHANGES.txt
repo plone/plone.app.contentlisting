@@ -36,6 +36,9 @@ Changelog
 1.0.4 (2013-01-01)
 ------------------
 
+- Nothing changed.
+
+
 1.0.3 (2012-10-29)
 ------------------
 
@@ -47,7 +50,7 @@ Changelog
 1.0.2 (2012-10-15)
 ------------------
 
-- Nothing changed yet.
+- Nothing changed.
 
 
 1.0.1 (2012-04-15)
@@ -70,6 +73,7 @@ Changelog
   naming with `plone.uuid`.
   [hannosch]
 
+
 0.1b2 - 2011-04-15
 ------------------
 
@@ -81,6 +85,7 @@ Changelog
   amount of time.
   [lentinj]
 
+
 0.1b1 - 2011-04-15
 ------------------
 
@@ -90,6 +95,7 @@ Changelog
 
 - Add MANIFEST.in.
   [WouterVH]
+
 
 0.1a1 - 2011-03-02
 ------------------
