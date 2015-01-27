@@ -21,7 +21,7 @@ class IContentListingObject(IDublinCore):
     def getPath():
         """Path to the object, relative to the portal root"""
 
-    def getURL():
+    def getURL(relative=False):
         """Full url to the object, including the portal root"""
 
     def uuid():

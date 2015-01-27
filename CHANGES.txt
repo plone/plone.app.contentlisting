@@ -4,8 +4,8 @@ Changelog
 1.1.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
-
+- forward getURL's relative kw for contentlistings (plone4 compat)
+  [kiorky]
 
 1.1.0 (2014-04-16)
 ------------------
