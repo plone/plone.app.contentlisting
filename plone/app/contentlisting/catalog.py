@@ -73,8 +73,8 @@ class CatalogContentListingObject(BaseContentListingObject):
     def getPath(self):
         return self._brain.getPath()
 
-    def getURL(self):
-        return self._brain.getURL()
+    def getURL(self, relative=False):
+        return self._brain.getURL(relative=relative)
 
     def uuid(self):
         # content objects might have UID and might not.
