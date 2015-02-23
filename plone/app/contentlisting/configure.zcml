@@ -19,7 +19,7 @@
   <adapter
       factory=".contentlisting.ContentListing"
       for="list"
-  />
+      />
 
   <adapter
       factory=".contentlisting.ContentListing"

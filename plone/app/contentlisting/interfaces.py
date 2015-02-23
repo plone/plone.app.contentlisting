@@ -9,14 +9,14 @@ class IContentListing(IReadSequence):
 class IContentListingObject(IDublinCore):
     """Unified representation of content objects in listings"""
 
-    def getId():
-        """get the object id in its container"""
+    def getDataOrigin():
+        """The origin of the data for the object."""
 
     def getObject():
         """get the real object (may be expensive)"""
 
-    def getDataOrigin():
-        """The origin of the data for the object."""
+    def getId():
+        """get the object id in its container"""
 
     def getPath():
         """Path to the object, relative to the portal root"""
@@ -36,11 +36,53 @@ class IContentListingObject(IDublinCore):
     def review_state():
         """Workflow review state"""
 
-    def PortalType():
-        """Portal Type of the opject"""
+    def Title():
+        """Title"""
+
+    def Description():
+        """Description"""
 
     def CroppedDescription():
         """A cropped description"""
+
+    def Type():
+        """Type"""
+
+    def PortalType():
+        """Portal Type of the opject"""
+
+    def listCreators():
+        """List creators of the object"""
+
+    def getUserData(username):
+        """Get some data of a given user"""
+
+    def Creator():
+        """Creator of the object"""
+
+    def Author():
+        """Author of the object"""
+
+    def Subject():
+        """Subject(s) of the object"""
+
+    def Date():
+        """Date of the object"""
+
+    def CreationDate():
+        """Creation date of the object"""
+
+    def EffectiveDate():
+        """Date, when content will be shown in listings"""
+
+    def ExpirationDate():
+        """Date, when content will be removed from listings"""
+
+    def ModificationDate():
+        """Date, when object was last modified"""
+
+    def Language():
+        """Language of the object"""
 
     def ContentTypeClass():
         """The contenttype suitable as a css class name,
