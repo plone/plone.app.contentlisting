@@ -4,6 +4,9 @@ Changelog
 1.1.1 (unreleased)
 ------------------
 
+- Add remaining, implemented but missing IContentListing interface methods.
+  [thet]
+
 - forward getURL's relative kw for contentlistings (plone4 compat)
   [kiorky]
 
