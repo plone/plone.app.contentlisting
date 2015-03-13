@@ -8,7 +8,7 @@ def read(*rnames):
 version = '1.1.1.dev0'
 
 long_description = \
-    read('docs', 'README.rst') + \
+    read('docs', 'README.rst') + '\n\n' + \
     read('CHANGES.txt')
 
 setup(name='plone.app.contentlisting',
