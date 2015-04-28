@@ -3,88 +3,88 @@ from zope.interface.common.sequence import IReadSequence
 
 
 class IContentListing(IReadSequence):
-    """Sequence of IContentListingObjects"""
+    """Sequence of IContentListingObjects."""
 
 
 class IContentListingObject(IDublinCore):
-    """Unified representation of content objects in listings"""
+    """Unified representation of content objects in listings."""
 
     def getDataOrigin():
         """The origin of the data for the object."""
 
     def getObject():
-        """get the real object (may be expensive)"""
+        """get the real object (may be expensive)."""
 
     def getId():
-        """get the object id in its container"""
+        """get the object id in its container."""
 
     def getPath():
-        """Path to the object, relative to the portal root"""
+        """Path to the object, relative to the portal root."""
 
     def getURL(relative=False):
-        """Full url to the object, including the portal root"""
+        """Full url to the object, including the portal root."""
 
     def uuid():
-        """Unique content identifier"""
+        """Unique content identifier."""
 
     def getIcon():
-        """icon for the object"""
+        """icon for the object."""
 
     def getSize():
-        """size in bytes"""
+        """size in bytes."""
 
     def review_state():
-        """Workflow review state"""
+        """Workflow review state."""
 
     def Title():
-        """Title"""
+        """Title."""
 
     def Description():
-        """Description"""
+        """Description."""
 
     def CroppedDescription():
-        """A cropped description"""
+        """A cropped description."""
 
     def Type():
-        """Type"""
+        """Type title."""
 
     def PortalType():
-        """Portal Type of the opject"""
+        """Content type id of the object."""
 
     def listCreators():
-        """List creators of the object"""
+        """List creators of the object."""
 
     def getUserData(username):
-        """Get some data of a given user"""
+        """Get some data of a given user."""
 
     def Creator():
-        """Creator of the object"""
+        """Creator of the object."""
 
     def Author():
-        """Author of the object"""
+        """Author of the object."""
 
     def Subject():
-        """Subject(s) of the object"""
+        """Subject(s) of the object."""
 
     def Date():
-        """Date of the object"""
+        """Date of the object."""
 
     def CreationDate():
-        """Creation date of the object"""
+        """Creation date of the object."""
 
     def EffectiveDate():
-        """Date, when content will be shown in listings"""
+        """Date, when content will be shown in listings."""
 
     def ExpirationDate():
-        """Date, when content will be removed from listings"""
+        """Date, when content will be removed from listings."""
 
     def ModificationDate():
-        """Date, when object was last modified"""
+        """Date, when object was last modified."""
 
     def Language():
-        """Language of the object"""
+        """Language of the object."""
 
     def ContentTypeClass():
-        """The contenttype suitable as a css class name,
-           matching plone conventions
+        """The contenttype suitable as a css class name, matching Plone
+        conventions.
         """

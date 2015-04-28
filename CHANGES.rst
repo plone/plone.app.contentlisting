@@ -4,7 +4,8 @@ Changelog
 1.1.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Pep8.
+  [thet]
 
 
 1.1.1 (2015-03-13)

@@ -1,9 +1,8 @@
-from Products.CMFCore.utils import getToolByName
-from zope.interface.verify import verifyObject
-
-from .base import ContentlistingFunctionalTestCase
 from ..interfaces import IContentListing
 from ..interfaces import IContentListingObject
+from .base import ContentlistingFunctionalTestCase
+from Products.CMFCore.utils import getToolByName
+from zope.interface.verify import verifyObject
 
 
 class TestSetup(ContentlistingFunctionalTestCase):
@@ -56,12 +55,16 @@ class TestIndividualCatalogContentItems(ContentlistingFunctionalTestCase):
         self.realitem = self.folder.mypage
 
     def test_printing_item(self):
-        self.assertEqual(repr(self.item),
+        self.assertEqual(
+            repr(self.item),
             '<plone.app.contentlisting.catalog.CatalogContentListingObject '
-            'instance at /plone/test-folder/mypage>')
-        self.assertEqual(str(self.item),
+            'instance at /plone/test-folder/mypage>'
+        )
+        self.assertEqual(
+            str(self.item),
             '<plone.app.contentlisting.catalog.CatalogContentListingObject '
-            'instance at /plone/test-folder/mypage>')
+            'instance at /plone/test-folder/mypage>'
+        )
 
     def test_special_getattr_with_underscore(self):
         # looking up attributes starting with _ should always raise
@@ -72,15 +75,19 @@ class TestIndividualCatalogContentItems(ContentlistingFunctionalTestCase):
         # Asking for an attribute not in the contentlistingobject, should
         # defer lookup to the brain
         self.assertEqual(self.item.is_folderish, False)
-        self.assertTrue(repr(self.item.getDataOrigin())[:35],
-            '<Products.ZCatalog.Catalog.mybrains')
+        self.assertTrue(
+            repr(self.item.getDataOrigin())[:35],
+            '<Products.ZCatalog.Catalog.mybrains'
+        )
 
     def test_special_getattr_from_object(self):
         # Asking for an attribute not in the contentlistingobject, should
         # defer lookup to the brain"""
         self.assertEqual(self.item.absolute_url(), '')
-        self.assertEqual(repr(self.item.getDataOrigin()),
-            '<Document at /plone/test-folder/mypage>')
+        self.assertEqual(
+            repr(self.item.getDataOrigin()),
+            '<Document at /plone/test-folder/mypage>'
+        )
 
     def test_item_Title(self):
         self.assertEqual(self.item.Title(), 'My Page')
@@ -94,8 +101,10 @@ class TestIndividualCatalogContentItems(ContentlistingFunctionalTestCase):
         self.assertEqual(self.item.Creator(), 'test_user_1_')
 
     def test_item_getURL(self):
-        self.assertEqual(self.item.getURL(),
-            'http://nohost/plone/test-folder/mypage')
+        self.assertEqual(
+            self.item.getURL(),
+            'http://nohost/plone/test-folder/mypage'
+        )
         self.assertEqual(self.item.getURL(), self.realitem.absolute_url())
 
     def test_item_getIcon(self):
@@ -104,7 +113,8 @@ class TestIndividualCatalogContentItems(ContentlistingFunctionalTestCase):
         self.folder.invokeFactory(
             'Image', 'myimage', title='My Image', description='blah')
         self.item = self.folder.restrictedTraverse('@@folderListing')()[1]
-        self.assertEqual(self.item.getIcon(),
+        self.assertEqual(
+            self.item.getIcon(),
             u'<img width="16" height="16" src="http://nohost/plone/png.png" '
             u'alt="Image" />')
 
@@ -152,12 +162,16 @@ class TestIndividualRealContentItems(ContentlistingFunctionalTestCase):
         self.realitem = self.folder.mypage
 
     def test_printing_item(self):
-        self.assertEqual(repr(self.item),
+        self.assertEqual(
+            repr(self.item),
             '<plone.app.contentlisting.realobject.RealContentListingObject '
-            'instance at /plone/test-folder/mypage>')
-        self.assertEqual(str(self.item),
+            'instance at /plone/test-folder/mypage>'
+        )
+        self.assertEqual(
+            str(self.item),
             '<plone.app.contentlisting.realobject.RealContentListingObject '
-            'instance at /plone/test-folder/mypage>')
+            'instance at /plone/test-folder/mypage>'
+        )
 
     def test_special_getattr_with_underscore(self):
         # looking up attributes starting with _ should always raise
@@ -169,7 +183,7 @@ class TestIndividualRealContentItems(ContentlistingFunctionalTestCase):
         # defer lookup to the brain
         self.assertEqual(self.item.absolute_url(), '')
         self.assertEqual(repr(self.item.getDataOrigin()),
-            '<Document at /plone/test-folder/mypage>')
+                         '<Document at /plone/test-folder/mypage>')
 
     def test_item_Title(self):
         self.assertEqual(self.item.Title(), 'My Page')
@@ -184,7 +198,7 @@ class TestIndividualRealContentItems(ContentlistingFunctionalTestCase):
 
     def test_item_getURL(self):
         self.assertEqual(self.item.getURL(),
-            'http://nohost/plone/test-folder/mypage')
+                         'http://nohost/plone/test-folder/mypage')
         self.assertEqual(self.item.getURL(), self.realitem.absolute_url())
 
     def test_item_getIcon(self):
@@ -193,9 +207,11 @@ class TestIndividualRealContentItems(ContentlistingFunctionalTestCase):
         self.folder.invokeFactory(
             'Image', 'myimage', title='My Image', description='blah')
         self.item = IContentListingObject(self.folder.myimage)
-        self.assertEqual(self.item.getIcon(),
-            u'<img width="16" height="16" src="http://nohost/plone/error_icon.png" '
-            u'alt="My Image" />')
+        self.assertEqual(
+            self.item.getIcon(),
+            u'<img width="16" height="16" src="http://nohost/plone/error_icon.png" '  # noqa
+            u'alt="My Image" />'
+        )
 
     def test_item_reviewState(self):
         wftool = getToolByName(self.realitem, "portal_workflow")

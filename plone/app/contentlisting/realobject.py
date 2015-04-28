@@ -1,17 +1,17 @@
-from Acquisition import aq_base
-from Acquisition import aq_get
-from plone.app.layout.icons.interfaces import IContentIcon
-from plone.uuid.interfaces import IUUID
-from Products.CMFCore.utils import getToolByName
-from zope.component import queryMultiAdapter
-from zope import interface
-
 from .contentlisting import BaseContentListingObject
 from .interfaces import IContentListingObject
+from Acquisition import aq_base
+from Acquisition import aq_get
+from Products.CMFCore.utils import getToolByName
+from plone.app.layout.icons.interfaces import IContentIcon
+from plone.uuid.interfaces import IUUID
+from zope import interface
+from zope.component import queryMultiAdapter
 
 
 class RealContentListingObject(BaseContentListingObject):
-    """A content object representation wrapping a real content object"""
+    """A content object representation wrapping a real content object.
+    """
 
     interface.implements(IContentListingObject)
 
@@ -20,9 +20,10 @@ class RealContentListingObject(BaseContentListingObject):
         self.request = aq_get(obj, 'REQUEST')
 
     def __repr__(self):
-        return "<plone.app.contentlisting.realobject." + \
-               "RealContentListingObject instance at %s>" % (
-            self.getPath(), )
+        return "<plone.app.contentlisting.realobject."\
+            "RealContentListingObject instance at {0}>".format(
+                self.getPath()
+            )
 
     __str__ = __repr__
 
@@ -77,7 +78,7 @@ class RealContentListingObject(BaseContentListingObject):
         return wftool.getInfoFor(obj, 'review_state')
 
     def Type(self):
-        """Dublin Core element - Object type"""
+        """Dublin Core element - Object type."""
         obj = self.getObject()
         typestool = getToolByName(obj, 'portal_types')
         ti = typestool.getTypeInfo(obj)

@@ -1,4 +1,3 @@
-===========
 Basic usage
 ===========
 
@@ -97,7 +96,7 @@ We can use filtering by catalog indexes:
     >>> len(self.portal.restrictedTraverse('@@folderListing')(portal_type='Document'))
     1
 
-==================
+
 Append View Action
 ==================
 
@@ -134,7 +133,7 @@ And turn it off again
     >>> realfrontpage.appendViewAction()
     ''
 
-========================
+
 Visibility in Navigation
 ========================
 

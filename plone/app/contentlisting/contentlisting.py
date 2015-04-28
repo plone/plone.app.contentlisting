@@ -1,13 +1,13 @@
-from plone.i18n.normalizer.interfaces import IIDNormalizer
+from .interfaces import IContentListing
+from .interfaces import IContentListingObject
 from Products.CMFCore.utils import getToolByName
-from zope.component import queryUtility
+from plone.i18n.normalizer.interfaces import IIDNormalizer
 from zope import interface
-
-from .interfaces import IContentListing, IContentListingObject
+from zope.component import queryUtility
 
 
 class ContentListing(object):
-    """ An IContentListing implementation based on sequences of objects"""
+    """An IContentListing implementation based on sequences of objects."""
     interface.implements(IContentListing)
 
     def __init__(self, sequence):
@@ -19,8 +19,8 @@ class ContentListing(object):
         return IContentListingObject(self._basesequence[index])
 
     def __len__(self):
-        """ length of the resultset is equal to the length of the underlying
-            sequence
+        """Length of the resultset is equal to the length of the underlying
+        sequence.
         """
         return len(self._basesequence)
 
@@ -30,8 +30,9 @@ class ContentListing(object):
         return getattr(bs, 'actual_result_count', len(bs))
 
     def __iter__(self):
-        """ let the sequence be iterable and whenever we look at an object,
-            it should be a ContentListingObject"""
+        """Let the sequence be iterable and whenever we look at an object, it
+        should be a ContentListingObject.
+        """
         for obj in self._basesequence:
             yield IContentListingObject(obj)
 
@@ -88,8 +89,9 @@ class ContentListing(object):
 
 
 class BaseContentListingObject(object):
-    """A baseclass for the different types of contentlistingobjects
-        To avoid duplication of the stuff that is not implementation-specific
+    """A baseclass for the different types of contentlistingobjects.
+
+    To avoid duplication of the stuff that is not implementation-specific.
     """
 
     def __eq__(self, other):
@@ -104,13 +106,15 @@ class BaseContentListingObject(object):
             self.PortalType())
 
     def ReviewStateClass(self):
-        """A normalised review state string for CSS styling use in listings."""
+        """A normalised review state string for CSS styling use in listings.
+        """
         return "state-" + queryUtility(IIDNormalizer).normalize(
             self.review_state())
 
     def appendViewAction(self):
-        """decide whether to produce a string /view to append to links
-        in results listings"""
+        """Decide whether to produce a string /view to append to links in
+        results listings.
+        """
         try:
             ttool = getToolByName(self.getDataOrigin(), 'portal_properties')
             types = ttool.site_properties.typesUseViewActionInListings
@@ -121,11 +125,18 @@ class BaseContentListingObject(object):
         return ''
 
     def isVisibleInNav(self):
-        """true iff this item should be visible in navigation trees"""
-        if hasattr(self,'exclude_from_nav') and (self.exclude_from_nav() if callable(self.exclude_from_nav) else self.exclude_from_nav):
+        """True, if this item should be visible in navigation trees.
+        """
+        if hasattr(self, 'exclude_from_nav') and (
+                self.exclude_from_nav()
+                if callable(self.exclude_from_nav)
+                else self.exclude_from_nav
+        ):
             return False
-        portal_properties = getToolByName(self.getDataOrigin(), 'portal_properties')
+        portal_properties = getToolByName(self.getDataOrigin(), 'portal_properties')  # noqa
         navtree_properties = getattr(portal_properties, 'navtree_properties')
-        if self.portal_type in list(navtree_properties.metaTypesNotToList): return False
-        if self.id in list(navtree_properties.idsNotToList): return False
+        if self.portal_type in list(navtree_properties.metaTypesNotToList):
+            return False
+        if self.id in list(navtree_properties.idsNotToList):
+            return False
         return True
