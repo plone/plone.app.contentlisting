@@ -22,27 +22,38 @@ Making or getting a contentListing
 The typical way to get a contentlisting is to call one of two built-in views:
 
 
-Listing the contents of a folder
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Listing the contents of a Folder or Collection
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-In Page templates getting the contents of a folder is as simple as this::
+In Page templates getting the contents of a folder or the results of a
+collection is as simple as this::
 
-  context/@@folderListing
+    context/@@contentlisting
 
 Every template-writer's dream ;)
+
+.. note::
+
+    In previous versions there was only support to list the contents of a
+    folder with ``context/@@folderListing``. There was no collection support.
+    The ``@@folderListing`` view is kept for compatibility, but we encourage
+    you to use the ``@@contentlisting`` instead.
+    
+
 
 A real example of listing the titles of the content objects of a folder::
 
   <ul>
-    <li tal:repeat="item context/@@folderListing" tal:content="item/Title"/>
+    <li tal:repeat="item context/@@contentlisting" tal:content="item/Title"/>
   </ul>
 
-The context in which it is called defines which folder is listed.
+The context in which it is called defines which folder is listed or which
+collection results are queried.
 
 You can also use Python expressions to be able to pass parameters, like which
 content type or review state you want to use::
 
-  <li tal:repeat="item python:context.restrictedTraverse('@@folderListing')(portal_type='Document')">
+  <li tal:repeat="item python:context.restrictedTraverse('@@contentlisting')(portal_type='Document')">
 
 Batching can be done like this::
 
@@ -50,7 +61,7 @@ Batching can be done like this::
       Batch python:modules['Products.CMFPlone'].Batch;
       b_size python:int(request.get('b_size', 20));
       b_start python:int(request.get('b_start', 0));
-      results python:context.restrictedTraverse('@@folderListing')(batch=True, b_size=b_size, b_start=b_start);
+      results python:context.restrictedTraverse('@@contentlisting')(batch=True, b_size=b_size, b_start=b_start);
       batch python:Batch(results, b_size, b_start);">
     <li tal:repeat="item results"
         tal:content="item/Title" />
@@ -58,15 +69,19 @@ Batching can be done like this::
   </ul>
 
 Note that you iterate directly over the results that you get from
-``@@folderListing``.  The definition of ``batch`` is only used in the
+``@@contentlisting``.  The definition of ``batch`` is only used in the
 ``batch_macros`` call.
 
 In Python a ContentListing of a particular folder's contents can be fetched
 by using::
 
-    >>> path.to.your.folder.restrictedTraverse('@@folderListing')()
+    >>> path.to.your.folder.restrictedTraverse('@@contentlisting')()
 
-The folderListing view called above implements all the logic the old
+Exactly the same for collections::
+
+    >>> path.to.your.collection.restrictedTraverse('@@contentlisting')()
+
+The contentlisting view called above implements all the logic the old
 getFolderContents script in Plone used to do. The old script has been left in
 place to not break compatibility for customizations and add-ons that might
 depend on its particular return values.

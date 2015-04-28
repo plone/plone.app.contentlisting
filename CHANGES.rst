@@ -1,8 +1,13 @@
 Changelog
 =========
 
-1.1.2 (unreleased)
+1.2 (unreleased)
 ------------------
+
+- Introduce ``@@contentlisting`` view, which is also supports Collections from
+  plone.app.contenttypes including filtering of results.
+  Deprecate ``@@folderListing``, which is kept for BBB compatibility.
+  [thet]
 
 - Pep8.
   [thet]

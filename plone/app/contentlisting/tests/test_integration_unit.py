@@ -2,6 +2,9 @@ from ..interfaces import IContentListing
 from ..interfaces import IContentListingObject
 from .base import ContentlistingFunctionalTestCase
 from Products.CMFCore.utils import getToolByName
+from plone.app.testing import TEST_USER_ID
+from plone.app.testing import setRoles
+from plone.batching.interfaces import IBatch
 from zope.interface.verify import verifyObject
 
 
@@ -135,7 +138,7 @@ class TestIndividualCatalogContentItems(ContentlistingFunctionalTestCase):
         self.assertEqual(self.item.appendViewAction(), '')
         self.folder.invokeFactory(
             'Image', 'myimage', title='My Image', description='blah')
-        self.item = self.folder.restrictedTraverse('@@folderListing')()[1]
+        self.item = self.folder.restrictedTraverse('@@contentlisting')()[1]
         self.assertEqual(self.item.appendViewAction(), '/view')
 
     def test_item_ContentTypeClass(self):
@@ -149,7 +152,7 @@ class TestIndividualCatalogContentItems(ContentlistingFunctionalTestCase):
         # we can test containment for normal content objects against
         # contentlistings
         self.assertTrue(self.folder.mypage in
-                        self.folder.restrictedTraverse('@@folderListing')())
+                        self.folder.restrictedTraverse('@@contentlisting')())
 
 
 class TestIndividualRealContentItems(ContentlistingFunctionalTestCase):
@@ -238,49 +241,134 @@ class TestFolderContents(ContentlistingFunctionalTestCase):
     """
 
     def test_empty_folder_contents(self):
-        folderlisting = self.folder.restrictedTraverse('@@folderListing')()
-        self.assertEqual(len(folderlisting), 0)
-        self.assertEqual(folderlisting.actual_result_count, 0)
+        contentlisting = self.folder.restrictedTraverse('@@contentlisting')()
+        self.assertEqual(len(contentlisting), 0)
+        self.assertEqual(contentlisting.actual_result_count, 0)
 
     def test_item_in_folder_contents(self):
         # adding a new page, adds to the length of folder contents
         self.folder.invokeFactory('Document', 'mypage')
-        folderlisting = self.folder.restrictedTraverse('@@folderListing')()
-        self.assertEqual(len(folderlisting), 1)
-        self.assertEqual(folderlisting.actual_result_count, 1)
+        contentlisting = self.folder.restrictedTraverse('@@contentlisting')()
+        self.assertEqual(len(contentlisting), 1)
+        self.assertEqual(contentlisting.actual_result_count, 1)
 
     def test_folder_contents(self):
         # call the generic folder contents browserview. Check that it makes
         # the results a contentlisting, regardless of batching
         self.folder.invokeFactory('Document', 'mypage')
-        folderlisting = self.folder.restrictedTraverse('@@folderListing')()
-        self.assertTrue(verifyObject(IContentListing, folderlisting))
+        contentlisting = self.folder.restrictedTraverse('@@contentlisting')()
+        self.assertTrue(verifyObject(IContentListing, contentlisting))
 
     def test_batching_folder_contents(self):
         # call the generic folder contents browserview. Check that it makes
         # the results a contentlisting, regardless of batching
         self.folder.invokeFactory('Document', 'mypage')
-        folderlisting = self.folder.restrictedTraverse('@@folderListing')(
+        contentlisting = self.folder.restrictedTraverse('@@contentlisting')(
             batch=True, b_size=1)
-        self.assertTrue(verifyObject(IContentListing, folderlisting))
-        self.assertEqual(len(folderlisting), 1)
+        self.assertTrue(verifyObject(IContentListing, contentlisting))
+        self.assertEqual(len(contentlisting), 1)
 
     def test_batching_folder_contents_2(self):
         # call the generic folder contents browserview. Check that it makes
         # the results a contentlisting, regardless of batching
         new_id = self.folder.invokeFactory('Document', 'mypage')
         new_id2 = self.folder.invokeFactory('Document', 'mypage2')
-        folderlisting = self.folder.restrictedTraverse('@@folderListing')(
+        contentlisting = self.folder.restrictedTraverse('@@contentlisting')(
             batch=True, b_size=1)
-        self.assertTrue(folderlisting[0].getId() == new_id)
-        self.assertEqual(len(folderlisting), 1)
-        self.assertEqual(folderlisting.actual_result_count, 2)
+        self.assertTrue(contentlisting[0].getId() == new_id)
+        self.assertEqual(len(contentlisting), 1)
+        self.assertEqual(contentlisting.actual_result_count, 2)
 
-        folderlisting = self.folder.restrictedTraverse('@@folderListing')(
+        contentlisting = self.folder.restrictedTraverse('@@contentlisting')(
             batch=True, b_size=1, b_start=1)
-        self.assertEqual(folderlisting[0].getId(), new_id2)
-        self.assertEqual(len(folderlisting), 1)
-        self.assertEqual(folderlisting.actual_result_count, 2)
+        self.assertEqual(contentlisting[0].getId(), new_id2)
+        self.assertEqual(len(contentlisting), 1)
+        self.assertEqual(contentlisting.actual_result_count, 2)
+
+
+class TestCollectionResults(ContentlistingFunctionalTestCase):
+    """Test, if the @@contentlisting view also works for Collections.
+    """
+
+    def setUp(self):
+        super(TestCollectionResults, self).setUp()
+        setRoles(self.portal, TEST_USER_ID, ['Manager'])
+        self.portal.invokeFactory('Collection', 'collection', title=u'Col')
+        collection = self.portal.collection
+        collection.query = [
+            {'i': 'portal_type',
+             'o': 'plone.app.querystring.operation.selection.is',
+             'v': ['Event', 'Event']
+             },
+        ]
+        collection.reindexObject()
+        self.col = collection
+
+    def test_collection_results_is_contentlisting(self):
+        # call the generic contentlisting view. Check that it makes results
+        # a contentlisting, regardless of batching
+        self.folder.invokeFactory('Event', 'myevent')
+        contentlisting = self.col.restrictedTraverse('@@contentlisting')()
+
+        self.assertTrue(verifyObject(IContentListing, contentlisting))
+
+    def test_filtering_collection_results_to_empty(self):
+        contentlisting = self.col.restrictedTraverse('@@contentlisting')(
+            portal_type='NotExistent'
+        )
+
+        self.assertEqual(len(contentlisting), 0)
+        self.assertEqual(contentlisting.actual_result_count, 0)
+
+    def test_filtering_collection_results_to_news_items(self):
+        self.folder.invokeFactory('Link', 'mylink')
+        contentlisting = self.col.restrictedTraverse('@@contentlisting')(
+            portal_type='Link'
+        )
+
+        self.assertEqual(len(contentlisting), 1)
+        self.assertEqual(contentlisting.actual_result_count, 1)
+        self.assertEqual(contentlisting[0].portal_type, 'Link')
+
+    def test_item_in_collection_results(self):
+        self.folder.invokeFactory('Event', 'myevent')
+        contentlisting = self.col.restrictedTraverse('@@contentlisting')()
+
+        self.assertEqual(len(contentlisting), 1)
+        self.assertEqual(contentlisting.actual_result_count, 1)
+
+    def test_batching_collection_results(self):
+        # call the contentlisting view. Check that it makes
+        # the results a contentlisting, regardless of batching
+        self.folder.invokeFactory('Event', 'myevent')
+        contentlisting = self.col.restrictedTraverse('@@contentlisting')(
+            batch=True, b_size=1)
+
+        # In case of Collections, the result is a plone.batching object
+        self.assertTrue(IBatch.providedBy(contentlisting))
+        self.assertTrue(verifyObject(IContentListingObject, contentlisting[0]))
+        self.assertEqual(len(contentlisting), 1)
+
+    def test_batching_collection_results_2(self):
+        # call the contentlisting view. Check that it makes
+        # the results a contentlisting, regardless of batching
+        new_id = self.folder.invokeFactory('Event', 'myevent')
+        new_id2 = self.folder.invokeFactory('Event', 'myevent2')
+        contentlisting = self.col.restrictedTraverse('@@contentlisting')(
+            batch=True, b_size=1)
+
+        self.assertTrue(contentlisting[0].getId() == new_id)
+        self.assertEqual(contentlisting.items_on_page, 1)
+        self.assertEqual(len(contentlisting), 2)
+        self.assertEqual(contentlisting.has_next, True)
+
+        contentlisting = self.col.restrictedTraverse('@@contentlisting')(
+            batch=True, b_size=1, b_start=1)
+
+        self.assertEqual(contentlisting[0].getId(), new_id2)
+        self.assertEqual(contentlisting.items_on_page, 1)
+        self.assertEqual(len(contentlisting), 2)
+        self.assertEqual(contentlisting.has_next, False)
 
 
 def test_suite():
@@ -290,4 +378,5 @@ def test_suite():
     suite.addTest(unittest.makeSuite(TestIndividualCatalogContentItems))
     suite.addTest(unittest.makeSuite(TestIndividualRealContentItems))
     suite.addTest(unittest.makeSuite(TestFolderContents))
+    suite.addTest(unittest.makeSuite(TestCollectionResults))
     return suite
