@@ -2,7 +2,7 @@ Basic usage
 ===========
 
 The idea behind plone.app.contentlisting is to have a unified way of listing
-Plone content whenever needed, whether in folderlistings, collections,
+Plone content whenever needed, whether in contentlistings, collections,
 portlets or search results.
 
 It should be simple to use for new developers and integrators. The core concept
@@ -64,36 +64,36 @@ This item's origin is no longer a Brain, but the real object
 For user and integrator convenience we also include a couple of handy
 browser views to get to these listings.
 
-    >>> folderlisting = self.portal.restrictedTraverse('@@folderListing')()
-    >>> print(folderlisting)
+    >>> contentlisting = self.portal.restrictedTraverse('@@contentlisting')()
+    >>> print(contentlisting)
     <plone.app.contentlisting.contentlisting.ContentListing object ...
 
-    >>> len(folderlisting)
+    >>> len(contentlisting)
     3
 
-We can even slice the new folderlisting
+We can even slice the new contentlisting
 
-    >>> len (folderlisting[2:4])
+    >>> len (contentlisting[2:4])
     1
 
-    >>> len(self.portal.restrictedTraverse('news/@@folderListing')())
+    >>> len(self.portal.restrictedTraverse('news/@@contentlisting')())
     1
 
 And we can use batching in it:
 
-    >>> [i.getURL() for i in self.portal.restrictedTraverse('@@folderListing')()]
+    >>> [i.getURL() for i in self.portal.restrictedTraverse('@@contentlisting')()]
     ['http://nohost/plone/test-folder', 'http://nohost/plone/front-page', 'http://nohost/plone/news']
-    >>> [i.getURL() for i in self.portal.restrictedTraverse('@@folderListing')(batch=True, b_size=1)]
+    >>> [i.getURL() for i in self.portal.restrictedTraverse('@@contentlisting')(batch=True, b_size=1)]
     ['http://nohost/plone/test-folder']
-    >>> [i.getURL() for i in self.portal.restrictedTraverse('@@folderListing')(batch=True, b_start=1, b_size=1)]
+    >>> [i.getURL() for i in self.portal.restrictedTraverse('@@contentlisting')(batch=True, b_start=1, b_size=1)]
     ['http://nohost/plone/front-page']
-    >>> [i.getURL() for i in self.portal.restrictedTraverse('@@folderListing')(batch=True, b_start=2, b_size=1)]
+    >>> [i.getURL() for i in self.portal.restrictedTraverse('@@contentlisting')(batch=True, b_start=2, b_size=1)]
     ['http://nohost/plone/news']
-    >>> [i.getURL() for i in self.portal.restrictedTraverse('@@folderListing')(batch=True, b_start=1, b_size=2)]
+    >>> [i.getURL() for i in self.portal.restrictedTraverse('@@contentlisting')(batch=True, b_start=1, b_size=2)]
     ['http://nohost/plone/front-page', 'http://nohost/plone/news']
 
 We can use filtering by catalog indexes:
-    >>> len(self.portal.restrictedTraverse('@@folderListing')(portal_type='Document'))
+    >>> len(self.portal.restrictedTraverse('@@contentlisting')(portal_type='Document'))
     1
 
 
@@ -102,10 +102,10 @@ Append View Action
 
 Some types may require '/view' appended to their URLs. Currently these don't
 
-    >>> frontpage = self.portal.restrictedTraverse('@@folderListing')(id='front-page')[0]
+    >>> frontpage = self.portal.restrictedTraverse('@@contentlisting')(id='front-page')[0]
     >>> frontpage.appendViewAction()
     ''
-    >>> news = self.portal.restrictedTraverse('@@folderListing')(id='news')[0]
+    >>> news = self.portal.restrictedTraverse('@@contentlisting')(id='news')[0]
     >>> news.appendViewAction()
     ''
     >>> realfrontpage = IContentListingObject(self.portal['front-page'])
@@ -139,11 +139,11 @@ Visibility in Navigation
 
 Items by default are visible in navigation
 
-    >>> frontpage = self.portal.restrictedTraverse('@@folderListing')(id='front-page')[0]
+    >>> frontpage = self.portal.restrictedTraverse('@@contentlisting')(id='front-page')[0]
     >>> frontpage.isVisibleInNav()
     True
 
-    >>> news = self.portal.restrictedTraverse('@@folderListing')(id='news')[0]
+    >>> news = self.portal.restrictedTraverse('@@contentlisting')(id='news')[0]
     >>> news.isVisibleInNav()
     True
 
@@ -181,7 +181,7 @@ way is the exclude_from_nav property being true
 
 This will be indexed, so an object isn't necessary to check this
 
-    >>> frontpage = self.portal.restrictedTraverse('@@folderListing')(id='front-page')[0]
+    >>> frontpage = self.portal.restrictedTraverse('@@contentlisting')(id='front-page')[0]
     >>> frontpage.isVisibleInNav()
     False
     >>> print(frontpage.getDataOrigin())
@@ -200,7 +200,7 @@ We can also turn it off again.
     >>> frontpage_object.exclude_from_nav = False
     >>> frontpage_object.reindexObject()
 
-    >>> frontpage = self.portal.restrictedTraverse('@@folderListing')(id='front-page')[0]
+    >>> frontpage = self.portal.restrictedTraverse('@@contentlisting')(id='front-page')[0]
     >>> frontpage.isVisibleInNav()
     True
 

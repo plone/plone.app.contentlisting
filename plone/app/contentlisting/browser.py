@@ -26,3 +26,22 @@ class FolderListing(BrowserView):
         catalog = getToolByName(self.context, 'portal_catalog')
         results = catalog(query)
         return IContentListing(results)
+
+
+class ContentListingCollection(BrowserView):
+
+    def __call__(self, batch=False, b_size=20, b_start=0, **kw):
+
+        if 'orphan' in kw:
+            # At the moment, orphan keyword is not supported by
+            # plone.app.contenttypes Collection behavior, nor by
+            # plone.app.querystring's querybuilder.
+            del kw['orphan']
+
+        res = self.context.results(
+            batch=batch,
+            b_size=b_size,
+            b_start=b_start,
+            custom_query=kw
+        )
+        return res
