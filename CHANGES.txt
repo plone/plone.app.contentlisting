@@ -5,7 +5,8 @@ Changelog
 ------------------
 
 - Introduce ``@@contentlisting`` view, which is also supports Collections from
-  plone.app.contenttypes including filtering of results.
+  plone.app.contenttypes including filtering of results. This gives us a
+  unified interface for listing content from Folders or Collections.
   Deprecate ``@@folderListing``, which is kept for BBB compatibility.
   [thet]
 
