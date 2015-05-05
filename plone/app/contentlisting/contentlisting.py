@@ -133,10 +133,24 @@ class BaseContentListingObject(object):
                 else self.exclude_from_nav
         ):
             return False
-        portal_properties = getToolByName(self.getDataOrigin(), 'portal_properties')  # noqa
-        navtree_properties = getattr(portal_properties, 'navtree_properties')
-        if self.portal_type in list(navtree_properties.metaTypesNotToList):
+
+        from plone.registry.interfaces import IRegistry
+        from zope.component import getUtility
+        registry = getUtility(IRegistry)
+        from Products.CMFPlone.interfaces import INavigationSchema
+        navigation_settings = registry.forInterface(
+            INavigationSchema,
+            prefix='plone'
+        )
+        if self.portal_type not in navigation_settings.displayed_types:
             return False
+
+        portal_properties = getToolByName(
+            self.getDataOrigin(),
+            'portal_properties'
+        )
+        navtree_properties = getattr(portal_properties, 'navtree_properties')
+
         if self.id in list(navtree_properties.idsNotToList):
             return False
         return True

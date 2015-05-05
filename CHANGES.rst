@@ -4,7 +4,10 @@ Changelog
 1.1.3 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Make isVisibleInNav method read navigation displayed types settings from
+  plone.app.registry instead of portal properties. This fixes
+  https://github.com/plone/Products.CMFPlone/issues/454.
+  [timo]
 
 
 1.1.2 (2015-05-05)
