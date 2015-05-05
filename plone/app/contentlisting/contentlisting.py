@@ -1,9 +1,12 @@
 from .interfaces import IContentListing
 from .interfaces import IContentListingObject
 from Products.CMFCore.utils import getToolByName
+from Products.CMFPlone.interfaces import INavigationSchema
 from plone.i18n.normalizer.interfaces import IIDNormalizer
+from plone.registry.interfaces import IRegistry
 from zope import interface
 from zope.component import queryUtility
+from zope.component import getUtility
 
 
 class ContentListing(object):
@@ -134,10 +137,7 @@ class BaseContentListingObject(object):
         ):
             return False
 
-        from plone.registry.interfaces import IRegistry
-        from zope.component import getUtility
         registry = getUtility(IRegistry)
-        from Products.CMFPlone.interfaces import INavigationSchema
         navigation_settings = registry.forInterface(
             INavigationSchema,
             prefix='plone'
