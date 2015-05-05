@@ -1,9 +1,12 @@
 from .interfaces import IContentListing
 from .interfaces import IContentListingObject
 from Products.CMFCore.utils import getToolByName
+from Products.CMFPlone.interfaces import INavigationSchema
 from plone.i18n.normalizer.interfaces import IIDNormalizer
+from plone.registry.interfaces import IRegistry
 from zope import interface
 from zope.component import queryUtility
+from zope.component import getUtility
 
 
 class ContentListing(object):
@@ -133,10 +136,21 @@ class BaseContentListingObject(object):
                 else self.exclude_from_nav
         ):
             return False
-        portal_properties = getToolByName(self.getDataOrigin(), 'portal_properties')  # noqa
-        navtree_properties = getattr(portal_properties, 'navtree_properties')
-        if self.portal_type in list(navtree_properties.metaTypesNotToList):
+
+        registry = getUtility(IRegistry)
+        navigation_settings = registry.forInterface(
+            INavigationSchema,
+            prefix='plone'
+        )
+        if self.portal_type not in navigation_settings.displayed_types:
             return False
+
+        portal_properties = getToolByName(
+            self.getDataOrigin(),
+            'portal_properties'
+        )
+        navtree_properties = getattr(portal_properties, 'navtree_properties')
+
         if self.id in list(navtree_properties.idsNotToList):
             return False
         return True

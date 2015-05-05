@@ -208,26 +208,35 @@ We can also turn it off again.
     >>> realfrontpage.isVisibleInNav()
     True
 
-We can also exclude anything of a particular type using metaTypesNotToList
+We can also exclude anything of a particular type using the displayed type setting::
 
-    >>> navtree_properties = getattr(getToolByName(self.portal, 'portal_properties'), 'navtree_properties')
-    >>> navtree_properties.metaTypesNotToList = [frontpage.portal_type]
+    >>> from plone.registry.interfaces import IRegistry
+    >>> from zope.component import getUtility
+    >>> registry = getUtility(IRegistry)
+    >>> from Products.CMFPlone.interfaces import INavigationSchema
+    >>> navigation_settings = registry.forInterface(
+    ...     INavigationSchema,
+    ...     prefix='plone'
+    ... )
+    >>> navigation_settings.displayed_types = (frontpage.portal_type, news.portal_type)
+    >>> frontpage.isVisibleInNav()
+    True
+    >>> realfrontpage.isVisibleInNav()
+    True
+    >>> news.isVisibleInNav()
+    True
+    >>> navigation_settings.displayed_types = ()
     >>> frontpage.isVisibleInNav()
     False
     >>> realfrontpage.isVisibleInNav()
     False
     >>> news.isVisibleInNav()
-    True
-    >>> navtree_properties.metaTypesNotToList = []
-    >>> frontpage.isVisibleInNav()
-    True
-    >>> realfrontpage.isVisibleInNav()
-    True
-    >>> news.isVisibleInNav()
-    True
+    False
 
 Finally, particular ids can be excluded from listings
 
+    >>> navigation_settings.displayed_types = (frontpage.portal_type, news.portal_type)
+    >>> navtree_properties = getattr(getToolByName(self.portal, 'portal_properties'), 'navtree_properties')
     >>> navtree_properties.idsNotToList = [news.id]
     >>> frontpage.isVisibleInNav()
     True
