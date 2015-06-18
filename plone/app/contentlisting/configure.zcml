@@ -1,5 +1,6 @@
 <configure xmlns="http://namespaces.zope.org/zope"
-           xmlns:browser="http://namespaces.zope.org/browser">
+           xmlns:browser="http://namespaces.zope.org/browser"
+           xmlns:zcml="http://namespaces.zope.org/zcml">
 
   <adapter
       factory=".contentlisting.ContentListing"
@@ -41,6 +42,22 @@
       for="Products.CMFCore.interfaces.IContentish "
       />
 
+  <browser:page
+      name="contentlisting"
+      class=".browser.FolderListing"
+      permission="zope2.View"
+      for="Products.CMFCore.interfaces.IFolderish"
+      />
+
+  <browser:page
+      name="contentlisting"
+      class=".browser.ContentListingCollection"
+      permission="zope2.View"
+      for="plone.app.contenttypes.behaviors.collection.ISyndicatableCollection"
+      zcml:condition="installed plone.app.contenttypes"
+      />
+
+  <!-- BBB -->
   <browser:page
       name="folderListing"
       class=".browser.FolderListing"

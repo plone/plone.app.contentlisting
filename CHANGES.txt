@@ -4,7 +4,11 @@ Changelog
 1.0.6 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Introduce ``@@contentlisting`` view, which is also supports Collections from
+  plone.app.contenttypes including filtering of results. This gives us a
+  unified interface for listing content from Folders or Collections.
+  Deprecate ``@@folderListing``, which is kept for BBB compatibility.
+  [thet]
 
 
 1.0.5 (2013-08-13)
