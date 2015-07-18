@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.2 (unreleased)
+1.2 (2015-07-18)
 ----------------
 
 - Introduce ``@@contentlisting`` view, which is also supports Collections from
