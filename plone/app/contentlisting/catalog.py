@@ -1,12 +1,16 @@
+# -*- coding: utf-8 -*-
 from .contentlisting import BaseContentListingObject
 from .interfaces import IContentListingObject
 from Acquisition import aq_base
 from Acquisition import aq_get
 from Products.CMFCore.utils import getToolByName
 from plone.app.layout.icons.interfaces import IContentIcon
+from plone.registry.interfaces import IRegistry
 from plone.uuid.interfaces import IUUID
 from zope import interface
+from zope.component import getMultiAdapter
 from zope.component import queryMultiAdapter
+from zope.component import queryUtility
 
 
 class CatalogContentListingObject(BaseContentListingObject):
@@ -108,9 +112,10 @@ class CatalogContentListingObject(BaseContentListingObject):
         return self._brain.Description
 
     def CroppedDescription(self):
-        # TODO: Let's port Plones description cropping here instead of
-        # implementing it all in the templates.
-        return self.Description()
+        registry = queryUtility(IRegistry)
+        length = registry.get('plone.search_results_description_length')
+        plone_view = getMultiAdapter((self, self.request), name='plone')
+        return plone_view.cropText(self.Description(), length)
 
     def Type(self):
         return self._brain.Type

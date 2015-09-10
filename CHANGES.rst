@@ -4,7 +4,8 @@ Changelog
 1.2.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Implement cropping for CroppedDescription.
+  [pbauer]
 
 
 1.2 (2015-07-18)
