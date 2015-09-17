@@ -119,8 +119,8 @@ class BaseContentListingObject(object):
         results listings.
         """
         try:
-            ttool = getToolByName(self.getDataOrigin(), 'portal_properties')
-            types = ttool.site_properties.typesUseViewActionInListings
+            registry = getUtility(IRegistry)
+            types = registry['plone.types_view_action_in_listings']
         except AttributeError:
             return ''
         if self.portal_type in types:
