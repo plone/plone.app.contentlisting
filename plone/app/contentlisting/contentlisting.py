@@ -118,11 +118,8 @@ class BaseContentListingObject(object):
         """Decide whether to produce a string /view to append to links in
         results listings.
         """
-        try:
-            registry = getUtility(IRegistry)
-            types = registry['plone.types_view_action_in_listings']
-        except AttributeError:
-            return ''
+        registry = getUtility(IRegistry)
+        types = registry.get('plone.types_use_view_action_in_listings', [])
         if self.portal_type in types:
             return "/view"
         return ''
