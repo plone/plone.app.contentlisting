@@ -115,7 +115,7 @@ Some types may require '/view' appended to their URLs. Currently these don't
 By altering portal_properties, we can make this true for Documents
 
     >>> registry = self.portal.portal_registry
-    >>> registry['plone.types_view_action_in_listings'] = [frontpage.portal_type]
+    >>> registry['plone.types_use_view_action_in_listings'] = [frontpage.portal_type]
 
     >>> frontpage.appendViewAction()
     '/view'
@@ -126,7 +126,7 @@ By altering portal_properties, we can make this true for Documents
 
 And turn it off again
 
-    >>> registry['plone.types_view_action_in_listings'] = []
+    >>> registry['plone.types_use_view_action_in_listings'] = []
     >>> frontpage.appendViewAction()
     ''
     >>> news.appendViewAction()
