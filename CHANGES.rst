@@ -4,7 +4,9 @@ Changelog
 1.2.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- ids_not_to_list has been removed. Use the exclude from navigation 
+  setting instead.
+  [jensens]
 
 
 1.2.1 (2015-09-11)

@@ -115,7 +115,7 @@ Some types may require '/view' appended to their URLs. Currently these don't
 By altering portal_properties, we can make this true for Documents
 
     >>> registry = self.portal.portal_registry
-    >>> registry['plone.types_use_view_action_in_listings'] = [frontpage.portal_type]
+    >>> registry['plone.types_use_view_action_in_listings'] = [unicode(frontpage.portal_type)]
 
     >>> frontpage.appendViewAction()
     '/view'
@@ -233,22 +233,3 @@ We can also exclude anything of a particular type using the displayed type setti
     False
     >>> news.isVisibleInNav()
     False
-
-Finally, particular ids can be excluded from listings
-
-    >>> navigation_settings.displayed_types = (frontpage.portal_type, news.portal_type)
-    >>> navtree_properties = getattr(getToolByName(self.portal, 'portal_properties'), 'navtree_properties')
-    >>> navtree_properties.idsNotToList = [news.id]
-    >>> frontpage.isVisibleInNav()
-    True
-    >>> realfrontpage.isVisibleInNav()
-    True
-    >>> news.isVisibleInNav()
-    False
-    >>> navtree_properties.idsNotToList = []
-    >>> frontpage.isVisibleInNav()
-    True
-    >>> realfrontpage.isVisibleInNav()
-    True
-    >>> news.isVisibleInNav()
-    True

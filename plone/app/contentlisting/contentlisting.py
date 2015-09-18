@@ -142,12 +142,4 @@ class BaseContentListingObject(object):
         if self.portal_type not in navigation_settings.displayed_types:
             return False
 
-        portal_properties = getToolByName(
-            self.getDataOrigin(),
-            'portal_properties'
-        )
-        navtree_properties = getattr(portal_properties, 'navtree_properties')
-
-        if self.id in list(navtree_properties.idsNotToList):
-            return False
         return True
