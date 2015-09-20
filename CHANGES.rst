@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.2.2 (unreleased)
+1.2.2 (2015-09-20)
 ------------------
 
 - ids_not_to_list has been removed. Use the exclude from navigation 
