@@ -118,11 +118,8 @@ class BaseContentListingObject(object):
         """Decide whether to produce a string /view to append to links in
         results listings.
         """
-        try:
-            ttool = getToolByName(self.getDataOrigin(), 'portal_properties')
-            types = ttool.site_properties.typesUseViewActionInListings
-        except AttributeError:
-            return ''
+        registry = getUtility(IRegistry)
+        types = registry.get('plone.types_use_view_action_in_listings', [])
         if self.portal_type in types:
             return "/view"
         return ''
@@ -145,12 +142,4 @@ class BaseContentListingObject(object):
         if self.portal_type not in navigation_settings.displayed_types:
             return False
 
-        portal_properties = getToolByName(
-            self.getDataOrigin(),
-            'portal_properties'
-        )
-        navtree_properties = getattr(portal_properties, 'navtree_properties')
-
-        if self.id in list(navtree_properties.idsNotToList):
-            return False
         return True
