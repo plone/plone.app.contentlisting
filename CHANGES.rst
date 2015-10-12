@@ -12,6 +12,8 @@ Fixes:
 
 - *add item here*
 
+- cleanup old getIcon  see https://github.com/plone/Products.CMFPlone/issues/1151
+  [fgrcon]
 
 1.2.2 (2015-09-20)
 ------------------

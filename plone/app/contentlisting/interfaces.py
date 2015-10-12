@@ -27,9 +27,6 @@ class IContentListingObject(IDublinCore):
     def uuid():
         """Unique content identifier."""
 
-    def getIcon():
-        """icon for the object."""
-
     def getSize():
         """size in bytes."""
 
