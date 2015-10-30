@@ -4,13 +4,19 @@ Changelog
 1.2.3 (unreleased)
 ------------------
 
-- Nothing changed yet.
+New:
+
+- *add item here*
+
+Fixes:
+
+- *add item here*
 
 
 1.2.2 (2015-09-20)
 ------------------
 
-- ids_not_to_list has been removed. Use the exclude from navigation 
+- ids_not_to_list has been removed. Use the exclude from navigation
   setting instead.
   [jensens]
 
