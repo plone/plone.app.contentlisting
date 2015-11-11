@@ -66,12 +66,6 @@ class RealContentListingObject(BaseContentListingObject):
             return uuid
         return self.getPath()
 
-    def getIcon(self):
-        obj = self.getObject()
-        return queryMultiAdapter(
-            (obj, self.request, obj),
-            interface=IContentIcon)()
-
     def review_state(self):
         obj = self.getObject()
         wftool = getToolByName(obj, "portal_workflow")

@@ -110,16 +110,6 @@ class TestIndividualCatalogContentItems(ContentlistingFunctionalTestCase):
         )
         self.assertEqual(self.item.getURL(), self.realitem.absolute_url())
 
-    def test_item_getIcon(self):
-        # since icons were changed to css sprites for most types for Plone 4,
-        # this one needs to use an image for the test.
-        self.folder.invokeFactory(
-            'Image', 'myimage', title='My Image', description='blah')
-        self.item = self.folder.restrictedTraverse('@@folderListing')()[1]
-        self.assertEqual(
-            self.item.getIcon(),
-            u'<img width="16" height="16" src="http://nohost/plone/png.png" '
-            u'alt="Image" />')
 
     def test_item_getSize(self):
         self.assertEqual(self.item.getSize().upper(), '0 KB')
@@ -203,18 +193,6 @@ class TestIndividualRealContentItems(ContentlistingFunctionalTestCase):
         self.assertEqual(self.item.getURL(),
                          'http://nohost/plone/test-folder/mypage')
         self.assertEqual(self.item.getURL(), self.realitem.absolute_url())
-
-    def test_item_getIcon(self):
-        # since icons were changed to css sprites for most types for Plone 4,
-        # this one needs to use an image for the test.
-        self.folder.invokeFactory(
-            'Image', 'myimage', title='My Image', description='blah')
-        self.item = IContentListingObject(self.folder.myimage)
-        self.assertEqual(
-            self.item.getIcon(),
-            u'<img width="16" height="16" src="http://nohost/plone/error_icon.png" '  # noqa
-            u'alt="My Image" />'
-        )
 
     def test_item_reviewState(self):
         wftool = getToolByName(self.realitem, "portal_workflow")

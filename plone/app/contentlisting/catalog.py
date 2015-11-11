@@ -91,12 +91,6 @@ class CatalogContentListingObject(BaseContentListingObject):
             return uuid
         return self.getPath()
 
-    def getIcon(self):
-        return queryMultiAdapter(
-            (self._brain, self.request, self._brain),
-            interface=IContentIcon
-        )()
-
     def getSize(self):
         return self._brain.getObjSize
 
