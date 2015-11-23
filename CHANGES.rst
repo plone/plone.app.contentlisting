@@ -10,11 +10,15 @@ New:
 
 Fixes:
 
+- In tests, use ``selection.any`` in querystrings.
+  Issue https://github.com/plone/Products.CMFPlone/issues/1040
+  [maurits]
+
 - Cleanup and rework: contenttype-icons and showing thumbnails
   for images/leadimages in listings
   https://github.com/plone/Products.CMFPlone/issues/1226
   [fgrcon]
-  
+
 1.2.2 (2015-09-20)
 ------------------
 
