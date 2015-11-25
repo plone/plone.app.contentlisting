@@ -275,7 +275,7 @@ class TestCollectionResults(ContentlistingFunctionalTestCase):
         collection = self.portal.collection
         collection.query = [
             {'i': 'portal_type',
-             'o': 'plone.app.querystring.operation.selection.is',
+             'o': 'plone.app.querystring.operation.selection.any',
              'v': ['Event', 'Event']
              },
         ]
