@@ -4,10 +4,6 @@ Changelog
 1.2.3 (unreleased)
 ------------------
 
-New:
-
-- *add item here*
-
 Fixes:
 
 - In tests, use ``selection.any`` in querystrings.
@@ -18,6 +14,7 @@ Fixes:
   for images/leadimages in listings
   https://github.com/plone/Products.CMFPlone/issues/1226
   [fgrcon]
+
 
 1.2.2 (2015-09-20)
 ------------------
