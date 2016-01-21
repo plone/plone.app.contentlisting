@@ -32,7 +32,7 @@ setup(
     zip_safe=False,
     install_requires=[
         'setuptools',
-        'plone.uuid',
+        'Products.CMFPlone',
     ],
     extras_require={
         'test': [
