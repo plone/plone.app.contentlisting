@@ -1,17 +1,17 @@
-from .interfaces import IContentListing
-from .interfaces import IContentListingObject
-from Products.CMFCore.utils import getToolByName
-from Products.CMFPlone.interfaces import INavigationSchema
+# -*- coding: utf-8 -*-
+from plone.app.contentlisting.interfaces import IContentListing
+from plone.app.contentlisting.interfaces import IContentListingObject
 from plone.i18n.normalizer.interfaces import IIDNormalizer
 from plone.registry.interfaces import IRegistry
-from zope import interface
-from zope.component import queryUtility
+from Products.CMFPlone.interfaces import INavigationSchema
+from zope.interface import implementer
 from zope.component import getUtility
+from zope.component import queryUtility
 
 
+@implementer(IContentListing)
 class ContentListing(object):
     """An IContentListing implementation based on sequences of objects."""
-    interface.implements(IContentListing)
 
     def __init__(self, sequence):
         self._basesequence = sequence

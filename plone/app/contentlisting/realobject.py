@@ -1,19 +1,17 @@
-from .contentlisting import BaseContentListingObject
-from .interfaces import IContentListingObject
+# -*- coding: utf-8 -*-
 from Acquisition import aq_base
 from Acquisition import aq_get
-from Products.CMFCore.utils import getToolByName
-from plone.app.layout.icons.interfaces import IContentIcon
+from plone.app.contentlisting.contentlisting import BaseContentListingObject
+from plone.app.contentlisting.interfaces import IContentListingObject
 from plone.uuid.interfaces import IUUID
-from zope import interface
-from zope.component import queryMultiAdapter
+from Products.CMFCore.utils import getToolByName
+from zope.interface import implementer
 
 
+@implementer(IContentListingObject)
 class RealContentListingObject(BaseContentListingObject):
     """A content object representation wrapping a real content object.
     """
-
-    interface.implements(IContentListingObject)
 
     def __init__(self, obj):
         self._realobject = obj

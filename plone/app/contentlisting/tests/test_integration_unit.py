@@ -1,10 +1,12 @@
-from ..interfaces import IContentListing
-from ..interfaces import IContentListingObject
-from .base import ContentlistingFunctionalTestCase
-from Products.CMFCore.utils import getToolByName
-from plone.app.testing import TEST_USER_ID
+# -*- coding: utf-8 -*-
+from plone.app.contentlisting.interfaces import IContentListing
+from plone.app.contentlisting.interfaces import IContentListingObject
+from plone.app.contentlisting.tests.base import \
+    ContentlistingFunctionalTestCase
 from plone.app.testing import setRoles
+from plone.app.testing import TEST_USER_ID
 from plone.batching.interfaces import IBatch
+from Products.CMFCore.utils import getToolByName
 from zope.interface.verify import verifyObject
 
 
@@ -109,7 +111,6 @@ class TestIndividualCatalogContentItems(ContentlistingFunctionalTestCase):
             'http://nohost/plone/test-folder/mypage'
         )
         self.assertEqual(self.item.getURL(), self.realitem.absolute_url())
-
 
     def test_item_getSize(self):
         self.assertEqual(self.item.getSize().upper(), '0 KB')

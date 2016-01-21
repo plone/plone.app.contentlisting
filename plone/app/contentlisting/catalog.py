@@ -1,26 +1,23 @@
 # -*- coding: utf-8 -*-
-from .contentlisting import BaseContentListingObject
-from .interfaces import IContentListingObject
 from Acquisition import aq_base
 from Acquisition import aq_get
-from Products.CMFCore.utils import getToolByName
-from plone.app.layout.icons.interfaces import IContentIcon
+from plone.app.contentlisting.contentlisting import BaseContentListingObject
+from plone.app.contentlisting.interfaces import IContentListingObject
 from plone.registry.interfaces import IRegistry
 from plone.uuid.interfaces import IUUID
-from zope import interface
+from Products.CMFCore.utils import getToolByName
 from zope.component import getMultiAdapter
-from zope.component import queryMultiAdapter
 from zope.component import queryUtility
+from zope.interface import implementer
 
 
+@implementer(IContentListingObject)
 class CatalogContentListingObject(BaseContentListingObject):
     """A Catalog-results based content object representation.
 
     Whenever sequences of catalog brains are turned into contentlistings,
     This is the type of objects they are adapted to.
     """
-
-    interface.implements(IContentListingObject)
 
     def __init__(self, brain):
         self._brain = brain

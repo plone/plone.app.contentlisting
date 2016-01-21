@@ -10,7 +10,9 @@ New:
 
 Fixes:
 
-- *add item here*
+- Minor cleanup (decorator, utf8 header, ...), removed unused imports and
+  fixed dependencies.
+  [jensens]
 
 
 1.2.3 (2015-11-25)
