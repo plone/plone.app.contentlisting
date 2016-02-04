@@ -18,8 +18,8 @@ class RealContentListingObject(BaseContentListingObject):
         self.request = aq_get(obj, 'REQUEST')
 
     def __repr__(self):
-        return "<plone.app.contentlisting.realobject."\
-            "RealContentListingObject instance at {0}>".format(
+        return '<plone.app.contentlisting.realobject.'\
+            'RealContentListingObject instance at {0}>'.format(
                 self.getPath()
             )
 
@@ -66,7 +66,7 @@ class RealContentListingObject(BaseContentListingObject):
 
     def review_state(self):
         obj = self.getObject()
-        wftool = getToolByName(obj, "portal_workflow")
+        wftool = getToolByName(obj, 'portal_workflow')
         return wftool.getInfoFor(obj, 'review_state')
 
     def Type(self):

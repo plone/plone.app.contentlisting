@@ -25,8 +25,8 @@ class CatalogContentListingObject(BaseContentListingObject):
         self.request = aq_get(brain, 'REQUEST')
 
     def __repr__(self):
-        return "<plone.app.contentlisting.catalog."\
-            "CatalogContentListingObject instance at {0}>".format(
+        return '<plone.app.contentlisting.catalog.'\
+            'CatalogContentListingObject instance at {0}>'.format(
                 self.getPath()
             )
 

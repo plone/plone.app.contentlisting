@@ -7,6 +7,7 @@ from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from Products.CMFCore.utils import getToolByName
 from zope.configuration import xmlconfig
+
 import unittest2 as unittest
 
 
@@ -26,11 +27,11 @@ class ContentListingLayer(PloneSandboxLayer):
 CONTENTLISTING_FIXTURE = ContentListingLayer()
 CONTENTLISTING_INTEGRATION_TESTING = IntegrationTesting(
     bases=(CONTENTLISTING_FIXTURE, ),
-    name="ContentListing:Integration"
+    name='ContentListing:Integration'
 )
 CONTENTLISTING_FUNCTIONAL_TESTING = FunctionalTesting(
     bases=(CONTENTLISTING_FIXTURE, ),
-    name="ContentListing:Functional"
+    name='ContentListing:Functional'
 )
 
 
