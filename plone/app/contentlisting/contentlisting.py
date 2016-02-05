@@ -4,9 +4,9 @@ from plone.app.contentlisting.interfaces import IContentListingObject
 from plone.i18n.normalizer.interfaces import IIDNormalizer
 from plone.registry.interfaces import IRegistry
 from Products.CMFPlone.interfaces import INavigationSchema
-from zope.interface import implementer
 from zope.component import getUtility
 from zope.component import queryUtility
+from zope.interface import implementer
 
 
 @implementer(IContentListing)
@@ -105,13 +105,13 @@ class BaseContentListingObject(object):
     def ContentTypeClass(self):
         """A normalised type name that identifies the object in listings.
         used for CSS styling"""
-        return "contenttype-" + queryUtility(IIDNormalizer).normalize(
+        return 'contenttype-' + queryUtility(IIDNormalizer).normalize(
             self.PortalType())
 
     def ReviewStateClass(self):
         """A normalised review state string for CSS styling use in listings.
         """
-        return "state-" + queryUtility(IIDNormalizer).normalize(
+        return 'state-' + queryUtility(IIDNormalizer).normalize(
             self.review_state())
 
     def appendViewAction(self):
@@ -121,7 +121,7 @@ class BaseContentListingObject(object):
         registry = getUtility(IRegistry)
         types = registry.get('plone.types_use_view_action_in_listings', [])
         if self.portal_type in types:
-            return "/view"
+            return '/view'
         return ''
 
     def isVisibleInNav(self):

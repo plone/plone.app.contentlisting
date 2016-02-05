@@ -1,5 +1,7 @@
-from .base import ContentlistingFunctionalTestCase
+# -*- coding: utf-8 -*-
+from plone.app.contentlisting.tests.base import ContentlistingFunctionalTestCase  # noqa
 from Testing import ZopeTestCase as ztc
+
 import doctest
 import unittest
 

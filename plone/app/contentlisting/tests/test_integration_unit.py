@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 from plone.app.contentlisting.interfaces import IContentListing
 from plone.app.contentlisting.interfaces import IContentListingObject
-from plone.app.contentlisting.tests.base import \
-    ContentlistingFunctionalTestCase
+from plone.app.contentlisting.tests.base import ContentlistingFunctionalTestCase  # noqa
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from plone.batching.interfaces import IBatch
@@ -87,7 +86,7 @@ class TestIndividualCatalogContentItems(ContentlistingFunctionalTestCase):
 
     def test_special_getattr_from_object(self):
         # Asking for an attribute not in the contentlistingobject, should
-        # defer lookup to the brain"""
+        # defer lookup to the brain
         self.assertEqual(self.item.absolute_url(), '')
         self.assertEqual(
             repr(self.item.getDataOrigin()),
@@ -116,7 +115,7 @@ class TestIndividualCatalogContentItems(ContentlistingFunctionalTestCase):
         self.assertEqual(self.item.getSize().upper(), '0 KB')
 
     def test_item_reviewState(self):
-        wftool = getToolByName(self.realitem, "portal_workflow")
+        wftool = getToolByName(self.realitem, 'portal_workflow')
         wf = wftool.getInfoFor(self.realitem, 'review_state')
         self.assertEqual(self.item.review_state(), wf)
 
@@ -196,7 +195,7 @@ class TestIndividualRealContentItems(ContentlistingFunctionalTestCase):
         self.assertEqual(self.item.getURL(), self.realitem.absolute_url())
 
     def test_item_reviewState(self):
-        wftool = getToolByName(self.realitem, "portal_workflow")
+        wftool = getToolByName(self.realitem, 'portal_workflow')
         wf = wftool.getInfoFor(self.realitem, 'review_state')
         self.assertEqual(self.item.review_state(), wf)
 
