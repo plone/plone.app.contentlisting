@@ -4,10 +4,6 @@ Changelog
 1.2.4 (unreleased)
 ------------------
 
-New:
-
-- *add item here*
-
 Fixes:
 
 - Minor cleanup (decorator, utf8 header, ...), removed unused imports and
