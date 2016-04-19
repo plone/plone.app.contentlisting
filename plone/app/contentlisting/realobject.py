@@ -70,7 +70,7 @@ class RealContentListingObject(BaseContentListingObject):
         return wftool.getInfoFor(obj, 'review_state')
 
     def Type(self):
-        """Dublin Core element - Object type."""
+        # Dublin Core element - Object type.
         obj = self.getObject()
         typestool = getToolByName(obj, 'portal_types')
         ti = typestool.getTypeInfo(obj)
