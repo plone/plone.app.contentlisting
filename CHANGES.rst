@@ -10,7 +10,8 @@ New:
 
 Fixes:
 
-- *add item here*
+- Removed docstrings from some methods to avoid publishing them.  From
+  Products.PloneHotfix20160419.  [maurits]
 
 
 1.2.4 (2016-02-08)

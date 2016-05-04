@@ -42,11 +42,9 @@ class RealContentListingObject(BaseContentListingObject):
         return self._realobject
 
     def getDataOrigin(self):
-        """The origin of the data for the object.
-
-        Sometimes we just need to know if we are looking at a brain or
-        the real object.
-        """
+        # The origin of the data for the object.
+        # Sometimes we just need to know if we are looking at a brain or
+        # the real object.
         return self.getObject()
 
     # a base set of elements that are needed but not defined in dublin core
@@ -70,7 +68,7 @@ class RealContentListingObject(BaseContentListingObject):
         return wftool.getInfoFor(obj, 'review_state')
 
     def Type(self):
-        """Dublin Core element - Object type."""
+        # Dublin Core element - Object type.
         obj = self.getObject()
         typestool = getToolByName(obj, 'portal_types')
         ti = typestool.getTypeInfo(obj)

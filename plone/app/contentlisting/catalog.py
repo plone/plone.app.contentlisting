@@ -47,24 +47,21 @@ class CatalogContentListingObject(BaseContentListingObject):
             raise AttributeError(name)
 
     def getDataOrigin(self):
-        """The origin of the data for the object.
-
-        Sometimes we just need to know if we are looking at a brain or
-        the real object.
-        """
+        # The origin of the data for the object.
+        # Sometimes we just need to know if we are looking at a brain or
+        # the real object.
         if self._cached_realobject is not None:
             return self._cached_realobject
         else:
             return self._brain
 
     def getObject(self):
-        """Get the real, underlying object.
+        # Get the real, underlying object.
 
-        This is performance intensive compared to just getting the
-        catalog brain, so we don't do it until we need to.  We may
-        even have to log this to notify the developer that this might
-        be an inefficient operation.
-        """
+        # This is performance intensive compared to just getting the
+        # catalog brain, so we don't do it until we need to.  We may
+        # even have to log this to notify the developer that this might
+        # be an inefficient operation.
         if self._cached_realobject is None:
             self._cached_realobject = self._brain.getObject()
         return self._cached_realobject
@@ -181,7 +178,7 @@ class CatalogContentListingObject(BaseContentListingObject):
         return self.getURL()
 
     def Language(self):
-        """The language of the content"""
+        # The language of the content.
         if hasattr(aq_base(self._brain), 'Language'):
             return self._brain.Language
         else:

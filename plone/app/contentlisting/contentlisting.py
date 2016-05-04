@@ -103,21 +103,19 @@ class BaseContentListingObject(object):
         return self.uuid() == other.uuid()
 
     def ContentTypeClass(self):
-        """A normalised type name that identifies the object in listings.
-        used for CSS styling"""
+        # A normalised type name that identifies the object in listings.
+        # Used for CSS styling.
         return 'contenttype-' + queryUtility(IIDNormalizer).normalize(
             self.PortalType())
 
     def ReviewStateClass(self):
-        """A normalised review state string for CSS styling use in listings.
-        """
+        # A normalised review state string for CSS styling use in listings.
         return 'state-' + queryUtility(IIDNormalizer).normalize(
             self.review_state())
 
     def appendViewAction(self):
-        """Decide whether to produce a string /view to append to links in
-        results listings.
-        """
+        # Decide whether to produce a string /view to append to links in
+        # results listings.
         registry = getUtility(IRegistry)
         types = registry.get('plone.types_use_view_action_in_listings', [])
         if self.portal_type in types:
@@ -125,8 +123,7 @@ class BaseContentListingObject(object):
         return ''
 
     def isVisibleInNav(self):
-        """True, if this item should be visible in navigation trees.
-        """
+        # True, if this item should be visible in navigation trees.
         if hasattr(self, 'exclude_from_nav') and (
                 self.exclude_from_nav()
                 if callable(self.exclude_from_nav)
