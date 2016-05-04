@@ -98,19 +98,19 @@ class BaseContentListingObject(object):
         return self.uuid() == other.uuid()
 
     def ContentTypeClass(self):
-        """A normalised type name that identifies the object in listings.
-        used for CSS styling"""
+        # A normalised type name that identifies the object in listings.
+        # Used for CSS styling.
         return "contenttype-" + queryUtility(IIDNormalizer).normalize(
             self.PortalType())
 
     def ReviewStateClass(self):
-        """A normalised review state string for CSS styling use in listings."""
+        # A normalised review state string for CSS styling use in listings.
         return "state-" + queryUtility(IIDNormalizer).normalize(
             self.review_state())
 
     def appendViewAction(self):
-        """decide whether to produce a string /view to append to links
-        in results listings"""
+        # Decide whether to produce a string /view to append to links in
+        # results listings.
         try:
             ttool = getToolByName(self.getDataOrigin(), 'portal_properties')
             types = ttool.site_properties.typesUseViewActionInListings
@@ -121,7 +121,7 @@ class BaseContentListingObject(object):
         return ''
 
     def isVisibleInNav(self):
-        """true iff this item should be visible in navigation trees"""
+        # True, if this item should be visible in navigation trees.
         if hasattr(self,'exclude_from_nav') and (self.exclude_from_nav() if callable(self.exclude_from_nav) else self.exclude_from_nav):
             return False
         portal_properties = getToolByName(self.getDataOrigin(), 'portal_properties')

@@ -4,7 +4,10 @@ Changelog
 1.0.6 (unreleased)
 ------------------
 
-- Nothing changed yet.
+Fixes:
+
+- Removed docstrings from some methods to avoid publishing them.  From
+  Products.PloneHotfix20160419.  [maurits]
 
 
 1.0.5 (2013-08-13)
@@ -35,7 +38,7 @@ Changelog
 ------------------
 
 - Change ContentTypeClass to return contenttype-{portal_type} to match
-  what the rest of Plone expects. This fixes sprite based icons for 
+  what the rest of Plone expects. This fixes sprite based icons for
   pages/documents.
   [gaudenz]
 
