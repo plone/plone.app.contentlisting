@@ -4,10 +4,6 @@ Changelog
 1.2.5 (unreleased)
 ------------------
 
-New:
-
-- *add item here*
-
 Fixes:
 
 - Removed docstrings from some methods to avoid publishing them.  From
