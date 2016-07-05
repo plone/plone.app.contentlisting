@@ -14,7 +14,9 @@ New features:
 
 Bug fixes:
 
-- *add item here*
+- Added missing implementation for getSize on RealContentListingObject.
+  Interface was not fullfilled here.
+  [jensens]
 
 
 1.2.5 (2016-05-12)
