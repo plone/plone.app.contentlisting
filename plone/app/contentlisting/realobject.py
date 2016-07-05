@@ -70,7 +70,10 @@ class RealContentListingObject(BaseContentListingObject):
         primary_field_info = IPrimaryFieldInfo(obj)
         if primary_field_info is None or not primary_field_info.value:
             return 0
-        return obj.getObjSize(None, primary_field_info.value.size)
+        return obj.getObjSize(
+            None,
+            getattr(primary_field_info.value, 'size', 0)
+        )
 
     def review_state(self):
         obj = self.getObject()
