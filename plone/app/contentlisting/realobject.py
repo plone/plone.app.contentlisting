@@ -3,6 +3,7 @@ from Acquisition import aq_base
 from Acquisition import aq_get
 from plone.app.contentlisting.contentlisting import BaseContentListingObject
 from plone.app.contentlisting.interfaces import IContentListingObject
+from plone.rfc822.interfaces import IPrimaryFieldInfo
 from plone.uuid.interfaces import IUUID
 from Products.CMFCore.utils import getToolByName
 from zope.interface import implementer
@@ -61,6 +62,15 @@ class RealContentListingObject(BaseContentListingObject):
         if uuid is not None:
             return uuid
         return self.getPath()
+
+    def getSize(self):
+        # return size of the primary field content.
+        # this works the same way as the indexer works
+        obj = self.getObject()
+        primary_field_info = IPrimaryFieldInfo(obj)
+        if primary_field_info is None or not primary_field_info.value:
+            return 0
+        return obj.getObjSize(None, primary_field_info.value.size)
 
     def review_state(self):
         obj = self.getObject()
