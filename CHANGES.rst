@@ -14,7 +14,8 @@ New features:
 
 Bug fixes:
 
-- *add item here*
+- Make ``getSize`` work on RealContentListingObject on types w/o any Primaryfield.
+  [jensens]
 
 
 1.2.6 (2016-07-05)

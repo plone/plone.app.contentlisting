@@ -67,7 +67,12 @@ class RealContentListingObject(BaseContentListingObject):
         # return size of the primary field content.
         # this works the same way as the indexer works
         obj = self.getObject()
-        primary_field_info = IPrimaryFieldInfo(obj)
+        try:
+            primary_field_info = IPrimaryFieldInfo(obj, None)
+        except TypeError:
+            # no primary field available, dexterity raises a TypeError
+            # with the slightly missleading message 'could not adapt'.
+            return 0
         if primary_field_info is None or not primary_field_info.value:
             return 0
         return obj.getObjSize(
