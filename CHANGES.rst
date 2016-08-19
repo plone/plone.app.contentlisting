@@ -4,14 +4,6 @@ Changelog
 1.2.7 (unreleased)
 ------------------
 
-Breaking changes:
-
-- *add item here*
-
-New features:
-
-- *add item here*
-
 Bug fixes:
 
 - Make ``getSize`` work on RealContentListingObject on types w/o any Primaryfield.
