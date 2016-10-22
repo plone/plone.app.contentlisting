@@ -8,8 +8,6 @@ from plone.app.testing import TEST_USER_ID
 from Products.CMFCore.utils import getToolByName
 from zope.configuration import xmlconfig
 
-import unittest2 as unittest
-
 
 class ContentListingLayer(PloneSandboxLayer):
 
@@ -23,37 +21,31 @@ class ContentListingLayer(PloneSandboxLayer):
         xmlconfig.file('configure.zcml',
                        plone.app.contentlisting, context=configurationContext)
 
-
 CONTENTLISTING_FIXTURE = ContentListingLayer()
+
+
+class ContentListingIntegrationLayer(PloneSandboxLayer):
+
+    defaultBases = (CONTENTLISTING_FIXTURE, )
+
+    def setUpPloneSite(self, portal):
+        setRoles(portal, TEST_USER_ID, ['Manager'])
+        wftool = getToolByName(portal, 'portal_workflow')
+        wftool.setDefaultChain('simple_publication_workflow')
+
+        portal.invokeFactory('Folder', 'test-folder')
+        portal.invokeFactory('Document', 'front-page')
+        portal.invokeFactory('Folder', 'news')
+        wftool.doActionFor(portal.news, 'publish')
+        portal.news.invokeFactory('News Item', 'news1')
+        setRoles(portal, TEST_USER_ID, ['Member'])
+
+CONTENTLISTING_INTEGRATION_FIXTURE = ContentListingIntegrationLayer()
 CONTENTLISTING_INTEGRATION_TESTING = IntegrationTesting(
-    bases=(CONTENTLISTING_FIXTURE, ),
+    bases=(CONTENTLISTING_INTEGRATION_FIXTURE, ),
     name='ContentListing:Integration'
 )
 CONTENTLISTING_FUNCTIONAL_TESTING = FunctionalTesting(
-    bases=(CONTENTLISTING_FIXTURE, ),
+    bases=(CONTENTLISTING_INTEGRATION_FIXTURE, ),
     name='ContentListing:Functional'
 )
-
-
-class ContentlistingTestCase(unittest.TestCase):
-    layer = CONTENTLISTING_INTEGRATION_TESTING
-
-    def setUp(self):
-        self.portal = self.layer['portal']
-
-        setRoles(self.portal, TEST_USER_ID, ['Manager'])
-        wftool = getToolByName(self.portal, 'portal_workflow')
-        wftool.setDefaultChain('simple_publication_workflow')
-
-        self.portal.invokeFactory('Folder', 'test-folder')
-        self.portal.invokeFactory('Document', 'front-page')
-        self.portal.invokeFactory('Folder', 'news')
-        wftool.doActionFor(self.portal.news, 'publish')
-        self.portal.news.invokeFactory('News Item', 'news1')
-        setRoles(self.portal, TEST_USER_ID, ['Member'])
-
-        self.folder = self.portal['test-folder']
-
-
-class ContentlistingFunctionalTestCase(ContentlistingTestCase):
-    layer = CONTENTLISTING_FUNCTIONAL_TESTING

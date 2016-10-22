@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-from plone.app.contentlisting.tests.base import ContentlistingFunctionalTestCase  # noqa
-from Testing import ZopeTestCase as ztc
+from plone.app.contentlisting.tests.base import CONTENTLISTING_FUNCTIONAL_TESTING  # noqa
+from plone.testing import layered
 
 import doctest
 import unittest
@@ -8,8 +8,10 @@ import unittest
 
 def test_suite():
     return unittest.TestSuite([
-        ztc.ZopeDocFileSuite(
-            'tests/integration.rst', package='plone.app.contentlisting',
-            test_class=ContentlistingFunctionalTestCase,
+        layered(doctest.DocFileSuite(
+            'tests/integration.rst',
+            package='plone.app.contentlisting',
             optionflags=doctest.NORMALIZE_WHITESPACE | doctest.ELLIPSIS),
+            layer=CONTENTLISTING_FUNCTIONAL_TESTING,
+        ),
     ])

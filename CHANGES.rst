@@ -14,7 +14,8 @@ New features:
 
 Bug fixes:
 
-- *add item here*
+- Remove ZopeTestCase.
+  [ivanteoh, maurits]
 
 
 1.2.7 (2016-08-19)

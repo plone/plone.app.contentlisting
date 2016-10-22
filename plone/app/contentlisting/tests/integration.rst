@@ -16,7 +16,8 @@ into an IContentListing so that the user always knows what to expect.
 We simply adapt a sequence of something content-like. In this case (and most
 common cases) the sequence will be a catalog search result set.
 
-    >>> catalog = getToolByName(self.portal, 'portal_catalog')
+    >>> portal = layer['portal']
+    >>> catalog = getToolByName(portal, 'portal_catalog')
     >>> results = catalog.searchResults(dict(is_default_page=False))
     >>> contentlist = IContentListing(results)
     >>> print(contentlist)
@@ -64,7 +65,7 @@ This item's origin is no longer a Brain, but the real object
 For user and integrator convenience we also include a couple of handy
 browser views to get to these listings.
 
-    >>> contentlisting = self.portal.restrictedTraverse('@@contentlisting')()
+    >>> contentlisting = portal.restrictedTraverse('@@contentlisting')()
     >>> print(contentlisting)
     <plone.app.contentlisting.contentlisting.ContentListing object ...
 
@@ -76,24 +77,24 @@ We can even slice the new contentlisting
     >>> len (contentlisting[2:4])
     1
 
-    >>> len(self.portal.restrictedTraverse('news/@@contentlisting')())
+    >>> len(portal.restrictedTraverse('news/@@contentlisting')())
     1
 
 And we can use batching in it:
 
-    >>> [i.getURL() for i in self.portal.restrictedTraverse('@@contentlisting')()]
+    >>> [i.getURL() for i in portal.restrictedTraverse('@@contentlisting')()]
     ['http://nohost/plone/test-folder', 'http://nohost/plone/front-page', 'http://nohost/plone/news']
-    >>> [i.getURL() for i in self.portal.restrictedTraverse('@@contentlisting')(batch=True, b_size=1)]
+    >>> [i.getURL() for i in portal.restrictedTraverse('@@contentlisting')(batch=True, b_size=1)]
     ['http://nohost/plone/test-folder']
-    >>> [i.getURL() for i in self.portal.restrictedTraverse('@@contentlisting')(batch=True, b_start=1, b_size=1)]
+    >>> [i.getURL() for i in portal.restrictedTraverse('@@contentlisting')(batch=True, b_start=1, b_size=1)]
     ['http://nohost/plone/front-page']
-    >>> [i.getURL() for i in self.portal.restrictedTraverse('@@contentlisting')(batch=True, b_start=2, b_size=1)]
+    >>> [i.getURL() for i in portal.restrictedTraverse('@@contentlisting')(batch=True, b_start=2, b_size=1)]
     ['http://nohost/plone/news']
-    >>> [i.getURL() for i in self.portal.restrictedTraverse('@@contentlisting')(batch=True, b_start=1, b_size=2)]
+    >>> [i.getURL() for i in portal.restrictedTraverse('@@contentlisting')(batch=True, b_start=1, b_size=2)]
     ['http://nohost/plone/front-page', 'http://nohost/plone/news']
 
 We can use filtering by catalog indexes:
-    >>> len(self.portal.restrictedTraverse('@@contentlisting')(portal_type='Document'))
+    >>> len(portal.restrictedTraverse('@@contentlisting')(portal_type='Document'))
     1
 
 
@@ -102,19 +103,19 @@ Append View Action
 
 Some types may require '/view' appended to their URLs. Currently these don't
 
-    >>> frontpage = self.portal.restrictedTraverse('@@contentlisting')(id='front-page')[0]
+    >>> frontpage = portal.restrictedTraverse('@@contentlisting')(id='front-page')[0]
     >>> frontpage.appendViewAction()
     ''
-    >>> news = self.portal.restrictedTraverse('@@contentlisting')(id='news')[0]
+    >>> news = portal.restrictedTraverse('@@contentlisting')(id='news')[0]
     >>> news.appendViewAction()
     ''
-    >>> realfrontpage = IContentListingObject(self.portal['front-page'])
+    >>> realfrontpage = IContentListingObject(portal['front-page'])
     >>> realfrontpage.appendViewAction()
     ''
 
 By altering portal_properties, we can make this true for Documents
 
-    >>> registry = self.portal.portal_registry
+    >>> registry = portal.portal_registry
     >>> registry['plone.types_use_view_action_in_listings'] = [unicode(frontpage.portal_type)]
 
     >>> frontpage.appendViewAction()
@@ -140,11 +141,11 @@ Visibility in Navigation
 
 Items by default are visible in navigation
 
-    >>> frontpage = self.portal.restrictedTraverse('@@contentlisting')(id='front-page')[0]
+    >>> frontpage = portal.restrictedTraverse('@@contentlisting')(id='front-page')[0]
     >>> frontpage.isVisibleInNav()
     True
 
-    >>> news = self.portal.restrictedTraverse('@@contentlisting')(id='news')[0]
+    >>> news = portal.restrictedTraverse('@@contentlisting')(id='news')[0]
     >>> news.isVisibleInNav()
     True
 
@@ -167,7 +168,7 @@ A catalog object with a real object works
 
 Getting a realobject-based listing also works
 
-    >>> realfrontpage = IContentListingObject(self.portal['front-page'])
+    >>> realfrontpage = IContentListingObject(portal['front-page'])
     >>> realfrontpage.__class__
     <class 'plone.app.contentlisting.realobject.RealContentListingObject'>
     >>> realfrontpage.isVisibleInNav()
@@ -182,7 +183,7 @@ way is the exclude_from_nav property being true
 
 This will be indexed, so an object isn't necessary to check this
 
-    >>> frontpage = self.portal.restrictedTraverse('@@contentlisting')(id='front-page')[0]
+    >>> frontpage = portal.restrictedTraverse('@@contentlisting')(id='front-page')[0]
     >>> frontpage.isVisibleInNav()
     False
     >>> print(frontpage.getDataOrigin())
@@ -190,7 +191,7 @@ This will be indexed, so an object isn't necessary to check this
 
 But a real object still works.
 
-    >>> realfrontpage = IContentListingObject(self.portal['front-page'])
+    >>> realfrontpage = IContentListingObject(portal['front-page'])
     >>> realfrontpage.__class__
     <class 'plone.app.contentlisting.realobject.RealContentListingObject'>
     >>> realfrontpage.isVisibleInNav()
@@ -201,11 +202,11 @@ We can also turn it off again.
     >>> frontpage_object.exclude_from_nav = False
     >>> frontpage_object.reindexObject()
 
-    >>> frontpage = self.portal.restrictedTraverse('@@contentlisting')(id='front-page')[0]
+    >>> frontpage = portal.restrictedTraverse('@@contentlisting')(id='front-page')[0]
     >>> frontpage.isVisibleInNav()
     True
 
-    >>> realfrontpage = IContentListingObject(self.portal['front-page'])
+    >>> realfrontpage = IContentListingObject(portal['front-page'])
     >>> realfrontpage.isVisibleInNav()
     True
 

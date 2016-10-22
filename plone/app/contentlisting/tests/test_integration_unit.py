@@ -1,18 +1,23 @@
 # -*- coding: utf-8 -*-
 from plone.app.contentlisting.interfaces import IContentListing
 from plone.app.contentlisting.interfaces import IContentListingObject
-from plone.app.contentlisting.tests.base import ContentlistingFunctionalTestCase  # noqa
+from plone.app.contentlisting.tests.base import CONTENTLISTING_FUNCTIONAL_TESTING  # noqa
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from plone.batching.interfaces import IBatch
 from Products.CMFCore.utils import getToolByName
 from zope.interface.verify import verifyObject
 
+import unittest
 
-class TestSetup(ContentlistingFunctionalTestCase):
+
+class TestSetup(unittest.TestCase):
+    layer = CONTENTLISTING_FUNCTIONAL_TESTING
 
     def setUp(self):
         super(TestSetup, self).setUp()
+        self.portal = self.layer['portal']
+        self.folder = self.portal['test-folder']
         self.workflow = getToolByName(self.portal, 'portal_workflow')
         self.catalog = getToolByName(self.portal, 'portal_catalog')
 
@@ -49,10 +54,13 @@ class TestSetup(ContentlistingFunctionalTestCase):
                                      IContentListing(self.catalog())[0]))
 
 
-class TestIndividualCatalogContentItems(ContentlistingFunctionalTestCase):
+class TestIndividualCatalogContentItems(unittest.TestCase):
+    layer = CONTENTLISTING_FUNCTIONAL_TESTING
 
     def setUp(self):
         super(TestIndividualCatalogContentItems, self).setUp()
+        self.portal = self.layer['portal']
+        self.folder = self.portal['test-folder']
         self.folder.invokeFactory(
             'Document', 'mypage', title='My Page', description='blah')
         self.item = self.folder.restrictedTraverse('@@folderListing')()[0]
@@ -145,10 +153,13 @@ class TestIndividualCatalogContentItems(ContentlistingFunctionalTestCase):
                         self.folder.restrictedTraverse('@@contentlisting')())
 
 
-class TestIndividualRealContentItems(ContentlistingFunctionalTestCase):
+class TestIndividualRealContentItems(unittest.TestCase):
+    layer = CONTENTLISTING_FUNCTIONAL_TESTING
 
     def setUp(self):
         super(TestIndividualRealContentItems, self).setUp()
+        self.portal = self.layer['portal']
+        self.folder = self.portal['test-folder']
         self.folder.invokeFactory(
             'Document', 'mypage', title='My Page', description='blah')
         self.item = IContentListingObject(self.folder.mypage)
@@ -213,10 +224,16 @@ class TestIndividualRealContentItems(ContentlistingFunctionalTestCase):
         assert uuid != self.item.getPath()
 
 
-class TestFolderContents(ContentlistingFunctionalTestCase):
+class TestFolderContents(unittest.TestCase):
     """Testing that the folder contents browserview works and behaves
     as it should.
     """
+    layer = CONTENTLISTING_FUNCTIONAL_TESTING
+
+    def setUp(self):
+        super(TestFolderContents, self).setUp()
+        self.portal = self.layer['portal']
+        self.folder = self.portal['test-folder']
 
     def test_empty_folder_contents(self):
         contentlisting = self.folder.restrictedTraverse('@@contentlisting')()
@@ -264,12 +281,15 @@ class TestFolderContents(ContentlistingFunctionalTestCase):
         self.assertEqual(contentlisting.actual_result_count, 2)
 
 
-class TestCollectionResults(ContentlistingFunctionalTestCase):
+class TestCollectionResults(unittest.TestCase):
     """Test, if the @@contentlisting view also works for Collections.
     """
+    layer = CONTENTLISTING_FUNCTIONAL_TESTING
 
     def setUp(self):
         super(TestCollectionResults, self).setUp()
+        self.portal = self.layer['portal']
+        self.folder = self.portal['test-folder']
         setRoles(self.portal, TEST_USER_ID, ['Manager'])
         self.portal.invokeFactory('Collection', 'collection', title=u'Col')
         collection = self.portal.collection
