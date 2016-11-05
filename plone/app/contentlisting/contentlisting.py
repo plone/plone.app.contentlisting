@@ -124,7 +124,8 @@ class BaseContentListingObject(object):
 
     def isVisibleInNav(self):
         # True, if this item should be visible in navigation trees.
-        if hasattr(self, 'exclude_from_nav') and (
+        exclude_from_nav_attr = getattr(self, 'exclude_from_nav', None)
+        if exclude_from_nav_attr is not None and (
                 self.exclude_from_nav()
                 if callable(self.exclude_from_nav)
                 else self.exclude_from_nav

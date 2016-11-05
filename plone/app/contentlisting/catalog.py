@@ -39,12 +39,13 @@ class CatalogContentListingObject(BaseContentListingObject):
 
         if name.startswith('_'):
             raise AttributeError(name)
-        if hasattr(aq_base(self._brain), name):
-            return getattr(self._brain, name)
-        elif hasattr(aq_base(self.getObject()), name):
-            return getattr(aq_base(self.getObject()), name)
-        else:
-            raise AttributeError(name)
+        brain_name = getattr(aq_base(self._brain), name, None)
+        if brain_name is not None:
+            return brain_name
+        object_name = getattr(aq_base(self.getObject()), name, None)
+        if object_name is not None:
+            return object_name
+        raise AttributeError(name)
 
     def getDataOrigin(self):
         # The origin of the data for the object.
@@ -78,7 +79,8 @@ class CatalogContentListingObject(BaseContentListingObject):
 
     def uuid(self):
         # content objects might have UID and might not.
-        if hasattr(aq_base(self._brain), 'UID'):
+        brain_uid = getattr(aq_base(self._brain), 'UID', None)
+        if brain_uid is not None:
             return self._brain.UID
         uuid = IUUID(self.getObject(), None)
         if uuid is not None:
@@ -179,7 +181,8 @@ class CatalogContentListingObject(BaseContentListingObject):
 
     def Language(self):
         # The language of the content.
-        if hasattr(aq_base(self._brain), 'Language'):
+        brain_language = getattr(aq_base(self._brain), 'Language', None)
+        if brain_language is not None:
             return self._brain.Language
         else:
             return self.getObject().Language()
