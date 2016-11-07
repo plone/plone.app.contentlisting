@@ -78,7 +78,8 @@ class CatalogContentListingObject(BaseContentListingObject):
 
     def uuid(self):
         # content objects might have UID and might not.
-        if hasattr(aq_base(self._brain), 'UID'):
+        brain_uid = getattr(aq_base(self._brain), 'UID', None)
+        if brain_uid is not None:
             return self._brain.UID
         uuid = IUUID(self.getObject(), None)
         if uuid is not None:
@@ -179,7 +180,8 @@ class CatalogContentListingObject(BaseContentListingObject):
 
     def Language(self):
         # The language of the content.
-        if hasattr(aq_base(self._brain), 'Language'):
+        brain_language = getattr(aq_base(self._brain), 'Language', None)
+        if brain_language is not None:
             return self._brain.Language
         else:
             return self.getObject().Language()
