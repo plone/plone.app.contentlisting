@@ -86,3 +86,8 @@ class IContentListingObject(IDublinCore):
         """The contenttype suitable as a css class name, matching Plone
         conventions.
         """
+
+    def MimeTypeIcon():
+        """ return mimetype icon from mimetype registry if contenttype is
+        File else None
+        """

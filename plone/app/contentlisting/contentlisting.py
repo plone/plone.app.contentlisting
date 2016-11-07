@@ -1,12 +1,17 @@
 # -*- coding: utf-8 -*-
+
+from plone import api
 from plone.app.contentlisting.interfaces import IContentListing
 from plone.app.contentlisting.interfaces import IContentListingObject
 from plone.i18n.normalizer.interfaces import IIDNormalizer
 from plone.registry.interfaces import IRegistry
 from Products.CMFPlone.interfaces import INavigationSchema
+from Products.MimetypesRegistry.MimeTypeItem import guess_icon_path
 from zope.component import getUtility
 from zope.component import queryUtility
 from zope.interface import implementer
+
+import os
 
 
 @implementer(IContentListing)
@@ -141,3 +146,15 @@ class BaseContentListingObject(object):
             return False
 
         return True
+
+    def MimeTypeIcon(self):
+        if not self.PortalType() == 'File':
+            return None
+        portal_url = api.portal.get().absolute_url()
+        mtt = api.portal.get_tool(name='mimetypes_registry')
+        if self.getObject().file.contentType:
+            ctype = mtt.lookup(self.getObject().file.contentType)
+            return os.path.join(portal_url,
+                                guess_icon_path(ctype[0])
+                                )
+        return None

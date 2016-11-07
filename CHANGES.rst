@@ -10,7 +10,8 @@ Breaking changes:
 
 New features:
 
-- *add item here*
+- provide Mimetype icon path for file types in contentlisting object
+  https://github.com/plone/Products.CMFPlone/issues/1734 [fgrcon]
 
 Bug fixes:
 
