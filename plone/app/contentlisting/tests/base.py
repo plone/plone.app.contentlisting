@@ -6,7 +6,6 @@ from plone.app.testing import PloneSandboxLayer
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from Products.CMFCore.utils import getToolByName
-from zope.configuration import xmlconfig
 
 
 class ContentListingLayer(PloneSandboxLayer):
