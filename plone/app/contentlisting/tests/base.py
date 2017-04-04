@@ -15,11 +15,9 @@ class ContentListingLayer(PloneSandboxLayer):
 
     def setUpZope(self, app, configurationContext):
         import plone.app.layout
+        self.loadZCML(package=plone.app.layout)
         import plone.app.contentlisting
-        xmlconfig.file('configure.zcml',
-                       plone.app.layout, context=configurationContext)
-        xmlconfig.file('configure.zcml',
-                       plone.app.contentlisting, context=configurationContext)
+        self.loadZCML(package=plone.app.contentlisting)
 
 
 CONTENTLISTING_FIXTURE = ContentListingLayer()
