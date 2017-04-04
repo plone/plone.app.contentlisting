@@ -21,6 +21,7 @@ class ContentListingLayer(PloneSandboxLayer):
         xmlconfig.file('configure.zcml',
                        plone.app.contentlisting, context=configurationContext)
 
+
 CONTENTLISTING_FIXTURE = ContentListingLayer()
 
 
@@ -39,6 +40,7 @@ class ContentListingIntegrationLayer(PloneSandboxLayer):
         wftool.doActionFor(portal.news, 'publish')
         portal.news.invokeFactory('News Item', 'news1')
         setRoles(portal, TEST_USER_ID, ['Member'])
+
 
 CONTENTLISTING_INTEGRATION_FIXTURE = ContentListingIntegrationLayer()
 CONTENTLISTING_INTEGRATION_TESTING = IntegrationTesting(
