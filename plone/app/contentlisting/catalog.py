@@ -10,6 +10,8 @@ from zope.component import getMultiAdapter
 from zope.component import queryUtility
 from zope.interface import implementer
 
+missing = object()
+
 
 @implementer(IContentListingObject)
 class CatalogContentListingObject(BaseContentListingObject):
@@ -39,11 +41,11 @@ class CatalogContentListingObject(BaseContentListingObject):
 
         if name.startswith('_'):
             raise AttributeError(name)
-        brain_name = getattr(aq_base(self._brain), name, None)
-        if brain_name is not None:
+        brain_name = getattr(aq_base(self._brain), name, missing)
+        if brain_name is not missing:
             return brain_name
-        object_name = getattr(aq_base(self.getObject()), name, None)
-        if object_name is not None:
+        object_name = getattr(aq_base(self.getObject()), name, missing)
+        if object_name is not missing:
             return object_name
         raise AttributeError(name)
 
