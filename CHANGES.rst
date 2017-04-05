@@ -14,7 +14,8 @@ New features:
 
 Bug fixes:
 
-- *add item here*
+- Remove hasattr.
+  [ivanteoh]
 
 
 1.2.8 (2016-11-19)

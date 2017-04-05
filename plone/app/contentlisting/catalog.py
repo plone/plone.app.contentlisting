@@ -11,6 +11,9 @@ from zope.component import queryUtility
 from zope.interface import implementer
 
 
+missing = object()
+
+
 @implementer(IContentListingObject)
 class CatalogContentListingObject(BaseContentListingObject):
     """A Catalog-results based content object representation.
@@ -39,12 +42,13 @@ class CatalogContentListingObject(BaseContentListingObject):
 
         if name.startswith('_'):
             raise AttributeError(name)
-        if hasattr(aq_base(self._brain), name):
-            return getattr(self._brain, name)
-        elif hasattr(aq_base(self.getObject()), name):
-            return getattr(aq_base(self.getObject()), name)
-        else:
-            raise AttributeError(name)
+        brain_name = getattr(aq_base(self._brain), name, missing)
+        if brain_name is not missing:
+            return brain_name
+        object_name = getattr(aq_base(self.getObject()), name, missing)
+        if object_name is not missing:
+            return object_name
+        raise AttributeError(name)
 
     def getDataOrigin(self):
         # The origin of the data for the object.

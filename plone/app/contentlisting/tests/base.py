@@ -6,7 +6,6 @@ from plone.app.testing import PloneSandboxLayer
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from Products.CMFCore.utils import getToolByName
-from zope.configuration import xmlconfig
 
 
 class ContentListingLayer(PloneSandboxLayer):
@@ -15,11 +14,10 @@ class ContentListingLayer(PloneSandboxLayer):
 
     def setUpZope(self, app, configurationContext):
         import plone.app.layout
+        self.loadZCML(package=plone.app.layout)
         import plone.app.contentlisting
-        xmlconfig.file('configure.zcml',
-                       plone.app.layout, context=configurationContext)
-        xmlconfig.file('configure.zcml',
-                       plone.app.contentlisting, context=configurationContext)
+        self.loadZCML(package=plone.app.contentlisting)
+
 
 CONTENTLISTING_FIXTURE = ContentListingLayer()
 
@@ -39,6 +37,7 @@ class ContentListingIntegrationLayer(PloneSandboxLayer):
         wftool.doActionFor(portal.news, 'publish')
         portal.news.invokeFactory('News Item', 'news1')
         setRoles(portal, TEST_USER_ID, ['Member'])
+
 
 CONTENTLISTING_INTEGRATION_FIXTURE = ContentListingIntegrationLayer()
 CONTENTLISTING_INTEGRATION_TESTING = IntegrationTesting(
