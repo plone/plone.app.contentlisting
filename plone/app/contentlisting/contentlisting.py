@@ -152,9 +152,12 @@ class BaseContentListingObject(object):
             return None
         portal_url = api.portal.get().absolute_url()
         mtt = api.portal.get_tool(name='mimetypes_registry')
-        if self.getObject().file.contentType:
-            ctype = mtt.lookup(self.getObject().file.contentType)
-            return os.path.join(portal_url,
-                                guess_icon_path(ctype[0])
-                                )
+        try:
+            if self.getObject().file.contentType:
+                ctype = mtt.lookup(self.getObject().file.contentType)
+                return os.path.join(portal_url,
+                                    guess_icon_path(ctype[0])
+                                    )
+        except AttributeError:
+            pass
         return None
