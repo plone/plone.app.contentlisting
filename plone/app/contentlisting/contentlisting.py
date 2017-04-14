@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
 
-from plone import api
+from Acquisition import aq_base
 from plone.app.contentlisting.interfaces import IContentListing
 from plone.app.contentlisting.interfaces import IContentListingObject
+from plone.app.layout.navigation.root import getNavigationRoot
 from plone.i18n.normalizer.interfaces import IIDNormalizer
 from plone.registry.interfaces import IRegistry
+from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.interfaces import INavigationSchema
 from Products.MimetypesRegistry.MimeTypeItem import guess_icon_path
 from zope.component import getUtility
@@ -148,16 +150,16 @@ class BaseContentListingObject(object):
         return True
 
     def MimeTypeIcon(self):
-        if not self.PortalType() == 'File':
-            return None
-        portal_url = api.portal.get().absolute_url()
-        mtt = api.portal.get_tool(name='mimetypes_registry')
-        try:
-            if self.getObject().file.contentType:
-                ctype = mtt.lookup(self.getObject().file.contentType)
-                return os.path.join(portal_url,
-                                    guess_icon_path(ctype[0])
-                                    )
-        except AttributeError:
-            pass
-        return None
+        mimeicon = None
+        navroot = getNavigationRoot(self._brain)
+        contenttype = aq_base(
+            getattr(self._brain, 'mime_type', None))
+        if contenttype:
+            mtt = getToolByName(
+                self._brain, 'mimetypes_registry')
+            ctype = mtt.lookup(contenttype)
+            mimeicon = os.path.join(
+                navroot,
+                guess_icon_path(ctype[0]))
+
+        return mimeicon
