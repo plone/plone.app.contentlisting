@@ -156,11 +156,6 @@ uuid() -
   point of it is to be unique. It can for example look like this
   `b0e80776-d41d-4f48-bf9e-7cb1aebabad5`.
 
-getIcon() -
-  Icon for the object. Returns an icon object from plone.app.layout.
-  If printed as a string, it will produce an HTML tag for the icon. Check
-  plone.app.layout for more info.
-
 getSize() -
   Size in bytes for example `24`.
 
@@ -254,3 +249,7 @@ Rights() -
 
 isVisibleInNav() -
   Return whether this object will be visible in a navigation view.
+
+MimeTypeIcon():
+  Return mimetype icon from mimetype registry if contenttype is
+        File else None.
