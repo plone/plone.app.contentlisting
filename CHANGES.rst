@@ -4,19 +4,11 @@ Changelog
 1.2.10 (unreleased)
 -------------------
 
-Breaking changes:
-
-- *add item here*
-
 New features:
 
 - provide Mimetype icon path for file types in contentlisting object
   https://github.com/plone/Products.CMFPlone/issues/1734
   [fgrcon]
-
-Bug fixes:
-
-- *add item here*
 
 
 1.2.9 (2017-05-06)
