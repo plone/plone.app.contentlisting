@@ -14,7 +14,8 @@ New features:
 
 Bug fixes:
 
-- *add item here*
+- Fix Lookup of review_state on objects that do not have an review_state, example related_items that are files could be such.
+  [loechel]
 
 
 1.3.0 (2017-07-03)
