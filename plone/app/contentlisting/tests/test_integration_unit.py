@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from plone.app.contentlisting.interfaces import IContentListing
 from plone.app.contentlisting.interfaces import IContentListingObject
-from plone.app.contentlisting.tests.base import CONTENTLISTING_FUNCTIONAL_TESTING  # noqa
+from plone.app.contentlisting.tests.base import CONTENTLISTING_FUNCTIONAL_TESTING  # NOQA: E501
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from plone.batching.interfaces import IBatch
@@ -46,12 +46,16 @@ class TestSetup(unittest.TestCase):
         self.assertTrue(isinstance(listing[0], CatalogContentListingObject))
 
     def test_listing_interface(self):
-        self.assertTrue(verifyObject(IContentListing,
-                                     IContentListing(self.catalog())))
+        self.assertTrue(verifyObject(
+            IContentListing,
+            IContentListing(self.catalog())),
+        )
 
     def test_listing_object_interface(self):
-        self.assertTrue(verifyObject(IContentListingObject,
-                                     IContentListing(self.catalog())[0]))
+        self.assertTrue(verifyObject(
+            IContentListingObject,
+            IContentListing(self.catalog())[0]),
+        )
 
 
 class TestIndividualCatalogContentItems(unittest.TestCase):
@@ -62,7 +66,11 @@ class TestIndividualCatalogContentItems(unittest.TestCase):
         self.portal = self.layer['portal']
         self.folder = self.portal['test-folder']
         self.folder.invokeFactory(
-            'Document', 'mypage', title='My Page', description='blah')
+            'Document',
+            'mypage',
+            title='My Page',
+            description='blah',
+        )
         self.item = self.folder.restrictedTraverse('@@folderListing')()[0]
         self.realitem = self.folder.mypage
 
@@ -70,12 +78,12 @@ class TestIndividualCatalogContentItems(unittest.TestCase):
         self.assertEqual(
             repr(self.item),
             '<plone.app.contentlisting.catalog.CatalogContentListingObject '
-            'instance at /plone/test-folder/mypage>'
+            'instance at /plone/test-folder/mypage>',
         )
         self.assertEqual(
             str(self.item),
             '<plone.app.contentlisting.catalog.CatalogContentListingObject '
-            'instance at /plone/test-folder/mypage>'
+            'instance at /plone/test-folder/mypage>',
         )
 
     def test_special_getattr_with_underscore(self):
@@ -89,7 +97,7 @@ class TestIndividualCatalogContentItems(unittest.TestCase):
         self.assertEqual(self.item.is_folderish, False)
         self.assertTrue(
             repr(self.item.getDataOrigin())[:35],
-            '<Products.ZCatalog.Catalog.mybrains'
+            '<Products.ZCatalog.Catalog.mybrains',
         )
 
     def test_special_getattr_from_object(self):
@@ -98,7 +106,7 @@ class TestIndividualCatalogContentItems(unittest.TestCase):
         self.assertEqual(self.item.absolute_url(), '')
         self.assertEqual(
             repr(self.item.getDataOrigin()),
-            '<Document at /plone/test-folder/mypage>'
+            '<Document at /plone/test-folder/mypage>',
         )
 
     def test_item_Title(self):
@@ -115,7 +123,7 @@ class TestIndividualCatalogContentItems(unittest.TestCase):
     def test_item_getURL(self):
         self.assertEqual(
             self.item.getURL(),
-            'http://nohost/plone/test-folder/mypage'
+            'http://nohost/plone/test-folder/mypage',
         )
         self.assertEqual(self.item.getURL(), self.realitem.absolute_url())
 
@@ -135,7 +143,11 @@ class TestIndividualCatalogContentItems(unittest.TestCase):
         # checking that we append the view action to urls when needed
         self.assertEqual(self.item.appendViewAction(), '')
         self.folder.invokeFactory(
-            'Image', 'myimage', title='My Image', description='blah')
+            'Image',
+            'myimage',
+            title='My Image',
+            description='blah',
+        )
         self.item = self.folder.restrictedTraverse('@@contentlisting')()[1]
         self.assertEqual(self.item.appendViewAction(), '/view')
 
@@ -149,8 +161,10 @@ class TestIndividualCatalogContentItems(unittest.TestCase):
     def test_containment(self):
         # we can test containment for normal content objects against
         # contentlistings
-        self.assertTrue(self.folder.mypage in
-                        self.folder.restrictedTraverse('@@contentlisting')())
+        self.assertTrue(
+            self.folder.mypage in
+            self.folder.restrictedTraverse('@@contentlisting')(),
+        )
 
 
 class TestIndividualRealContentItems(unittest.TestCase):
@@ -161,7 +175,11 @@ class TestIndividualRealContentItems(unittest.TestCase):
         self.portal = self.layer['portal']
         self.folder = self.portal['test-folder']
         self.folder.invokeFactory(
-            'Document', 'mypage', title='My Page', description='blah')
+            'Document',
+            'mypage',
+            title='My Page',
+            description='blah',
+        )
         self.item = IContentListingObject(self.folder.mypage)
         self.realitem = self.folder.mypage
 
@@ -169,12 +187,12 @@ class TestIndividualRealContentItems(unittest.TestCase):
         self.assertEqual(
             repr(self.item),
             '<plone.app.contentlisting.realobject.RealContentListingObject '
-            'instance at /plone/test-folder/mypage>'
+            'instance at /plone/test-folder/mypage>',
         )
         self.assertEqual(
             str(self.item),
             '<plone.app.contentlisting.realobject.RealContentListingObject '
-            'instance at /plone/test-folder/mypage>'
+            'instance at /plone/test-folder/mypage>',
         )
 
     def test_special_getattr_with_underscore(self):
@@ -186,8 +204,10 @@ class TestIndividualRealContentItems(unittest.TestCase):
         # Asking for an attribute not in the contentlistingobject, should
         # defer lookup to the brain
         self.assertEqual(self.item.absolute_url(), '')
-        self.assertEqual(repr(self.item.getDataOrigin()),
-                         '<Document at /plone/test-folder/mypage>')
+        self.assertEqual(
+            repr(self.item.getDataOrigin()),
+            '<Document at /plone/test-folder/mypage>',
+        )
 
     def test_item_Title(self):
         self.assertEqual(self.item.Title(), 'My Page')
@@ -201,8 +221,10 @@ class TestIndividualRealContentItems(unittest.TestCase):
         self.assertEqual(self.item.Creator(), 'test_user_1_')
 
     def test_item_getURL(self):
-        self.assertEqual(self.item.getURL(),
-                         'http://nohost/plone/test-folder/mypage')
+        self.assertEqual(
+            self.item.getURL(),
+            'http://nohost/plone/test-folder/mypage',
+        )
         self.assertEqual(self.item.getURL(), self.realitem.absolute_url())
 
     def test_item_reviewState(self):
@@ -259,7 +281,9 @@ class TestFolderContents(unittest.TestCase):
         # the results a contentlisting, regardless of batching
         self.folder.invokeFactory('Document', 'mypage')
         contentlisting = self.folder.restrictedTraverse('@@contentlisting')(
-            batch=True, b_size=1)
+            batch=True,
+            b_size=1,
+        )
         self.assertTrue(verifyObject(IContentListing, contentlisting))
         self.assertEqual(len(contentlisting), 1)
 
@@ -269,13 +293,18 @@ class TestFolderContents(unittest.TestCase):
         new_id = self.folder.invokeFactory('Document', 'mypage')
         new_id2 = self.folder.invokeFactory('Document', 'mypage2')
         contentlisting = self.folder.restrictedTraverse('@@contentlisting')(
-            batch=True, b_size=1)
+            batch=True,
+            b_size=1,
+        )
         self.assertTrue(contentlisting[0].getId() == new_id)
         self.assertEqual(len(contentlisting), 1)
         self.assertEqual(contentlisting.actual_result_count, 2)
 
         contentlisting = self.folder.restrictedTraverse('@@contentlisting')(
-            batch=True, b_size=1, b_start=1)
+            batch=True,
+            b_size=1,
+            b_start=1,
+        )
         self.assertEqual(contentlisting[0].getId(), new_id2)
         self.assertEqual(len(contentlisting), 1)
         self.assertEqual(contentlisting.actual_result_count, 2)
@@ -296,7 +325,7 @@ class TestCollectionResults(unittest.TestCase):
         collection.query = [
             {'i': 'portal_type',
              'o': 'plone.app.querystring.operation.selection.any',
-             'v': ['Event', 'Event']
+             'v': ['Event', 'Event'],
              },
         ]
         collection.reindexObject()
@@ -312,7 +341,7 @@ class TestCollectionResults(unittest.TestCase):
 
     def test_filtering_collection_results_to_empty(self):
         contentlisting = self.col.restrictedTraverse('@@contentlisting')(
-            portal_type='NotExistent'
+            portal_type='NotExistent',
         )
 
         self.assertEqual(len(contentlisting), 0)
@@ -321,7 +350,7 @@ class TestCollectionResults(unittest.TestCase):
     def test_filtering_collection_results_to_news_items(self):
         self.folder.invokeFactory('Link', 'mylink')
         contentlisting = self.col.restrictedTraverse('@@contentlisting')(
-            portal_type='Link'
+            portal_type='Link',
         )
 
         self.assertEqual(len(contentlisting), 1)
@@ -340,7 +369,9 @@ class TestCollectionResults(unittest.TestCase):
         # the results a contentlisting, regardless of batching
         self.folder.invokeFactory('Event', 'myevent')
         contentlisting = self.col.restrictedTraverse('@@contentlisting')(
-            batch=True, b_size=1)
+            batch=True,
+            b_size=1,
+        )
 
         # In case of Collections, the result is a plone.batching object
         self.assertTrue(IBatch.providedBy(contentlisting))
@@ -353,7 +384,9 @@ class TestCollectionResults(unittest.TestCase):
         new_id = self.folder.invokeFactory('Event', 'myevent')
         new_id2 = self.folder.invokeFactory('Event', 'myevent2')
         contentlisting = self.col.restrictedTraverse('@@contentlisting')(
-            batch=True, b_size=1)
+            batch=True,
+            b_size=1,
+        )
 
         self.assertTrue(contentlisting[0].getId() == new_id)
         self.assertEqual(contentlisting.items_on_page, 1)
@@ -361,7 +394,10 @@ class TestCollectionResults(unittest.TestCase):
         self.assertEqual(contentlisting.has_next, True)
 
         contentlisting = self.col.restrictedTraverse('@@contentlisting')(
-            batch=True, b_size=1, b_start=1)
+            batch=True,
+            b_size=1,
+            b_start=1,
+        )
 
         self.assertEqual(contentlisting[0].getId(), new_id2)
         self.assertEqual(contentlisting.items_on_page, 1)

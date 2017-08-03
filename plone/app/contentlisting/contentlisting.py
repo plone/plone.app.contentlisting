@@ -142,7 +142,7 @@ class BaseContentListingObject(object):
         registry = getUtility(IRegistry)
         navigation_settings = registry.forInterface(
             INavigationSchema,
-            prefix='plone'
+            prefix='plone',
         )
         if self.portal_type not in navigation_settings.displayed_types:
             return False

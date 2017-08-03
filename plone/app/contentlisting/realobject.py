@@ -21,7 +21,7 @@ class RealContentListingObject(BaseContentListingObject):
     def __repr__(self):
         return '<plone.app.contentlisting.realobject.'\
             'RealContentListingObject instance at {0}>'.format(
-                self.getPath()
+                self.getPath(),
             )
 
     __str__ = __repr__
@@ -78,7 +78,7 @@ class RealContentListingObject(BaseContentListingObject):
             return 0
         return obj.getObjSize(
             None,
-            getattr(primary_field_info.value, 'size', 0)
+            getattr(primary_field_info.value, 'size', 0),
         )
 
     def review_state(self):

@@ -10,8 +10,10 @@ class FolderListing(BrowserView):
         query = {}
         query.update(kw)
 
-        query['path'] = {'query': '/'.join(self.context.getPhysicalPath()),
-                         'depth': 1}
+        query['path'] = {
+            'query': '/'.join(self.context.getPhysicalPath()),
+            'depth': 1,
+        }
 
         # if we don't have asked explicitly for other sorting, we'll want
         # it by position in parent
@@ -42,6 +44,6 @@ class ContentListingCollection(BrowserView):
             batch=batch,
             b_size=b_size,
             b_start=b_start,
-            custom_query=kw
+            custom_query=kw,
         )
         return res
