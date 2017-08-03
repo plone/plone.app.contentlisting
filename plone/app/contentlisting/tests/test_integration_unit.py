@@ -46,15 +46,19 @@ class TestSetup(unittest.TestCase):
         self.assertTrue(isinstance(listing[0], CatalogContentListingObject))
 
     def test_listing_interface(self):
-        self.assertTrue(verifyObject(
-            IContentListing,
-            IContentListing(self.catalog())),
+        self.assertTrue(
+            verifyObject(
+                IContentListing,
+                IContentListing(self.catalog()),
+            ),
         )
 
     def test_listing_object_interface(self):
-        self.assertTrue(verifyObject(
-            IContentListingObject,
-            IContentListing(self.catalog())[0]),
+        self.assertTrue(
+            verifyObject(
+                IContentListingObject,
+                IContentListing(self.catalog())[0],
+            ),
         )
 
 
@@ -323,9 +327,10 @@ class TestCollectionResults(unittest.TestCase):
         self.portal.invokeFactory('Collection', 'collection', title=u'Col')
         collection = self.portal.collection
         collection.query = [
-            {'i': 'portal_type',
-             'o': 'plone.app.querystring.operation.selection.any',
-             'v': ['Event', 'Event'],
+            {
+                'i': 'portal_type',
+                'o': 'plone.app.querystring.operation.selection.any',
+                'v': ['Event', 'Event'],
              },
         ]
         collection.reindexObject()
