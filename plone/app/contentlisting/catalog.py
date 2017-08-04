@@ -30,7 +30,7 @@ class CatalogContentListingObject(BaseContentListingObject):
     def __repr__(self):
         return '<plone.app.contentlisting.catalog.'\
             'CatalogContentListingObject instance at {0}>'.format(
-                self.getPath()
+                self.getPath(),
             )
 
     __str__ = __repr__
@@ -137,7 +137,7 @@ class CatalogContentListingObject(BaseContentListingObject):
                     # string:${navigation_root_url}/author/${item_creator}
                     'home_page': '/HOMEPAGEURL',
                     'location': '',
-                    'fullname': username
+                    'fullname': username,
                 }
             self.request.usercache[username] = userdata
         return userdata

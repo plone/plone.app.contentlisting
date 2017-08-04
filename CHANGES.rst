@@ -14,7 +14,8 @@ New features:
 
 Bug fixes:
 
-- *add item here*
+- fixes code conventions
+  [loechel]
 
 
 1.3.0 (2017-07-03)

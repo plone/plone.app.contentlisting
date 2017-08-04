@@ -113,12 +113,14 @@ class BaseContentListingObject(object):
         # A normalised type name that identifies the object in listings.
         # Used for CSS styling.
         return 'contenttype-' + queryUtility(IIDNormalizer).normalize(
-            self.PortalType())
+            self.PortalType(),
+        )
 
     def ReviewStateClass(self):
         # A normalised review state string for CSS styling use in listings.
         return 'state-' + queryUtility(IIDNormalizer).normalize(
-            self.review_state())
+            self.review_state(),
+        )
 
     def appendViewAction(self):
         # Decide whether to produce a string /view to append to links in
@@ -142,7 +144,7 @@ class BaseContentListingObject(object):
         registry = getUtility(IRegistry)
         navigation_settings = registry.forInterface(
             INavigationSchema,
-            prefix='plone'
+            prefix='plone',
         )
         if self.portal_type not in navigation_settings.displayed_types:
             return False
@@ -153,13 +155,17 @@ class BaseContentListingObject(object):
         mimeicon = None
         navroot = getNavigationRoot(self._brain)
         contenttype = aq_base(
-            getattr(self._brain, 'mime_type', None))
+            getattr(self._brain, 'mime_type', None),
+        )
         if contenttype:
             mtt = getToolByName(
-                self._brain, 'mimetypes_registry')
+                self._brain,
+                'mimetypes_registry',
+            )
             ctype = mtt.lookup(contenttype)
             mimeicon = os.path.join(
                 navroot,
-                guess_icon_path(ctype[0]))
+                guess_icon_path(ctype[0]),
+            )
 
         return mimeicon
