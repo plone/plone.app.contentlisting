@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from Acquisition import aq_base
 from Acquisition import aq_get
-from plone import api
+#from plone import api
 from plone.app.contentlisting.contentlisting import BaseContentListingObject
 from plone.app.contentlisting.interfaces import IContentListingObject
 from plone.rfc822.interfaces import IPrimaryFieldInfo
@@ -84,7 +84,10 @@ class RealContentListingObject(BaseContentListingObject):
 
     def review_state(self):
         obj = self.getObject()
-        return api.content.get_state(obj=obj, default=None)
+        wftool = getToolByName(obj, 'portal_workflow')
+        return wftool.getInfoFor(obj, 'review_state', default=None)
+        # NOTE: Potential candidat for plone.api replacement.
+        # return api.content.get_state(obj=obj, default=None)
 
     def Type(self):
         # Dublin Core element - Object type.
