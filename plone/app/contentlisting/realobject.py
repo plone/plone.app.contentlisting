@@ -85,8 +85,6 @@ class RealContentListingObject(BaseContentListingObject):
         obj = self.getObject()
         wftool = getToolByName(obj, 'portal_workflow')
         return wftool.getInfoFor(obj, 'review_state', default=None)
-        # NOTE: Potential candidat for plone.api replacement.
-        # return api.content.get_state(obj=obj, default=None)
 
     def Type(self):
         # Dublin Core element - Object type.
