@@ -42,9 +42,9 @@ class ContentListingIntegrationLayer(PloneSandboxLayer):
 CONTENTLISTING_INTEGRATION_FIXTURE = ContentListingIntegrationLayer()
 CONTENTLISTING_INTEGRATION_TESTING = IntegrationTesting(
     bases=(CONTENTLISTING_INTEGRATION_FIXTURE, ),
-    name='ContentListing:Integration'
+    name='ContentListing:Integration',
 )
 CONTENTLISTING_FUNCTIONAL_TESTING = FunctionalTesting(
     bases=(CONTENTLISTING_INTEGRATION_FIXTURE, ),
-    name='ContentListing:Functional'
+    name='ContentListing:Functional',
 )

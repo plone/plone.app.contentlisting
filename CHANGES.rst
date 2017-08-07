@@ -14,6 +14,9 @@ New features:
 
 Bug fixes:
 
+- fixes code conventions
+  [loechel]
+
 - Fix Lookup of review_state on objects that do not have an review_state, example related_items that are files could be such.
   [loechel]
 
