@@ -4,17 +4,9 @@ Changelog
 1.0.7 (unreleased)
 ------------------
 
-Breaking changes:
-
-- *add item here*
-
-New features:
-
-- *add item here*
-
 Bug fixes:
 
-- *add item here*
+- Fixed: get review state of content with no workflow.
 
 
 1.0.6 (2017-09-08)
