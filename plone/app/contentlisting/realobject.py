@@ -84,7 +84,7 @@ class RealContentListingObject(BaseContentListingObject):
     def review_state(self):
         obj = self.getObject()
         wftool = getToolByName(obj, 'portal_workflow')
-        return wftool.getInfoFor(obj, 'review_state')
+        return wftool.getInfoFor(obj, 'review_state', default=None)
 
     def Type(self):
         # Dublin Core element - Object type.
