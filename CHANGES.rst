@@ -14,7 +14,8 @@ New features:
 
 Bug fixes:
 
-- *add item here*
+- In Zope4 brains can not longer acquire the REQUEST.
+  [pbauer]
 
 
 1.3.1 (2017-08-08)
