@@ -37,6 +37,8 @@ class ContentListingIntegrationLayer(PloneSandboxLayer):
         wftool.doActionFor(portal.news, 'publish')
         portal.news.invokeFactory('News Item', 'news1')
         setRoles(portal, TEST_USER_ID, ['Member'])
+        from Products.CMFCore.indexing import processQueue
+        processQueue()
 
 
 CONTENTLISTING_INTEGRATION_FIXTURE = ContentListingIntegrationLayer()
