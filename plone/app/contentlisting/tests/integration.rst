@@ -19,7 +19,6 @@ common cases) the sequence will be a catalog search result set.
     >>> portal = layer['portal']
     >>> catalog = getToolByName(portal, 'portal_catalog')
     >>> results = catalog.searchResults(dict(is_default_page=False))
-    >>> import pdb; pdb.set_trace()
     >>> contentlist = IContentListing(results)
     >>> print(contentlist)
     <plone.app.contentlisting.contentlisting.ContentListing object ...>
