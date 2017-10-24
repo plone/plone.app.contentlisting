@@ -1,11 +1,13 @@
-from setuptools import setup, find_packages
+from setuptools import find_packages
+from setuptools import setup
+
 import os
 
 
 def read(*rnames):
     return open(os.path.join(os.path.dirname(__file__), *rnames)).read()
 
-version = '1.3.2.dev0'
+version = '2.0.0.dev0'
 
 long_description = '{0}\n\n{1}'.format(
     read('README.rst'),
