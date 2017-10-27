@@ -1,12 +1,13 @@
 Changelog
 =========
 
-1.3.2 (unreleased)
+2.0.0 (unreleased)
 ------------------
 
 Breaking changes:
 
-- *add item here*
+- Remove Python2.6 support.
+  [ale-rt]
 
 New features:
 
