@@ -14,8 +14,7 @@ New features:
 
 Bug fixes:
 
-- In Zope4 brains can not longer acquire the REQUEST.
-  [pbauer]
+- *add item here*
 
 - Fix tests after collective.indexing moved into core.
   [pbauer]

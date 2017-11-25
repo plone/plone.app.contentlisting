@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from Acquisition import aq_base
+from Acquisition import aq_get
 from plone.app.contentlisting.contentlisting import BaseContentListingObject
 from plone.app.contentlisting.interfaces import IContentListingObject
 from plone.registry.interfaces import IRegistry
@@ -7,7 +8,6 @@ from plone.uuid.interfaces import IUUID
 from Products.CMFCore.utils import getToolByName
 from zope.component import getMultiAdapter
 from zope.component import queryUtility
-from zope.globalrequest import getRequest
 from zope.interface import implementer
 
 
@@ -25,7 +25,7 @@ class CatalogContentListingObject(BaseContentListingObject):
     def __init__(self, brain):
         self._brain = brain
         self._cached_realobject = None
-        self.request = getRequest()
+        self.request = aq_get(brain, 'REQUEST')
 
     def __repr__(self):
         return '<plone.app.contentlisting.catalog.'\
