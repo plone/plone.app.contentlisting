@@ -1,8 +1,10 @@
 Changelog
 =========
 
-1.3.2 (unreleased)
+1.3.2 (2017-11-26)
 ------------------
+
+Bug fixes: 
 
 - Fix tests after collective.indexing moved into core.
   [pbauer]
