@@ -14,13 +14,15 @@ New features:
 
 Bug fixes:
 
-- *add item here*
+- Removed ``unittest2`` from tests.
+  We were not declaring this as dependency, and were not using any of its features.
+  [maurits]
 
 
 1.3.2 (2017-11-26)
 ------------------
 
-Bug fixes: 
+Bug fixes:
 
 - Fix tests after collective.indexing moved into core.
   [pbauer]

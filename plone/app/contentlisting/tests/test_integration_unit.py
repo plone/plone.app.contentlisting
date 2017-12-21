@@ -411,7 +411,6 @@ class TestCollectionResults(unittest.TestCase):
 
 
 def test_suite():
-    import unittest2 as unittest
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(TestSetup))
     suite.addTest(unittest.makeSuite(TestIndividualCatalogContentItems))
