@@ -3,8 +3,8 @@ from setuptools import setup, find_packages
 version = '1.0.7.dev0'
 
 long_description = '{0}\n\n{1}'.format(
-    open('README.txt').read(),
-    open('CHANGES.txt').read()
+    open('README.rst').read(),
+    open('CHANGES.rst').read()
 )
 
 setup(
