@@ -66,6 +66,10 @@ class ContentListing(object):
         """`x.__eq__(other)` <==> `x == other`"""
         raise NotImplementedError
 
+    def __hash__(self):
+        """`x.__hash__()`"""
+        raise NotImplementedError
+
     def __ne__(self, other):
         """`x.__ne__(other)` <==> `x != other`"""
         raise NotImplementedError
@@ -90,13 +94,6 @@ class ContentListing(object):
         """`x.__rmul__(n)` <==> `n * x`"""
         raise NotImplementedError
 
-    def __getslice__(self, i, j):
-        """`x.__getslice__(i, j)` <==> `x[i:j]`
-        Use of negative indices is not supported.
-        Deprecated since Python 2.0 but still a part of `UserList`.
-        """
-        return IContentListing(self._basesequence[i:j])
-
 
 class BaseContentListingObject(object):
     """A baseclass for the different types of contentlistingobjects.
@@ -108,6 +105,9 @@ class BaseContentListingObject(object):
         """For comparing two contentlistingobject"""
         other = IContentListingObject(other)
         return self.uuid() == other.uuid()
+
+    def __hash__(self):
+        return hash(self.uuid())
 
     def ContentTypeClass(self):
         # A normalised type name that identifies the object in listings.

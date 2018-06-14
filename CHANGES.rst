@@ -11,7 +11,8 @@ Breaking changes:
 
 New features:
 
-- *add item here*
+- Minor refactoring for Python 3 compatibility.
+  [hvelarde]
 
 Bug fixes:
 
