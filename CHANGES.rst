@@ -13,6 +13,8 @@ New features:
 
 - Minor refactoring for Python 3 compatibility.
   [hvelarde]
+- Handle slices in ``IContentListing.__getitem__``.
+  [gforcada]
 
 Bug fixes:
 

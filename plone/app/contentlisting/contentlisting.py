@@ -26,6 +26,13 @@ class ContentListing(object):
     def __getitem__(self, index):
         """`x.__getitem__(index)` <==> `x[index]`
         """
+        if isinstance(index, slice):
+            max_elements = min((index.stop, len(self._basesequence)))
+            return IContentListing([
+                self._basesequence[x]
+                for x in range(*index.indices(max_elements))
+            ])
+
         return IContentListingObject(self._basesequence[index])
 
     def __len__(self):
