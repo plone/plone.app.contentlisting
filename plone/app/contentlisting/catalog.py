@@ -133,8 +133,6 @@ class CatalogContentListingObject(BaseContentListingObject):
                     'username': username,
                     'description': '',
                     'language': '',
-                    # TODO
-                    # string:${navigation_root_url}/author/${item_creator}
                     'home_page': '/HOMEPAGEURL',
                     'location': '',
                     'fullname': username,
