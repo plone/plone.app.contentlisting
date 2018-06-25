@@ -27,12 +27,8 @@ class ContentListing(object):
         """`x.__getitem__(index)` <==> `x[index]`
         """
         if isinstance(index, slice):
-            max_elements = min((index.stop, len(self._basesequence)))
-            return IContentListing([
-                self._basesequence[x]
-                for x in range(*index.indices(max_elements))
-            ])
-
+            return IContentListing(
+                self._basesequence[index.start:index.stop:index.step])
         return IContentListingObject(self._basesequence[index])
 
     def __len__(self):
@@ -100,6 +96,14 @@ class ContentListing(object):
     def __rmul__(self, n):
         """`x.__rmul__(n)` <==> `n * x`"""
         raise NotImplementedError
+
+    def __getslice__(self, i, j):
+        """`x.__getslice__(i, j)` <==> `x[i:j]`
+        Use of negative indices is not supported.
+        No longer used in Python 3, but still part of
+        zope.interface.interfaces.IReadSequence
+        """
+        return IContentListing(self._basesequence[i:j])
 
 
 class BaseContentListingObject(object):

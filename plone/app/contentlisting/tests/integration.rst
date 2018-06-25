@@ -42,7 +42,7 @@ The listitem provides all the methods of the IContentListingObject interface
 It can report what its source of data is
 
     >>> print(listitem.getDataOrigin())
-    <Products.ZCatalog.Catalog.mybrains object at...>
+    <Products.ZCatalog.Catalog...mybrains object at...>
 
 and if we access attributes on it that are not in the interface or in the
 brain, it will transparently fetch the real object and cache it to get
@@ -115,8 +115,9 @@ Some types may require '/view' appended to their URLs. Currently these don't
 
 By altering portal_properties, we can make this true for Documents
 
+    >>> import six
     >>> registry = portal.portal_registry
-    >>> registry['plone.types_use_view_action_in_listings'] = [unicode(frontpage.portal_type)]
+    >>> registry['plone.types_use_view_action_in_listings'] = [six.text_type(frontpage.portal_type)]
 
     >>> frontpage.appendViewAction()
     '/view'
@@ -154,7 +155,7 @@ Just to check, these will be catalog objects using a brain internally
     >>> frontpage.__class__
     <class 'plone.app.contentlisting.catalog.CatalogContentListingObject'>
     >>> print(frontpage.getDataOrigin())
-    <Products.ZCatalog.Catalog.mybrains object at...>
+    <Products.ZCatalog.Catalog...mybrains object at...>
     >>> frontpage.isVisibleInNav()
     True
 
@@ -187,7 +188,7 @@ This will be indexed, so an object isn't necessary to check this
     >>> frontpage.isVisibleInNav()
     False
     >>> print(frontpage.getDataOrigin())
-    <Products.ZCatalog.Catalog.mybrains object at...>
+    <Products.ZCatalog.Catalog...mybrains object at...>
 
 But a real object still works.
 
