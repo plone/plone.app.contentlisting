@@ -1,15 +1,15 @@
 # -*- coding: utf-8 -*-
 
 from Acquisition import aq_base
-from Products.CMFCore.utils import getToolByName
-from Products.CMFPlone.interfaces import INavigationSchema
-from Products.MimetypesRegistry.MimeTypeItem import guess_icon_path
 from plone import api
 from plone.app.contentlisting.interfaces import IContentListing
 from plone.app.contentlisting.interfaces import IContentListingObject
 from plone.app.layout.navigation.root import getNavigationRoot
 from plone.i18n.normalizer.interfaces import IIDNormalizer
 from plone.registry.interfaces import IRegistry
+from Products.CMFCore.utils import getToolByName
+from Products.CMFPlone.interfaces import INavigationSchema
+from Products.MimetypesRegistry.MimeTypeItem import guess_icon_path
 from zope.component import getUtility
 from zope.component import queryUtility
 from zope.interface import implementer
