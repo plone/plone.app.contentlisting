@@ -1,14 +1,15 @@
 # -*- coding: utf-8 -*-
 
 from Acquisition import aq_base
+from Products.CMFCore.utils import getToolByName
+from Products.CMFPlone.interfaces import INavigationSchema
+from Products.MimetypesRegistry.MimeTypeItem import guess_icon_path
+from plone import api
 from plone.app.contentlisting.interfaces import IContentListing
 from plone.app.contentlisting.interfaces import IContentListingObject
 from plone.app.layout.navigation.root import getNavigationRoot
 from plone.i18n.normalizer.interfaces import IIDNormalizer
 from plone.registry.interfaces import IRegistry
-from Products.CMFCore.utils import getToolByName
-from Products.CMFPlone.interfaces import INavigationSchema
-from Products.MimetypesRegistry.MimeTypeItem import guess_icon_path
 from zope.component import getUtility
 from zope.component import queryUtility
 from zope.interface import implementer
@@ -164,7 +165,8 @@ class BaseContentListingObject(object):
 
     def MimeTypeIcon(self):
         mimeicon = None
-        navroot = getNavigationRoot(self._brain)
+        navroot = api.portal.get_navigation_root(self._brain.getObject())
+        navroot_url = navroot.absolute_url()
         contenttype = aq_base(
             getattr(self._brain, 'mime_type', None),
         )
@@ -175,7 +177,7 @@ class BaseContentListingObject(object):
             )
             ctype = mtt.lookup(contenttype)
             mimeicon = os.path.join(
-                navroot,
+                navroot_url,
                 guess_icon_path(ctype[0]),
             )
 
