@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from AccessControl import ClassSecurityInfo
 from Acquisition import aq_base
 from Acquisition import aq_get
 from plone.app.contentlisting.contentlisting import BaseContentListingObject
@@ -9,6 +10,7 @@ from Products.CMFCore.utils import getToolByName
 from zope.component import getMultiAdapter
 from zope.component import queryUtility
 from zope.interface import implementer
+import Globals
 
 
 missing = object()
@@ -21,6 +23,8 @@ class CatalogContentListingObject(BaseContentListingObject):
     Whenever sequences of catalog brains are turned into contentlistings,
     This is the type of objects they are adapted to.
     """
+
+    security = ClassSecurityInfo()
 
     def __init__(self, brain):
         self._brain = brain
@@ -59,6 +63,7 @@ class CatalogContentListingObject(BaseContentListingObject):
         else:
             return self._brain
 
+    security.declarePublic('getObject')
     def getObject(self):
         # Get the real, underlying object.
 
@@ -71,15 +76,19 @@ class CatalogContentListingObject(BaseContentListingObject):
         return self._cached_realobject
 
     # a base set of elements that are needed but not defined in dublin core
+    security.declarePublic('getId')
     def getId(self):
         return self._brain.getId
 
+    security.declarePublic('getPath')
     def getPath(self):
         return self._brain.getPath()
 
+    security.declarePublic('getURL')
     def getURL(self, relative=False):
         return self._brain.getURL(relative=relative)
 
+    security.declarePublic('uuid')
     def uuid(self):
         # content objects might have UID and might not.
         brain_uid = getattr(aq_base(self._brain), 'UID', None)
@@ -90,9 +99,11 @@ class CatalogContentListingObject(BaseContentListingObject):
             return uuid
         return self.getPath()
 
+    security.declarePublic('getSize')
     def getSize(self):
         return self._brain.getObjSize
 
+    security.declarePublic('review_state')
     def review_state(self):
         return self._brain.review_state
 
@@ -192,3 +203,6 @@ class CatalogContentListingObject(BaseContentListingObject):
 
     def Rights(self):
         raise NotImplementedError
+
+
+Globals.InitializeClass(CatalogContentListingObject)

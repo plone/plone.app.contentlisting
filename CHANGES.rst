@@ -10,7 +10,8 @@ Breaking changes:
 
 New features:
 
-- *add item here*
+- Create security assertions for catalog items. Allow access in restricted python
+  [instification]
 
 Bug fixes:
 
