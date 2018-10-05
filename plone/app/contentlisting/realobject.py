@@ -6,6 +6,7 @@ from plone.app.contentlisting.interfaces import IContentListingObject
 from plone.rfc822.interfaces import IPrimaryFieldInfo
 from plone.uuid.interfaces import IUUID
 from Products.CMFCore.utils import getToolByName
+from Products.CMFPlone.utils import human_readable_size
 from zope.interface import implementer
 
 
@@ -73,13 +74,12 @@ class RealContentListingObject(BaseContentListingObject):
         except TypeError:
             # no primary field available, dexterity raises a TypeError
             # with the slightly missleading message 'could not adapt'.
-            return 0
+            primary_field_info = None
         if primary_field_info is None or not primary_field_info.value:
-            return 0
-        return obj.getObjSize(
-            None,
-            getattr(primary_field_info.value, 'size', 0),
-        )
+            size = 0
+        else:
+            size = getattr(primary_field_info.value, 'size', 0)
+        return human_readable_size(size)
 
     def review_state(self):
         obj = self.getObject()

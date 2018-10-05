@@ -231,6 +231,9 @@ class TestIndividualRealContentItems(unittest.TestCase):
         )
         self.assertEqual(self.item.getURL(), self.realitem.absolute_url())
 
+    def test_item_getSize(self):
+        self.assertEqual(self.item.getSize().upper(), '0 KB')
+
     def test_item_reviewState(self):
         wftool = getToolByName(self.realitem, 'portal_workflow')
         wf = wftool.getInfoFor(self.realitem, 'review_state')

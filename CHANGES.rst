@@ -13,6 +13,9 @@ New features:
 
 - Python 3 support
   [hvelarde, gforcada, davisagli]
+- Use human_readable_size from Products.CMFPlone.utils to replace getObjSize
+  script. #1801
+  [reinhardt]
 
 Bug fixes:
 
