@@ -64,7 +64,6 @@ class CatalogContentListingObject(BaseContentListingObject):
         else:
             return self._brain
 
-
     def getObject(self):
         # Get the real, underlying object.
 
