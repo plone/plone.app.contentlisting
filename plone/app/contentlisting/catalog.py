@@ -64,7 +64,6 @@ class CatalogContentListingObject(BaseContentListingObject):
         else:
             return self._brain
 
-    security.declarePublic('getObject')
 
     def getObject(self):
         # Get the real, underlying object.
@@ -76,24 +75,20 @@ class CatalogContentListingObject(BaseContentListingObject):
         if self._cached_realobject is None:
             self._cached_realobject = self._brain.getObject()
         return self._cached_realobject
+    security.public(getObject)
 
     # a base set of elements that are needed but not defined in dublin core
-    security.declarePublic('getId')
-
     def getId(self):
         return self._brain.getId
-
-    security.declarePublic('getPath')
+    security.public(getId)
 
     def getPath(self):
         return self._brain.getPath()
-
-    security.declarePublic('getURL')
+    security.public(getPath)
 
     def getURL(self, relative=False):
         return self._brain.getURL(relative=relative)
-
-    security.declarePublic('uuid')
+    security.public(getURL)
 
     def uuid(self):
         # content objects might have UID and might not.
@@ -104,39 +99,44 @@ class CatalogContentListingObject(BaseContentListingObject):
         if uuid is not None:
             return uuid
         return self.getPath()
-
-    security.declarePublic('getSize')
+    security.public(uuid)
 
     def getSize(self):
         return self._brain.getObjSize
-
-    security.declarePublic('review_state')
+    security.public(getSize)
 
     def review_state(self):
         return self._brain.review_state
+    security.public(review_state)
 
     # All the dublin core elements. Most of them should be in the
     # brain for easy access
     def Title(self):
         return self._brain.Title
+    security.public(Title)
 
     def Description(self):
         return self._brain.Description
+    security.public(Description)
 
     def CroppedDescription(self):
         registry = queryUtility(IRegistry)
         length = registry.get('plone.search_results_description_length')
         plone_view = getMultiAdapter((self, self.request), name='plone')
         return plone_view.cropText(self.Description(), length)
+    security.public(CroppedDescription)
 
     def Type(self):
         return self._brain.Type
+    security.public(Type)
 
     def PortalType(self):
         return self._brain.portal_type
+    security.public(PortalType)
 
     def listCreators(self):
         return self._brain.listCreators
+    security.public(listCreators)
 
     def getUserData(self, username):
         _usercache = self.request.get('usercache', None)
@@ -160,46 +160,60 @@ class CatalogContentListingObject(BaseContentListingObject):
                 }
             self.request.usercache[username] = userdata
         return userdata
+    security.public(getUserData)
 
     def Creator(self):
         username = self._brain.Creator
         return username
+    security.public(Creator)
 
     def Author(self):
         return self.getUserData(self.Creator())
+    security.public(Author)
 
     def Subject(self):
         return self._brain.Subject
+    security.public(Subject)
 
     def Publisher(self):
         raise NotImplementedError
+    security.public(Publisher)
 
     def listContributors(self):
         raise NotImplementedError
+    security.public(listContributors)
 
     def Contributors(self):
         return self.listContributors()
+    security.public(Contributors)
 
     def Date(self, zone=None):
         return self._brain.Date
+    security.public(Date)
 
     def CreationDate(self, zone=None):
         return self._brain.CreationDate
+    security.public(CreationDate)
 
     def EffectiveDate(self, zone=None):
         return self._brain.EffectiveDate
+    security.public(EffectiveDate)
 
     def ExpirationDate(self, zone=None):
         return self._brain.ExpirationDate
+    security.public(ExpirationDate)
 
     def ModificationDate(self, zone=None):
         return self._brain.ModificationDate
+    security.public(ModificationDate)
 
     def Format(self):
         raise NotImplementedError
+    security.public(Format)
 
     def Identifier(self):
         return self.getURL()
+    security.public(Identifier)
 
     def Language(self):
         # The language of the content.
@@ -208,9 +222,11 @@ class CatalogContentListingObject(BaseContentListingObject):
             return self._brain.Language
         else:
             return self.getObject().Language()
+    security.public(Language)
 
     def Rights(self):
         raise NotImplementedError
+    security.public(Rights)
 
 
 Globals.InitializeClass(CatalogContentListingObject)
