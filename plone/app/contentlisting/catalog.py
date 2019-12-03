@@ -106,7 +106,7 @@ class CatalogContentListingObject(BaseContentListingObject):
 
     def CroppedDescription(self):
         registry = queryUtility(IRegistry)
-        length = registry.get('plone.search_results_description_length')
+        length = registry.get('plone.search_results_description_length', 160)
         plone_view = getMultiAdapter((self, self.request), name='plone')
         return plone_view.cropText(self.Description(), length)
 

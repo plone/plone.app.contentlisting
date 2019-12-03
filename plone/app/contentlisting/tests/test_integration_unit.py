@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from plone.app.contentlisting import IS_PLONE5
 from plone.app.contentlisting.interfaces import IContentListing
 from plone.app.contentlisting.interfaces import IContentListingObject
 from plone.app.contentlisting.tests.base import CONTENTLISTING_FUNCTIONAL_TESTING  # NOQA: E501
@@ -326,10 +327,11 @@ class TestCollectionResults(unittest.TestCase):
         setRoles(self.portal, TEST_USER_ID, ['Manager'])
         self.portal.invokeFactory('Collection', 'collection', title=u'Col')
         collection = self.portal.collection
+        operator = 'plone.app.querystring.operation.selection.' + ('any' if IS_PLONE5 else 'is')
         collection.query = [
             {
                 'i': 'portal_type',
-                'o': 'plone.app.querystring.operation.selection.any',
+                'o': operator,
                 'v': ['Event', 'Event'],
              },
         ]
