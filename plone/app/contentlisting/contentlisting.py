@@ -1,19 +1,23 @@
 # -*- coding: utf-8 -*-
 
 from Acquisition import aq_base
+from plone.app.contentlisting import IS_PLONE5
 from plone.app.contentlisting.interfaces import IContentListing
 from plone.app.contentlisting.interfaces import IContentListingObject
 from plone.app.layout.navigation.root import getNavigationRoot
 from plone.i18n.normalizer.interfaces import IIDNormalizer
 from plone.registry.interfaces import IRegistry
 from Products.CMFCore.utils import getToolByName
-from Products.CMFPlone.interfaces import INavigationSchema
 from Products.MimetypesRegistry.MimeTypeItem import guess_icon_path
 from zope.component import getUtility
 from zope.component import queryUtility
 from zope.interface import implementer
 
 import os
+
+
+if IS_PLONE5:
+    from Products.CMFPlone.interfaces import INavigationSchema
 
 
 @implementer(IContentListing)
@@ -122,34 +126,66 @@ class BaseContentListingObject(object):
             self.review_state(),
         )
 
-    def appendViewAction(self):
-        # Decide whether to produce a string /view to append to links in
-        # results listings.
-        registry = getUtility(IRegistry)
-        types = registry.get('plone.types_use_view_action_in_listings', [])
-        if self.portal_type in types:
-            return '/view'
-        return ''
 
-    def isVisibleInNav(self):
-        # True, if this item should be visible in navigation trees.
-        exclude_from_nav_attr = getattr(self, 'exclude_from_nav', None)
-        if exclude_from_nav_attr is not None and (
-                self.exclude_from_nav()
-                if callable(self.exclude_from_nav)
-                else self.exclude_from_nav
-        ):
-            return False
 
-        registry = getUtility(IRegistry)
-        navigation_settings = registry.forInterface(
-            INavigationSchema,
-            prefix='plone',
-        )
-        if self.portal_type not in navigation_settings.displayed_types:
-            return False
+    if IS_PLONE5:
+        def appendViewAction(self):
+            # Decide whether to produce a string /view to append to links in
+            # results listings.
+            registry = getUtility(IRegistry)
+            types = registry.get('plone.types_use_view_action_in_listings', [])
+            if self.portal_type in types:
+                return '/view'
+            return ''
 
-        return True
+        def isVisibleInNav(self):
+            # True, if this item should be visible in navigation trees.
+            exclude_from_nav_attr = getattr(self, 'exclude_from_nav', None)
+            if exclude_from_nav_attr is not None and (
+                    self.exclude_from_nav()
+                    if callable(self.exclude_from_nav)
+                    else self.exclude_from_nav
+            ):
+                return False
+            registry = getUtility(IRegistry)
+            navigation_settings = registry.forInterface(
+                INavigationSchema,
+                prefix='plone',
+            )
+            if self.portal_type not in navigation_settings.displayed_types:
+                return False
+            return True
+
+    else:
+
+        def appendViewAction(self):
+            # Decide whether to produce a string /view to append to links in
+            # results listings.
+            try:
+                ttool = getToolByName(self.getDataOrigin(), 'portal_properties')
+                types = ttool.site_properties.typesUseViewActionInListings
+            except AttributeError:
+                return ''
+            if self.portal_type in types:
+                return "/view"
+            return ''
+
+        def isVisibleInNav(self):
+            # True, if this item should be visible in navigation trees.
+            exclude_from_nav_attr = getattr(self, 'exclude_from_nav', None)
+            if exclude_from_nav_attr is not None and (
+                    self.exclude_from_nav()
+                    if callable(self.exclude_from_nav)
+                    else self.exclude_from_nav
+            ):
+                return False
+            portal_properties = getToolByName(self.getDataOrigin(), 'portal_properties')
+            navtree_properties = getattr(portal_properties, 'navtree_properties')
+            if self.portal_type in list(navtree_properties.metaTypesNotToList):
+                return False
+            if self.id in list(navtree_properties.idsNotToList):
+                return False
+            return True
 
     def MimeTypeIcon(self):
         mimeicon = None
