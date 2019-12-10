@@ -1,0 +1,36 @@
+version: 2.1
+jobs:
+  plone-43:
+    docker:
+      - image: circleci/python:2.7
+    steps:
+      - checkout
+      - run:
+          name: Tests setup
+          command: |
+            sudo pip install virtualenv==16.7.8
+      - run:
+          name: Run tests
+          command: |
+            PLONE_VERSION=5.1 make test
+  plone-51:
+    docker:
+      - image: circleci/python:2.7
+    steps:
+      - checkout
+      - run:
+          name: Tests setup
+          command: |
+            sudo pip install virtualenv==16.7.8
+      - run:
+          name: Run tests
+          command: |
+            PLONE_VERSION=5.1 make test
+workflows:
+ version: 2
+ plone-43:
+   jobs:
+     - plone-43
+ plone-51:
+   jobs:
+     - plone-51
