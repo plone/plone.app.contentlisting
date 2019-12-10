@@ -7,6 +7,7 @@ Changelog
 New features:
 
 - Backport to Plone 4.3
+  [gotcha]
 
 
 1.3.3 (2018-02-05)
