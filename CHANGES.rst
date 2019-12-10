@@ -4,17 +4,9 @@ Changelog
 1.3.4 (unreleased)
 ------------------
 
-Breaking changes:
-
-- *add item here*
-
 New features:
 
-- *add item here*
-
-Bug fixes:
-
-- *add item here*
+- Backport to Plone 4.3
 
 
 1.3.3 (2018-02-05)
