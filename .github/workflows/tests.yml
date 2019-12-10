@@ -17,10 +17,9 @@ jobs:
     - uses: actions/setup-python@v1
       with:
         python-version: '2.7'
-    - name: Setup for tests
+    - name: install virtualenv
       run: |
-        pip install -r requirements.txt
-        buildout -c buildout-${{matrix.plone-version}}.cfg
+        pip install virtualenv==16.7.8
     - name: Run tests
       run: |
-        bin/test
+        PLONE_VERSION=${{matrix.plone-version}} make test

@@ -5,7 +5,6 @@ env:
   - PLONE_VERSION=4.3
   - PLONE_VERSION=5.1
 install:
-  - pip install -r requirements.txt
-  - buildout -c buildout-$PLONE_VERSION.cfg
+  - pip install virtualenv==16.7.8
 script:
-  - bin/test
+  - PLONE_VERSION=$PLONE_VERSION make test
