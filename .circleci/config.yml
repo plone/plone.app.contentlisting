@@ -9,13 +9,10 @@ jobs:
           name: Tests setup
           command: |
             sudo pip install virtualenv==16.7.8
-            virtualenv ci_tests
-            ci_tests/bin/pip install -r requirements.txt
-            ci_tests/bin/buildout -c buildout-4.3.cfg
       - run:
           name: Run tests
           command: |
-            bin/test
+            PLONE_VERSION=5.1 make test
   plone-51:
     docker:
       - image: circleci/python:2.7
@@ -25,13 +22,10 @@ jobs:
           name: Tests setup
           command: |
             sudo pip install virtualenv==16.7.8
-            virtualenv ci_tests
-            ci_tests/bin/pip install -r requirements.txt
-            ci_tests/bin/buildout -c buildout-5.1.cfg
       - run:
           name: Run tests
           command: |
-            bin/test
+            PLONE_VERSION=5.1 make test
 workflows:
  version: 2
  plone-43:

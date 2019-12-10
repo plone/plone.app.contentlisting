@@ -6,9 +6,7 @@ steps:
 - name: test
   image: python:2
   commands:
-  - pip install -r requirements.txt
-  - buildout -c buildout-4.3.cfg
-  - bin/test
+  - PLONE_VERSION=4.3 make test
 ---
 kind: pipeline
 name: plone51
@@ -17,6 +15,4 @@ steps:
 - name: test
   image: python:2
   commands:
-  - pip install -r requirements.txt
-  - buildout -c buildout-5.1.cfg
-  - bin/test
+  - PLONE_VERSION=5.1 make test
