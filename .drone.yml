@@ -1,0 +1,22 @@
+---
+kind: pipeline
+name: plone4
+
+steps:
+- name: test
+  image: python:2
+  commands:
+  - pip install -r requirements.txt
+  - buildout -c buildout-p4.cfg
+  - bin/test
+---
+kind: pipeline
+name: plone51
+
+steps:
+- name: test
+  image: python:2
+  commands:
+  - pip install -r requirements.txt
+  - buildout -c buildout-p51.cfg
+  - bin/test
