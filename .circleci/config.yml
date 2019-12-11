@@ -12,7 +12,7 @@ jobs:
       - run:
           name: Run tests
           command: |
-            PLONE_VERSION=5.1 make test
+            PLONE_VERSION=4.3 make test
   plone-51:
     docker:
       - image: circleci/python:2.7
