@@ -1,4 +1,9 @@
 include *
+prune .github
+prune .circleci
+
+exclude .installed.cfg
+exclude pip-selfcheck.json
 
 recursive-include docs *
 recursive-include plone *
