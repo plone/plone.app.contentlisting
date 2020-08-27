@@ -4,12 +4,12 @@
 
   <adapter
       factory=".contentlisting.ContentListing"
-      for="Products.ZCatalog.Lazy.LazyMap"
+      for="ZTUtils.Lazy.LazyMap"
       />
 
   <adapter
       factory=".contentlisting.ContentListing"
-      for="Products.ZCatalog.Lazy.LazyCat"
+      for="ZTUtils.Lazy.LazyCat"
       />
 
   <adapter
