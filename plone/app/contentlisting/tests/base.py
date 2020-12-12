@@ -6,7 +6,8 @@ from plone.app.testing import PloneSandboxLayer
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from Products.CMFCore.utils import getToolByName
-
+from zope.lifecycleevent import ObjectModifiedEvent
+from zope.event import notify
 
 class ContentListingLayer(PloneSandboxLayer):
 
@@ -37,6 +38,13 @@ class ContentListingIntegrationLayer(PloneSandboxLayer):
         wftool.doActionFor(portal.news, 'publish')
         portal.news.invokeFactory('News Item', 'news1')
         setRoles(portal, TEST_USER_ID, ['Member'])
+        # Begin XXX
+        # Why this is needed?
+        # Without this line the test fail because it seems the portal is reset
+        # and we do not find any content anymore
+        # This has to be investigated before merging
+        notify(ObjectModifiedEvent(portal["test-folder"]))
+        # End XXX
         from Products.CMFCore.indexing import processQueue
         processQueue()
 
