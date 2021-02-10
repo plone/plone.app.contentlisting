@@ -6,8 +6,9 @@ from plone.app.testing import PloneSandboxLayer
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from Products.CMFCore.utils import getToolByName
-from zope.lifecycleevent import ObjectModifiedEvent
 from zope.event import notify
+from zope.lifecycleevent import ObjectModifiedEvent
+
 
 class ContentListingLayer(PloneSandboxLayer):
 
