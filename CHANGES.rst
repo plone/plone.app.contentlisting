@@ -8,6 +8,16 @@ Changelog
 
 .. towncrier release notes start
 
+2.0.4 (2021-09-15)
+------------------
+
+Bug fixes:
+
+
+- Remove cyclic dependency with Products.CMFPlone
+  [ericof] (#37)
+
+
 2.0.3 (2020-09-26)
 ------------------
 
