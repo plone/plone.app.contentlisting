@@ -8,6 +8,15 @@ Changelog
 
 .. towncrier release notes start
 
+2.0.5 (2021-11-23)
+------------------
+
+Bug fixes:
+
+
+- Adapt the tests for Plone 6 [ale-rt] (#39)
+
+
 2.0.4 (2021-09-15)
 ------------------
 
