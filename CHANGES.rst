@@ -8,6 +8,16 @@ Changelog
 
 .. towncrier release notes start
 
+2.0.6 (2022-01-07)
+------------------
+
+Bug fixes:
+
+
+- Do not throw an error when the contenttype is not in the mimetypes_registry.
+  [tschorr] (#41)
+
+
 2.0.5 (2021-11-23)
 ------------------
 
