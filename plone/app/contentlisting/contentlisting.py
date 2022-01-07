@@ -174,9 +174,10 @@ class BaseContentListingObject(object):
                 'mimetypes_registry',
             )
             ctype = mtt.lookup(contenttype)
-            mimeicon = os.path.join(
-                navroot,
-                guess_icon_path(ctype[0]),
-            )
+            if ctype:
+                mimeicon = os.path.join(
+                    navroot,
+                    guess_icon_path(ctype[0]),
+                )
 
         return mimeicon

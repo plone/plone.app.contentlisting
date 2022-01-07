@@ -1,0 +1,2 @@
+Do not throw an error when the contenttype is not in the mimetypes_registry.
+[tschorr]
