@@ -1,0 +1,1 @@
+realobject: Do not throw an AttributeError when accessing attributes which return ``None``.

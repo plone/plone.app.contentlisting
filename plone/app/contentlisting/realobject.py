@@ -10,6 +10,9 @@ from Products.CMFPlone.utils import human_readable_size
 from zope.interface import implementer
 
 
+MARKER = object()
+
+
 @implementer(IContentListingObject)
 class RealContentListingObject(BaseContentListingObject):
     """A content object representation wrapping a real content object.
@@ -35,8 +38,8 @@ class RealContentListingObject(BaseContentListingObject):
         if name.startswith('_'):
             raise AttributeError(name)
         obj = self.getObject()
-        obj_name = getattr(aq_base(obj), name, None)
-        if obj_name is not None:
+        obj_name = getattr(aq_base(obj), name, MARKER)
+        if obj_name is not MARKER:
             return obj_name
         else:
             raise AttributeError(name)
