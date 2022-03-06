@@ -252,6 +252,16 @@ class TestIndividualRealContentItems(unittest.TestCase):
         assert uuid
         assert uuid != self.item.getPath()
 
+    def test_item_get_none(self):
+        self.realitem.test_none = None
+        try:
+            self.assertEqual(self.item.test_none, None)
+        except AttributeError:
+            self.fail(
+                "Accessing attributes which return ``None`` should not "
+                "result in an AttributeError."
+            )
+
 
 class TestFolderContents(unittest.TestCase):
     """Testing that the folder contents browserview works and behaves
