@@ -8,6 +8,15 @@ Changelog
 
 .. towncrier release notes start
 
+2.0.7 (2022-03-09)
+------------------
+
+Bug fixes:
+
+
+- realobject: Do not throw an AttributeError when accessing attributes which return ``None``. (#42)
+
+
 2.0.6 (2022-01-07)
 ------------------
 
