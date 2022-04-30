@@ -24,7 +24,7 @@
 
   <adapter
       factory=".contentlisting.ContentListing"
-      for="Products.CMFPlone.PloneBatch.Batch"
+      for="plone.base.batch.Batch"
       />
 
   <adapter
