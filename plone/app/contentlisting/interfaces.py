@@ -88,6 +88,6 @@ class IContentListingObject(IDublinCore):
         """
 
     def MimeTypeIcon():
-        """ return mimetype icon from mimetype registry if contenttype is
+        """return mimetype icon from mimetype registry if contenttype is
         File else None
         """

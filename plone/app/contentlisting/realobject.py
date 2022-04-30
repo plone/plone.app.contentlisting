@@ -15,18 +15,19 @@ MARKER = object()
 
 @implementer(IContentListingObject)
 class RealContentListingObject(BaseContentListingObject):
-    """A content object representation wrapping a real content object.
-    """
+    """A content object representation wrapping a real content object."""
 
     def __init__(self, obj):
         self._realobject = obj
-        self.request = aq_get(obj, 'REQUEST')
+        self.request = aq_get(obj, "REQUEST")
 
     def __repr__(self):
-        return '<plone.app.contentlisting.realobject.'\
-            'RealContentListingObject instance at {0}>'.format(
+        return (
+            "<plone.app.contentlisting.realobject."
+            "RealContentListingObject instance at {0}>".format(
                 self.getPath(),
             )
+        )
 
     __str__ = __repr__
 
@@ -35,7 +36,7 @@ class RealContentListingObject(BaseContentListingObject):
         the real underlying objects without knowing the names of all
         attributes.
         """
-        if name.startswith('_'):
+        if name.startswith("_"):
             raise AttributeError(name)
         obj = self.getObject()
         obj_name = getattr(aq_base(obj), name, MARKER)
@@ -55,7 +56,7 @@ class RealContentListingObject(BaseContentListingObject):
 
     # a base set of elements that are needed but not defined in dublin core
     def getPath(self):
-        return '/'.join(self.getObject().getPhysicalPath())
+        return "/".join(self.getObject().getPhysicalPath())
 
     def getURL(self):
         return self.getObject().absolute_url()
@@ -81,27 +82,27 @@ class RealContentListingObject(BaseContentListingObject):
         if primary_field_info is None or not primary_field_info.value:
             size = 0
         else:
-            size = getattr(primary_field_info.value, 'size', 0)
+            size = getattr(primary_field_info.value, "size", 0)
         return human_readable_size(size)
 
     def review_state(self):
         obj = self.getObject()
-        wftool = getToolByName(obj, 'portal_workflow')
-        return wftool.getInfoFor(obj, 'review_state', default=None)
+        wftool = getToolByName(obj, "portal_workflow")
+        return wftool.getInfoFor(obj, "review_state", default=None)
 
     def Type(self):
         # Dublin Core element - Object type.
         obj = self.getObject()
-        typestool = getToolByName(obj, 'portal_types')
+        typestool = getToolByName(obj, "portal_types")
         ti = typestool.getTypeInfo(obj)
         if ti is not None:
             return ti.Title()
         return obj.meta_type
 
-# Needed: A method Type() that returns the same as is cataloged as Type.
-# Currently Type() returns different values depending on the data source being
-# a brain or a real object. Probably needed. Support for all the attributes
-# from the indexablemetadata wrappers.
+    # Needed: A method Type() that returns the same as is cataloged as Type.
+    # Currently Type() returns different values depending on the data source being
+    # a brain or a real object. Probably needed. Support for all the attributes
+    # from the indexablemetadata wrappers.
 
     def PortalType(self):
         obj = self.getObject()

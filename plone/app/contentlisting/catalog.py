@@ -28,10 +28,12 @@ class CatalogContentListingObject(BaseContentListingObject):
         self.request = getRequest()
 
     def __repr__(self):
-        return '<plone.app.contentlisting.catalog.'\
-            'CatalogContentListingObject instance at {0}>'.format(
+        return (
+            "<plone.app.contentlisting.catalog."
+            "CatalogContentListingObject instance at {0}>".format(
                 self.getPath(),
             )
+        )
 
     __str__ = __repr__
 
@@ -40,7 +42,7 @@ class CatalogContentListingObject(BaseContentListingObject):
         underlying objects without knowing the names of all attributes.
         """
 
-        if name.startswith('_'):
+        if name.startswith("_"):
             raise AttributeError(name)
         brain_name = getattr(aq_base(self._brain), name, missing)
         if brain_name is not missing:
@@ -82,7 +84,7 @@ class CatalogContentListingObject(BaseContentListingObject):
 
     def uuid(self):
         # content objects might have UID and might not.
-        brain_uid = getattr(aq_base(self._brain), 'UID', None)
+        brain_uid = getattr(aq_base(self._brain), "UID", None)
         if brain_uid is not None:
             return self._brain.UID
         uuid = IUUID(self.getObject(), None)
@@ -106,8 +108,8 @@ class CatalogContentListingObject(BaseContentListingObject):
 
     def CroppedDescription(self):
         registry = queryUtility(IRegistry)
-        length = registry.get('plone.search_results_description_length')
-        plone_view = getMultiAdapter((self, self.request), name='plone')
+        length = registry.get("plone.search_results_description_length")
+        plone_view = getMultiAdapter((self, self.request), name="plone")
         return plone_view.cropText(self.Description(), length)
 
     def Type(self):
@@ -120,22 +122,22 @@ class CatalogContentListingObject(BaseContentListingObject):
         return self._brain.listCreators
 
     def getUserData(self, username):
-        _usercache = self.request.get('usercache', None)
+        _usercache = self.request.get("usercache", None)
         if _usercache is None:
-            self.request.set('usercache', {})
+            self.request.set("usercache", {})
             _usercache = {}
         userdata = _usercache.get(username, None)
         if userdata is None:
-            membershiptool = getToolByName(self._brain, 'portal_membership')
+            membershiptool = getToolByName(self._brain, "portal_membership")
             userdata = membershiptool.getMemberInfo(self._brain.Creator)
             if not userdata:
                 userdata = {
-                    'username': username,
-                    'description': '',
-                    'language': '',
-                    'home_page': '/HOMEPAGEURL',
-                    'location': '',
-                    'fullname': username,
+                    "username": username,
+                    "description": "",
+                    "language": "",
+                    "home_page": "/HOMEPAGEURL",
+                    "location": "",
+                    "fullname": username,
                 }
             self.request.usercache[username] = userdata
         return userdata
@@ -182,7 +184,7 @@ class CatalogContentListingObject(BaseContentListingObject):
 
     def Language(self):
         # The language of the content.
-        brain_language = getattr(aq_base(self._brain), 'Language', None)
+        brain_language = getattr(aq_base(self._brain), "Language", None)
         if brain_language is not None:
             return self._brain.Language
         else:
