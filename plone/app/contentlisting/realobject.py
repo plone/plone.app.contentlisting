@@ -23,9 +23,7 @@ class RealContentListingObject(BaseContentListingObject):
     def __repr__(self):
         return (
             "<plone.app.contentlisting.realobject."
-            "RealContentListingObject instance at {}>".format(
-                self.getPath(),
-            )
+            f"RealContentListingObject instance at {self.getPath()}>"
         )
 
     __str__ = __repr__
@@ -41,8 +39,7 @@ class RealContentListingObject(BaseContentListingObject):
         obj_name = getattr(aq_base(obj), name, MARKER)
         if obj_name is not MARKER:
             return obj_name
-        else:
-            raise AttributeError(name)
+        raise AttributeError(name)
 
     def getObject(self):
         return self._realobject

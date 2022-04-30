@@ -57,8 +57,7 @@ class CatalogContentListingObject(BaseContentListingObject):
         # the real object.
         if self._cached_realobject is not None:
             return self._cached_realobject
-        else:
-            return self._brain
+        return self._brain
 
     def getObject(self):
         # Get the real, underlying object.
@@ -85,7 +84,7 @@ class CatalogContentListingObject(BaseContentListingObject):
         # content objects might have UID and might not.
         brain_uid = getattr(aq_base(self._brain), "UID", None)
         if brain_uid is not None:
-            return self._brain.UID
+            return brain_uid
         uuid = IUUID(self.getObject(), None)
         if uuid is not None:
             return uuid
@@ -142,8 +141,7 @@ class CatalogContentListingObject(BaseContentListingObject):
         return userdata
 
     def Creator(self):
-        username = self._brain.Creator
-        return username
+        return self._brain.Creator
 
     def Author(self):
         return self.getUserData(self.Creator())
@@ -186,8 +184,7 @@ class CatalogContentListingObject(BaseContentListingObject):
         brain_language = getattr(aq_base(self._brain), "Language", None)
         if brain_language is not None:
             return self._brain.Language
-        else:
-            return self.getObject().Language()
+        return self.getObject().Language()
 
     def Rights(self):
         raise NotImplementedError
