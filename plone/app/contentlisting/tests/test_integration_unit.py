@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 from plone.app.contentlisting.interfaces import IContentListing
 from plone.app.contentlisting.interfaces import IContentListingObject
-from plone.app.contentlisting.tests.base import CONTENTLISTING_FUNCTIONAL_TESTING  # NOQA: E501
+from plone.app.contentlisting.tests.base import (
+    CONTENTLISTING_FUNCTIONAL_TESTING,  # NOQA: E501
+)
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from plone.batching.interfaces import IBatch
@@ -41,8 +43,7 @@ class TestSetup(unittest.TestCase):
     def test_making_contentlistingobjects(self):
         results = self.catalog()
         listing = IContentListing(results)
-        from plone.app.contentlisting.catalog import \
-            CatalogContentListingObject
+        from plone.app.contentlisting.catalog import CatalogContentListingObject
         self.assertTrue(isinstance(listing[0], CatalogContentListingObject))
 
     def test_listing_interface(self):
