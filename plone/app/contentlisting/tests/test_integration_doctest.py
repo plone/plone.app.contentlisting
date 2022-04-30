@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from plone.app.contentlisting.tests.base import (
     CONTENTLISTING_FUNCTIONAL_TESTING,  # NOQA: E501
 )

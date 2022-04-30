@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from plone.app.contentlisting.interfaces import IContentListing
 from plone.app.contentlisting.interfaces import IContentListingObject
 from plone.app.contentlisting.tests.base import (
@@ -17,7 +16,7 @@ class TestSetup(unittest.TestCase):
     layer = CONTENTLISTING_FUNCTIONAL_TESTING
 
     def setUp(self):
-        super(TestSetup, self).setUp()
+        super().setUp()
         self.portal = self.layer["portal"]
         self.folder = self.portal["test-folder"]
         self.workflow = getToolByName(self.portal, "portal_workflow")
@@ -70,7 +69,7 @@ class TestIndividualCatalogContentItems(unittest.TestCase):
     layer = CONTENTLISTING_FUNCTIONAL_TESTING
 
     def setUp(self):
-        super(TestIndividualCatalogContentItems, self).setUp()
+        super().setUp()
         self.portal = self.layer["portal"]
         self.folder = self.portal["test-folder"]
         self.folder.invokeFactory(
@@ -144,8 +143,8 @@ class TestIndividualCatalogContentItems(unittest.TestCase):
         self.assertEqual(self.item.review_state(), wf)
 
     def test_item_Type(self):
-        self.assertEqual(self.item.Type(), u"Page")
-        self.assertEqual(self.item.Type().domain, u"plone")
+        self.assertEqual(self.item.Type(), "Page")
+        self.assertEqual(self.item.Type().domain, "plone")
 
     def test_appendViewAction(self):
         # checking that we append the view action to urls when needed
@@ -178,7 +177,7 @@ class TestIndividualRealContentItems(unittest.TestCase):
     layer = CONTENTLISTING_FUNCTIONAL_TESTING
 
     def setUp(self):
-        super(TestIndividualRealContentItems, self).setUp()
+        super().setUp()
         self.portal = self.layer["portal"]
         self.folder = self.portal["test-folder"]
         self.folder.invokeFactory(
@@ -243,8 +242,8 @@ class TestIndividualRealContentItems(unittest.TestCase):
         self.assertEqual(self.item.review_state(), wf)
 
     def test_item_Type(self):
-        self.assertEqual(self.item.Type(), u"Page")
-        self.assertEqual(self.item.Type().domain, u"plone")
+        self.assertEqual(self.item.Type(), "Page")
+        self.assertEqual(self.item.Type().domain, "plone")
 
     def test_item_ContentTypeClass(self):
         # checking the that we print nice strings for css class identifiers
@@ -274,7 +273,7 @@ class TestFolderContents(unittest.TestCase):
     layer = CONTENTLISTING_FUNCTIONAL_TESTING
 
     def setUp(self):
-        super(TestFolderContents, self).setUp()
+        super().setUp()
         self.portal = self.layer["portal"]
         self.folder = self.portal["test-folder"]
 
@@ -337,11 +336,11 @@ class TestCollectionResults(unittest.TestCase):
     layer = CONTENTLISTING_FUNCTIONAL_TESTING
 
     def setUp(self):
-        super(TestCollectionResults, self).setUp()
+        super().setUp()
         self.portal = self.layer["portal"]
         self.folder = self.portal["test-folder"]
         setRoles(self.portal, TEST_USER_ID, ["Manager"])
-        self.portal.invokeFactory("Collection", "collection", title=u"Col")
+        self.portal.invokeFactory("Collection", "collection", title="Col")
         collection = self.portal.collection
         collection.query = [
             {

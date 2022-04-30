@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from Acquisition import aq_base
 from plone.app.contentlisting.interfaces import IContentListing
 from plone.app.contentlisting.interfaces import IContentListingObject
@@ -17,7 +15,7 @@ import os
 
 
 @implementer(IContentListing)
-class ContentListing(object):
+class ContentListing:
     """An IContentListing implementation based on sequences of objects."""
 
     def __init__(self, sequence):
@@ -106,7 +104,7 @@ class ContentListing(object):
         return IContentListing(self._basesequence[i:j])
 
 
-class BaseContentListingObject(object):
+class BaseContentListingObject:
     """A baseclass for the different types of contentlistingobjects.
 
     To avoid duplication of the stuff that is not implementation-specific.

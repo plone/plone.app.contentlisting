@@ -10,7 +10,7 @@ def read(*rnames):
 
 version = "2.0.8.dev0"
 
-long_description = "{0}\n\n{1}".format(read("README.rst"), read("CHANGES.rst"))
+long_description = "{}\n\n{}".format(read("README.rst"), read("CHANGES.rst"))
 
 setup(
     name="plone.app.contentlisting",

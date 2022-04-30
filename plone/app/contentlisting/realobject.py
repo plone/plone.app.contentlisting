@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from Acquisition import aq_base
 from Acquisition import aq_get
 from plone.app.contentlisting.contentlisting import BaseContentListingObject
@@ -24,7 +23,7 @@ class RealContentListingObject(BaseContentListingObject):
     def __repr__(self):
         return (
             "<plone.app.contentlisting.realobject."
-            "RealContentListingObject instance at {0}>".format(
+            "RealContentListingObject instance at {}>".format(
                 self.getPath(),
             )
         )

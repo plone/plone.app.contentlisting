@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from Acquisition import aq_base
 from plone.app.contentlisting.contentlisting import BaseContentListingObject
 from plone.app.contentlisting.interfaces import IContentListingObject
@@ -30,7 +29,7 @@ class CatalogContentListingObject(BaseContentListingObject):
     def __repr__(self):
         return (
             "<plone.app.contentlisting.catalog."
-            "CatalogContentListingObject instance at {0}>".format(
+            "CatalogContentListingObject instance at {}>".format(
                 self.getPath(),
             )
         )

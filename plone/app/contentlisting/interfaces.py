@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from Products.CMFCore.interfaces import IDublinCore
 from zope.interface.common.sequence import IReadSequence
 

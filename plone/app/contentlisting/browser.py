@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from plone.app.contentlisting.interfaces import IContentListing
 from Products.CMFCore.utils import getToolByName
 from zope.publisher.browser import BrowserView
