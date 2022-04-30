@@ -1,8 +1,6 @@
 from plone.app.contentlisting.interfaces import IContentListing
 from plone.app.contentlisting.interfaces import IContentListingObject
-from plone.app.contentlisting.tests.base import (
-    CONTENTLISTING_FUNCTIONAL_TESTING,  # NOQA: E501
-)
+from plone.app.contentlisting.tests.base import CONTENTLISTING_FUNCTIONAL_TESTING
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from plone.batching.interfaces import IBatch

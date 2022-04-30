@@ -1,6 +1,4 @@
-from plone.app.contentlisting.tests.base import (
-    CONTENTLISTING_FUNCTIONAL_TESTING,  # NOQA: E501
-)
+from plone.app.contentlisting.tests.base import CONTENTLISTING_FUNCTIONAL_TESTING
 from plone.testing import layered
 
 import doctest
