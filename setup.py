@@ -8,7 +8,7 @@ def read(*rnames):
     return open(os.path.join(os.path.dirname(__file__), *rnames)).read()
 
 
-version = "2.0.8.dev0"
+version = "3.0.0.dev0"
 
 long_description = "{}\n\n{}".format(read("README.rst"), read("CHANGES.rst"))
 
@@ -21,12 +21,9 @@ setup(
         "Development Status :: 5 - Production/Stable",
         "Framework :: Plone",
         "Framework :: Plone :: Core",
-        "Framework :: Plone :: 5.2",
         "Framework :: Plone :: 6.0",
         "License :: OSI Approved :: GNU General Public License v2 (GPLv2)",
         "Programming Language :: Python",
-        "Programming Language :: Python :: 2.7",
-        "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
@@ -42,6 +39,7 @@ setup(
     zip_safe=False,
     install_requires=[
         "setuptools",
+        "plone.base",
     ],
     extras_require={
         "test": [
