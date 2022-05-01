@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from Products.CMFCore.interfaces import IDublinCore
 from zope.interface.common.sequence import IReadSequence
 
@@ -88,6 +87,6 @@ class IContentListingObject(IDublinCore):
         """
 
     def MimeTypeIcon():
-        """ return mimetype icon from mimetype registry if contenttype is
+        """return mimetype icon from mimetype registry if contenttype is
         File else None
         """

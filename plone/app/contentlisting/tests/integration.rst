@@ -115,9 +115,8 @@ Some types may require '/view' appended to their URLs. Currently these don't
 
 By altering portal_properties, we can make this true for Documents
 
-    >>> import six
     >>> registry = portal.portal_registry
-    >>> registry['plone.types_use_view_action_in_listings'] = [six.text_type(frontpage.portal_type)]
+    >>> registry['plone.types_use_view_action_in_listings'] = [str(frontpage.portal_type)]
 
     >>> frontpage.appendViewAction()
     '/view'
@@ -216,7 +215,7 @@ We can also exclude anything of a particular type using the displayed type setti
     >>> from plone.registry.interfaces import IRegistry
     >>> from zope.component import getUtility
     >>> registry = getUtility(IRegistry)
-    >>> from Products.CMFPlone.interfaces import INavigationSchema
+    >>> from plone.base.interfaces import INavigationSchema
     >>> navigation_settings = registry.forInterface(
     ...     INavigationSchema,
     ...     prefix='plone'

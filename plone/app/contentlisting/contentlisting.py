@@ -1,13 +1,11 @@
-# -*- coding: utf-8 -*-
-
 from Acquisition import aq_base
 from plone.app.contentlisting.interfaces import IContentListing
 from plone.app.contentlisting.interfaces import IContentListingObject
 from plone.app.layout.navigation.root import getNavigationRoot
+from plone.base.interfaces import INavigationSchema
 from plone.i18n.normalizer.interfaces import IIDNormalizer
 from plone.registry.interfaces import IRegistry
 from Products.CMFCore.utils import getToolByName
-from Products.CMFPlone.interfaces import INavigationSchema
 from Products.MimetypesRegistry.MimeTypeItem import guess_icon_path
 from zope.component import getUtility
 from zope.component import queryUtility
@@ -17,18 +15,18 @@ import os
 
 
 @implementer(IContentListing)
-class ContentListing(object):
+class ContentListing:
     """An IContentListing implementation based on sequences of objects."""
 
     def __init__(self, sequence):
         self._basesequence = sequence
 
     def __getitem__(self, index):
-        """`x.__getitem__(index)` <==> `x[index]`
-        """
+        """`x.__getitem__(index)` <==> `x[index]`"""
         if isinstance(index, slice):
             return IContentListing(
-                self._basesequence[index.start:index.stop:index.step])
+                self._basesequence[index.start : index.stop : index.step]
+            )
         return IContentListingObject(self._basesequence[index])
 
     def __len__(self):
@@ -40,7 +38,7 @@ class ContentListing(object):
     @property
     def actual_result_count(self):
         bs = self._basesequence
-        return getattr(bs, 'actual_result_count', len(bs))
+        return getattr(bs, "actual_result_count", len(bs))
 
     def __iter__(self):
         """Let the sequence be iterable and whenever we look at an object, it
@@ -106,7 +104,7 @@ class ContentListing(object):
         return IContentListing(self._basesequence[i:j])
 
 
-class BaseContentListingObject(object):
+class BaseContentListingObject:
     """A baseclass for the different types of contentlistingobjects.
 
     To avoid duplication of the stuff that is not implementation-specific.
@@ -123,13 +121,13 @@ class BaseContentListingObject(object):
     def ContentTypeClass(self):
         # A normalised type name that identifies the object in listings.
         # Used for CSS styling.
-        return 'contenttype-' + queryUtility(IIDNormalizer).normalize(
+        return "contenttype-" + queryUtility(IIDNormalizer).normalize(
             self.PortalType(),
         )
 
     def ReviewStateClass(self):
         # A normalised review state string for CSS styling use in listings.
-        return 'state-' + queryUtility(IIDNormalizer).normalize(
+        return "state-" + queryUtility(IIDNormalizer).normalize(
             self.review_state(),
         )
 
@@ -137,25 +135,25 @@ class BaseContentListingObject(object):
         # Decide whether to produce a string /view to append to links in
         # results listings.
         registry = getUtility(IRegistry)
-        types = registry.get('plone.types_use_view_action_in_listings', [])
+        types = registry.get("plone.types_use_view_action_in_listings", [])
         if self.portal_type in types:
-            return '/view'
-        return ''
+            return "/view"
+        return ""
 
     def isVisibleInNav(self):
         # True, if this item should be visible in navigation trees.
-        exclude_from_nav_attr = getattr(self, 'exclude_from_nav', None)
+        exclude_from_nav_attr = getattr(self, "exclude_from_nav", None)
         if exclude_from_nav_attr is not None and (
-                self.exclude_from_nav()
-                if callable(self.exclude_from_nav)
-                else self.exclude_from_nav
+            self.exclude_from_nav()
+            if callable(self.exclude_from_nav)
+            else self.exclude_from_nav
         ):
             return False
 
         registry = getUtility(IRegistry)
         navigation_settings = registry.forInterface(
             INavigationSchema,
-            prefix='plone',
+            prefix="plone",
         )
         if self.portal_type not in navigation_settings.displayed_types:
             return False
@@ -166,12 +164,12 @@ class BaseContentListingObject(object):
         mimeicon = None
         navroot = getNavigationRoot(self._brain)
         contenttype = aq_base(
-            getattr(self._brain, 'mime_type', None),
+            getattr(self._brain, "mime_type", None),
         )
         if contenttype:
             mtt = getToolByName(
                 self._brain,
-                'mimetypes_registry',
+                "mimetypes_registry",
             )
             ctype = mtt.lookup(contenttype)
             if ctype:
