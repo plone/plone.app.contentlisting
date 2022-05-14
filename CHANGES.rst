@@ -8,6 +8,16 @@ Changelog
 
 .. towncrier release notes start
 
+3.0.0a1 (2022-05-14)
+--------------------
+
+Breaking changes:
+
+
+- Drop Python 2 and Plone 5.2, use plone.base.
+  [jensens] (#43)
+
+
 2.0.7 (2022-03-09)
 ------------------
 
