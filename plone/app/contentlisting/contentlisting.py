@@ -1,7 +1,7 @@
 from Acquisition import aq_base
 from plone.app.contentlisting.interfaces import IContentListing
 from plone.app.contentlisting.interfaces import IContentListingObject
-from plone.app.layout.navigation.root import getNavigationRoot
+from plone.app.layout.navigation.root import getNavigationRootObject
 from plone.base.interfaces import INavigationSchema
 from plone.i18n.normalizer.interfaces import IIDNormalizer
 from plone.registry.interfaces import IRegistry
@@ -162,7 +162,9 @@ class BaseContentListingObject:
 
     def MimeTypeIcon(self):
         mimeicon = None
-        navroot = getNavigationRoot(self._brain)
+        portal_url_object = getToolByName(self._brain, 'portal_url')
+        portal = portal_url_object.getPortalObject()
+        navroot = getNavigationRootObject(self._brain, portal)
         contenttype = aq_base(
             getattr(self._brain, "mime_type", None),
         )
@@ -174,7 +176,7 @@ class BaseContentListingObject:
             ctype = mtt.lookup(contenttype)
             if ctype:
                 mimeicon = os.path.join(
-                    navroot,
+                    navroot.absolute_url(),
                     guess_icon_path(ctype[0]),
                 )
 
