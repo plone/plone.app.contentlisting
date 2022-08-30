@@ -8,6 +8,16 @@ Changelog
 
 .. towncrier release notes start
 
+3.0.0b1 (2022-08-30)
+--------------------
+
+Bug fixes:
+
+
+- Build mime-type icon url with the absolute url. Fixes #44
+  [erral] (#44)
+
+
 3.0.0a1 (2022-05-14)
 --------------------
 
