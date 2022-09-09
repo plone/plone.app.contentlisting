@@ -2,6 +2,7 @@ from Acquisition import aq_base
 from Acquisition import aq_get
 from plone.app.contentlisting.contentlisting import BaseContentListingObject
 from plone.app.contentlisting.interfaces import IContentListingObject
+from plone.base.utils import base_hasattr
 from plone.base.utils import human_readable_size
 from plone.rfc822.interfaces import IPrimaryFieldInfo
 from plone.uuid.interfaces import IUUID
@@ -36,9 +37,11 @@ class RealContentListingObject(BaseContentListingObject):
         if name.startswith("_"):
             raise AttributeError(name)
         obj = self.getObject()
-        obj_name = getattr(aq_base(obj), name, MARKER)
-        if obj_name is not MARKER:
-            return obj_name
+        # we check that obj without acquisition has the attribute
+        # but we return it with acquisition in case it is a method
+        # that itself uses the acquisition
+        if base_hasattr(obj, name):
+            return getattr(obj, name)
         raise AttributeError(name)
 
     def getObject(self):
