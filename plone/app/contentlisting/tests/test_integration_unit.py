@@ -171,10 +171,6 @@ class TestIndividualCatalogContentItems(unittest.TestCase):
         )
 
 
-def patched_Title(self):
-    return "{0} - {1}".format(self.aq_parent.Title(), self.title)
-
-
 class TestIndividualRealContentItems(unittest.TestCase):
     layer = CONTENTLISTING_FUNCTIONAL_TESTING
 
@@ -267,12 +263,15 @@ class TestIndividualRealContentItems(unittest.TestCase):
             )
 
     def test_item_getattr_acquisition(self):
-        self.portal.get("test-folder").setTitle("Test folder")
-        self.item._realobject.__class__.Title = patched_Title
-        # works on the object
-        self.assertEqual(self.item._realobject.Title(), "Test folder - My Page")
-        # works on the contentlisting object
-        self.assertEqual(self.item.Title(), "Test folder - My Page")
+        # absolute_url needs acquisition to work
+        # on the object
+        self.assertEqual(
+            self.item._realobject.absolute_url(),
+            "http://nohost/plone/test-folder/mypage")
+        # on the contentlisting object
+        self.assertEqual(
+            self.item.absolute_url(),
+            "http://nohost/plone/test-folder/mypage")
 
 
 class TestFolderContents(unittest.TestCase):
