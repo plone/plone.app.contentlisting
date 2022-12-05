@@ -8,6 +8,15 @@ Changelog
 
 .. towncrier release notes start
 
+3.0.1 (2022-12-05)
+------------------
+
+Bug fixes:
+
+
+- In RealContentListingObject.__getattr__ check attribute existence without acquisition but return the attribute with acquisition in case it is a method that needs acquisition. [gbastien] (#47)
+
+
 3.0.0 (2022-11-30)
 ------------------
 
