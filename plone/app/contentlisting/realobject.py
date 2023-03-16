@@ -34,11 +34,11 @@ class RealContentListingObject(BaseContentListingObject):
         if name.startswith('_'):
             raise AttributeError(name)
         obj = self.getObject()
-        obj_name = getattr(aq_base(obj), name, None)
-        if obj_name is not None:
-            return obj_name
-        else:
-            raise AttributeError(name)
+        if hasattr(aq_base(obj), name):
+            obj_name = getattr(obj, name, None)
+            if obj_name is not None:
+                return obj_name
+        raise AttributeError(name)
 
     def getObject(self):
         return self._realobject

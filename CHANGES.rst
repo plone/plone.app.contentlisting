@@ -4,7 +4,9 @@ Changelog
 1.3.5 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- In RealContentListingObject.__getattr__ check attribute existence without acquisition but return the attribute with acquisition
+  in case it is a method that needs acquisition.
+  [gbastien, sdelcourt] (#47)
 
 
 1.3.4 (2019-12-11)

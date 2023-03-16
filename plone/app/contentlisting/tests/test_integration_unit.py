@@ -205,14 +205,16 @@ class TestIndividualRealContentItems(unittest.TestCase):
         # AttributeError
         self.assertRaises(AttributeError, self.item.__getattr__, 'foo')
 
-    def test_special_getattr_from_object(self):
-        # Asking for an attribute not in the contentlistingobject, should
-        # defer lookup to the brain
-        self.assertEqual(self.item.absolute_url(), '')
+    def test_item_getattr_acquisition(self):
+        # absolute_url needs acquisition to work
+        # on the object
         self.assertEqual(
-            repr(self.item.getDataOrigin()),
-            '<Document at /plone/test-folder/mypage>',
-        )
+            self.item._realobject.absolute_url(),
+            "http://nohost/plone/test-folder/mypage")
+        # on the contentlisting object
+        self.assertEqual(
+            self.item.absolute_url(),
+            "http://nohost/plone/test-folder/mypage")
 
     def test_item_Title(self):
         self.assertEqual(self.item.Title(), 'My Page')
