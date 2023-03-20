@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.3.5 (unreleased)
+1.3.5 (2023-03-20)
 ------------------
 
 - In RealContentListingObject.__getattr__ check attribute existence without acquisition but return the attribute with acquisition
