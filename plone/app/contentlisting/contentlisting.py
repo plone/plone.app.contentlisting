@@ -1,8 +1,8 @@
 from Acquisition import aq_base
 from plone.app.contentlisting.interfaces import IContentListing
 from plone.app.contentlisting.interfaces import IContentListingObject
-from plone.app.layout.navigation.root import getNavigationRootObject
 from plone.base.interfaces import INavigationSchema
+from plone.base.navigationroot import get_navigation_root_object
 from plone.i18n.normalizer.interfaces import IIDNormalizer
 from plone.registry.interfaces import IRegistry
 from Products.CMFCore.utils import getToolByName
@@ -164,7 +164,7 @@ class BaseContentListingObject:
         mimeicon = None
         portal_url_object = getToolByName(self._brain, "portal_url")
         portal = portal_url_object.getPortalObject()
-        navroot = getNavigationRootObject(self._brain, portal)
+        navroot = get_navigation_root_object(self._brain, portal)
         contenttype = aq_base(
             getattr(self._brain, "mime_type", None),
         )
