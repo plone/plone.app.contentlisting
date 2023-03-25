@@ -8,7 +8,6 @@ from Products.CMFCore.utils import getToolByName
 
 
 class ContentListingLayer(PloneSandboxLayer):
-
     defaultBases = (PLONE_APP_CONTENTTYPES_FIXTURE,)
 
     def setUpZope(self, app, configurationContext):
@@ -24,7 +23,6 @@ CONTENTLISTING_FIXTURE = ContentListingLayer()
 
 
 class ContentListingIntegrationLayer(PloneSandboxLayer):
-
     defaultBases = (CONTENTLISTING_FIXTURE,)
 
     def setUpPloneSite(self, portal):

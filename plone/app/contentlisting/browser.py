@@ -30,7 +30,6 @@ class FolderListing(BrowserView):
 
 class ContentListingCollection(BrowserView):
     def __call__(self, batch=False, b_size=20, b_start=0, **kw):
-
         if "orphan" in kw:
             # At the moment, orphan keyword is not supported by
             # plone.app.contenttypes Collection behavior, nor by

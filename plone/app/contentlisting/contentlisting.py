@@ -162,7 +162,7 @@ class BaseContentListingObject:
 
     def MimeTypeIcon(self):
         mimeicon = None
-        portal_url_object = getToolByName(self._brain, 'portal_url')
+        portal_url_object = getToolByName(self._brain, "portal_url")
         portal = portal_url_object.getPortalObject()
         navroot = getNavigationRootObject(self._brain, portal)
         contenttype = aq_base(

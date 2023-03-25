@@ -209,11 +209,12 @@ class TestIndividualRealContentItems(unittest.TestCase):
         # on the object
         self.assertEqual(
             self.item._realobject.absolute_url(),
-            "http://nohost/plone/test-folder/mypage")
+            "http://nohost/plone/test-folder/mypage",
+        )
         # on the contentlisting object
         self.assertEqual(
-            self.item.absolute_url(),
-            "http://nohost/plone/test-folder/mypage")
+            self.item.absolute_url(), "http://nohost/plone/test-folder/mypage"
+        )
 
     def test_item_Title(self):
         self.assertEqual(self.item.Title(), "My Page")
@@ -431,8 +432,16 @@ def test_suite():
 
     suite = unittest.TestSuite()
     suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TestSetup))
-    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TestIndividualCatalogContentItems))
-    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TestIndividualRealContentItems))
+    suite.addTest(
+        unittest.defaultTestLoader.loadTestsFromTestCase(
+            TestIndividualCatalogContentItems
+        )
+    )
+    suite.addTest(
+        unittest.defaultTestLoader.loadTestsFromTestCase(TestIndividualRealContentItems)
+    )
     suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TestFolderContents))
-    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TestCollectionResults))
+    suite.addTest(
+        unittest.defaultTestLoader.loadTestsFromTestCase(TestCollectionResults)
+    )
     return suite
