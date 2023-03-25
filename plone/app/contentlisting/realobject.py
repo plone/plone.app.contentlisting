@@ -75,7 +75,7 @@ class RealContentListingObject(BaseContentListingObject):
             primary_field_info = IPrimaryFieldInfo(obj, None)
         except TypeError:
             # no primary field available, dexterity raises a TypeError
-            # with the slightly missleading message 'could not adapt'.
+            # with the slightly misleading message 'could not adapt'.
             primary_field_info = None
         if primary_field_info is None or not primary_field_info.value:
             size = 0
