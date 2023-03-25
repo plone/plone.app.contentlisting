@@ -430,9 +430,9 @@ def test_suite():
     import unittest
 
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TestSetup))
-    suite.addTest(unittest.makeSuite(TestIndividualCatalogContentItems))
-    suite.addTest(unittest.makeSuite(TestIndividualRealContentItems))
-    suite.addTest(unittest.makeSuite(TestFolderContents))
-    suite.addTest(unittest.makeSuite(TestCollectionResults))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TestSetup))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TestIndividualCatalogContentItems))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TestIndividualRealContentItems))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TestFolderContents))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TestCollectionResults))
     return suite
