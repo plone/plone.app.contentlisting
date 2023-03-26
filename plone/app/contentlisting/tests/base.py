@@ -8,13 +8,9 @@ from Products.CMFCore.utils import getToolByName
 
 
 class ContentListingLayer(PloneSandboxLayer):
-
     defaultBases = (PLONE_APP_CONTENTTYPES_FIXTURE,)
 
     def setUpZope(self, app, configurationContext):
-        import plone.app.layout
-
-        self.loadZCML(package=plone.app.layout)
         import plone.app.contentlisting
 
         self.loadZCML(package=plone.app.contentlisting)
@@ -24,7 +20,6 @@ CONTENTLISTING_FIXTURE = ContentListingLayer()
 
 
 class ContentListingIntegrationLayer(PloneSandboxLayer):
-
     defaultBases = (CONTENTLISTING_FIXTURE,)
 
     def setUpPloneSite(self, portal):

@@ -195,7 +195,7 @@ Bug fixes:
 Bug fixes:
 
 - Added missing implementation for getSize on RealContentListingObject.
-  Interface was not fullfilled here.
+  Interface was not fulfilled here.
   [jensens]
 
 

@@ -1,4 +1,3 @@
-from Acquisition import aq_base
 from Acquisition import aq_get
 from plone.app.contentlisting.contentlisting import BaseContentListingObject
 from plone.app.contentlisting.interfaces import IContentListingObject
@@ -76,7 +75,7 @@ class RealContentListingObject(BaseContentListingObject):
             primary_field_info = IPrimaryFieldInfo(obj, None)
         except TypeError:
             # no primary field available, dexterity raises a TypeError
-            # with the slightly missleading message 'could not adapt'.
+            # with the slightly misleading message 'could not adapt'.
             primary_field_info = None
         if primary_field_info is None or not primary_field_info.value:
             size = 0

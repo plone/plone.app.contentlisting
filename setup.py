@@ -42,11 +42,20 @@ setup(
     install_requires=[
         "setuptools",
         "plone.base",
+        "Products.MimetypesRegistry",
+        "Products.ZCatalog",
+        "plone.app.contenttypes",
+        "plone.i18n",
+        "plone.registry",
+        "plone.rfc822",
+        "plone.uuid",
     ],
     extras_require={
         "test": [
-            "plone.app.contenttypes",
+            "plone.app.contenttypes[test]",
             "plone.app.testing",
+            "plone.batching",
+            "plone.testing",
         ],
     },
     entry_points="""
