@@ -1,0 +1,3 @@
+Drop p.a.contenttypes install dependency, it is actually a soft one only.
+This allows to break a cyclic dependency.
+[gforcada]
