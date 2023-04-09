@@ -44,7 +44,6 @@ setup(
         "plone.base",
         "Products.MimetypesRegistry",
         "Products.ZCatalog",
-        "plone.app.contenttypes",
         "plone.i18n",
         "plone.registry",
         "plone.rfc822",
