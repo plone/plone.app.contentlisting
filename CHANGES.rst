@@ -8,6 +8,17 @@ Changelog
 
 .. towncrier release notes start
 
+3.0.3 (2023-04-15)
+------------------
+
+Internal:
+
+
+- Drop p.a.contenttypes install dependency, it is actually a soft one only.
+  This allows to break a cyclic dependency.
+  [gforcada] (#3764)
+
+
 3.0.2 (2023-04-06)
 ------------------
 
