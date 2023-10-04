@@ -1,22 +1,22 @@
+from pathlib import Path
 from setuptools import find_packages
 from setuptools import setup
-
-import os
-
-
-def read(*rnames):
-    return open(os.path.join(os.path.dirname(__file__), *rnames)).read()
 
 
 version = "3.0.4.dev0"
 
-long_description = "{}\n\n{}".format(read("README.rst"), read("CHANGES.rst"))
+long_description = (
+    f"{Path('README.rst').read_text()}\n{Path('CHANGES.rst').read_text()}\n"
+)
 
 setup(
     name="plone.app.contentlisting",
     version=version,
     description="Listing of content for the Plone CMS",
     long_description=long_description,
+    long_description_content_type="text/x-rst",
+    # Get more strings from
+    # https://pypi.org/classifiers/
     classifiers=[
         "Development Status :: 5 - Production/Stable",
         "Framework :: Plone",
