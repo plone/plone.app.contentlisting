@@ -4,11 +4,16 @@ from plone.app.contentlisting.tests.base import CONTENTLISTING_FUNCTIONAL_TESTIN
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from plone.batching.interfaces import IBatch
+from plone.namedfile.file import NamedBlobImage
 from Products.CMFCore.utils import getToolByName
 from zope.interface.verify import verifyObject
 
+import base64
 import unittest
 
+TEST_IMAGE_DATA = base64.b64decode(
+    "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII="
+)
 
 class TestSetup(unittest.TestCase):
     layer = CONTENTLISTING_FUNCTIONAL_TESTING
@@ -264,6 +269,21 @@ class TestIndividualRealContentItems(unittest.TestCase):
                 "Accessing attributes which return ``None`` should not "
                 "result in an AttributeError."
             )
+
+    def test_item_image_scales(self):
+        self.folder.invokeFactory(
+            "Image",
+            "myimage",
+            title="My Image",
+        )
+        myimage = self.folder.myimage
+        myimage.image = NamedBlobImage(
+            data=TEST_IMAGE_DATA,
+            filename="test.png",
+        )
+        item = IContentListingObject(myimage)
+        image_scales = item.image_scales()
+        self.assertIn("download", image_scales["image"][0])
 
 
 class TestFolderContents(unittest.TestCase):
