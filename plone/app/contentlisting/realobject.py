@@ -1,11 +1,13 @@
 from Acquisition import aq_get
 from plone.app.contentlisting.contentlisting import BaseContentListingObject
 from plone.app.contentlisting.interfaces import IContentListingObject
+from plone.base.interfaces import IImageScalesAdapter
 from plone.base.utils import base_hasattr
 from plone.base.utils import human_readable_size
 from plone.rfc822.interfaces import IPrimaryFieldInfo
 from plone.uuid.interfaces import IUUID
 from Products.CMFCore.utils import getToolByName
+from zope.component import getMultiAdapter
 from zope.interface import implementer
 
 
@@ -105,3 +107,7 @@ class RealContentListingObject(BaseContentListingObject):
     def PortalType(self):
         obj = self.getObject()
         return obj.portal_type
+
+    def image_scales(self):
+        obj = self.getObject()
+        return getMultiAdapter((obj, self.request), IImageScalesAdapter)()
