@@ -54,6 +54,7 @@ setup(
             "plone.app.contenttypes[test]",
             "plone.app.testing",
             "plone.batching",
+            "plone.namedfile",
             "plone.testing",
         ],
     },
