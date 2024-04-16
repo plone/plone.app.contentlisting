@@ -8,6 +8,15 @@ Changelog
 
 .. towncrier release notes start
 
+3.0.5 (2024-04-16)
+------------------
+
+Bug fixes:
+
+
+- Support image_scales in RealContentListingObject. @davisagli (#64)
+
+
 3.0.4 (2023-10-07)
 ------------------
 
