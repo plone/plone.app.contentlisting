@@ -48,6 +48,7 @@ setup(
         "plone.registry",
         "plone.rfc822",
         "plone.uuid",
+        "Zope",
     ],
     extras_require={
         "test": [
