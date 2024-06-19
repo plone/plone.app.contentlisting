@@ -113,7 +113,7 @@ Some types may require '/view' appended to their URLs. Currently these don't
     >>> realfrontpage.appendViewAction()
     ''
 
-By altering portal_properties, we can make this true for Documents
+By altering the configuration registry, we can make this true for Documents
 
     >>> registry = portal.portal_registry
     >>> registry['plone.types_use_view_action_in_listings'] = [str(frontpage.portal_type)]
