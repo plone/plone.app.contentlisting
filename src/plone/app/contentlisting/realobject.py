@@ -10,7 +10,6 @@ from Products.CMFCore.utils import getToolByName
 from zope.component import getMultiAdapter
 from zope.interface import implementer
 
-
 MARKER = object()
 
 

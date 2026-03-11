@@ -9,7 +9,6 @@ from zope.component import queryUtility
 from zope.globalrequest import getRequest
 from zope.interface import implementer
 
-
 missing = object()
 
 
