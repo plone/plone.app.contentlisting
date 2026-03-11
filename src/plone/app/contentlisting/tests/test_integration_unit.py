@@ -11,7 +11,6 @@ from zope.interface.verify import verifyObject
 import base64
 import unittest
 
-
 TEST_IMAGE_DATA = base64.b64decode(
     "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII="
 )
